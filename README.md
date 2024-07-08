@@ -17,11 +17,14 @@
 
 2024.07.08(월) ~ 2024.07.15(월)
 
-## 🐤 개발자 소개
+## 💾 개발자 소개
 
 곽재훈
+![https://github.com/KwakOri](https://github.com/KwakOri)
 
-벨로그 주소: <a href="https://velog.io/@jh5414092/posts">velog: https://velog.io/@jh5414092/posts</a>
+이세영
+
+
 
 ## 기술 스택
 <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/react.js-61DAFB?style=for-the-badge&logo=react&logoColor=black"/>
