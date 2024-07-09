@@ -1,11 +1,11 @@
 'use client';
-import { SupabaseClient } from '@supabase/supabase-js';
+
+import { Post } from '@/types/mytype';
 import Image from 'next/image';
-import React, { PropsWithChildren, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 
 export default async function mypage({ children }: PropsWithChildren) {
-  const [userPost, setUserPost] = useState([]);
-  //   const { data, error } = await SupabaseClient.from('posts').select('image_url');
+  const [userPost, setUserPost] = useState<Post[]>([]);
 
   return (
     <div className="w-full h-[500px] ">
