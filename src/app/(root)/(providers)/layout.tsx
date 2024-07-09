@@ -1,5 +1,5 @@
-import { PropsWithChildren } from "react";
-import QueryProvider from "./_components/QueryProvider";
+import { PropsWithChildren } from 'react';
+import QueryProvider from './_components/QueryProvider';
 
 const ProvidersLayout = ({ children }: PropsWithChildren) => {
   return (
