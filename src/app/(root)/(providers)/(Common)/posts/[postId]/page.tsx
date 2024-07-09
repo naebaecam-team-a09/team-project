@@ -7,11 +7,11 @@ const PostDetailPage = () => {
     <div className="flex justify-center my-10">
       <div className="max-w-4xl w-full border border-gray-300 rounded-lg shadow-md">
         <div className="flex">
-          <div className="w-1/2">
+          <div className="w-1/2 relative h-[80vh]">
             <img
-              src="https://via.placeholder.com/800x1200"
+              src="https://via.placeholder.com/800x1000"
               alt="코디 이미지 사진"
-              className="rounded-lg w-full h-auto"
+              className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
             />
           </div>
           <div className="w-1/2 flex flex-col justify-center p-8">
