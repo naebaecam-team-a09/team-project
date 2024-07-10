@@ -4,3 +4,13 @@
 
 @layer utilities {
 }
+.loader {
+  border-top-color: #233f52;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
