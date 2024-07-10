@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { getRecommendations } from '@/services/recommendations.services'; // 서비스 파일 경로에 맞게 수정
+import { getRecommendations } from '@/services/recommendations.services';
 import Loading from './Loading';
 
 interface Recommendation {
   id: number;
-  img_url: string[]; // 수정된 부분
+  img_url: string[];
   contents: string;
   clothingItems: string[];
 }
@@ -46,7 +46,7 @@ const RecommendsCard: React.FC = () => {
         {item.clothingItems.map((clothingItem, index) => (
           <div key={index} className="flex flex-col items-center ml-10">
             <img
-              src={item.img_url[index]} // 수정된 부분
+              src={item.img_url[index]}
               alt={'내용을 불러오는중'}
               className="w-40 h-40 object-cover rounded-full mb-2"
             />
