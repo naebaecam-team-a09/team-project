@@ -6,8 +6,7 @@ export async function GET() {
   const {
     data: { user }
   } = await supabase.auth.getUser();
-  console.log(user);
 
-  if (!user) return NextResponse.json('', { status: 401 });
+  if (!user) return NextResponse.json(user, { status: 401 });
   return NextResponse.json(user);
 }
