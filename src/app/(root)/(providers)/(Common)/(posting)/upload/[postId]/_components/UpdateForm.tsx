@@ -3,7 +3,8 @@
 import { getPost, updatePost } from '@/services/posts.services';
 import { createClient } from '@/supabase/client';
 import { PostType, UpdatedPostType } from '@/types/posts';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useLayoutEffect, useState } from 'react';
 
 interface UpdateFormType {
   postId: string;
@@ -16,6 +17,9 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   const [previewImage, setPreviewImage] = useState<string>('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string>('');
+
+  const supabase = createClient();
+  const queryClient = useQueryClient();
 
   const categoryList = [
     '카테고리1',
@@ -37,8 +41,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     else setCategory((prev) => prev.filter((category) => category !== value));
     console.log(category);
   };
-
-  const supabase = createClient();
 
   const modifyPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -79,31 +81,25 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   };
 
   const uploadImageToBucket = async (file: File) => {
-    const { data, error } = await supabase.storage.from('images').upload(`images/${crypto.randomUUID()}.png`, file);
-    if (error) {
-      console.log(error);
-      return;
-    }
-    if (data) {
-      const { data: imageData } = await supabase.storage.from('images').getPublicUrl(data.path);
-      return imageData.publicUrl;
-    } else {
-      return '';
-    }
+    const { data } = await supabase.storage.from('images').upload(`images/${crypto.randomUUID()}.png`, file);
+    if (!data) return '';
+    const { data: imageData } = supabase.storage.from('images').getPublicUrl(data.path);
+    return imageData.publicUrl;
   };
 
-  useLayoutEffect(() => {
-    const loadPostData = async () => {
-      const loadedPostData: Promise<PostType> = await getPost(postId);
-      console.log(loadedPostData);
-      setTitle((await loadedPostData).title);
-      setContents((await loadedPostData).contents);
-      setCategory((await loadedPostData).category);
-      setPreviewImage((await loadedPostData).image_url || '');
-      setImageUrl((await loadedPostData).image_url || '');
-    };
-    loadPostData();
-  }, []);
+  const {
+    data: currentPost,
+    isError,
+    isPending
+  } = useQuery({
+    queryKey: ['posts', postId],
+    queryFn: async () => getPost(postId)
+  });
+
+  if (isError) return <div>에러</div>;
+  if (isPending) return <div>로딩 중...</div>;
+
+  console.log('currentPost => ', currentPost);
 
   return (
     <>
@@ -111,11 +107,21 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
         <h1 className="text-6xl te6D758F">포스트 수정</h1>
       </div>
       <form onSubmit={modifyPost}>
-        <img src={previewImage} />
+        <img src={previewImage || currentPost.image_url} />
         <input type="file" accept="image/*" onChange={handleSelectImage} />
-        <input type="text" placeholder="title" value={title} onChange={(e) => setTitle(e.target.value)} />
+        <input
+          type="text"
+          placeholder="title"
+          defaultValue={currentPost.title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
         <br />
-        <input type="text" placeholder="contents" value={contents} onChange={(e) => setContents(e.target.value)} />
+        <input
+          type="text"
+          placeholder="contents"
+          defaultValue={currentPost.contents}
+          onChange={(e) => setContents(e.target.value)}
+        />
         <br />
         <div className="grid grid-cols-6 gap-4">
           {categoryList.map((categoryItem: string) => (
