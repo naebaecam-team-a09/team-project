@@ -151,21 +151,21 @@ export type Database = {
           created_at: string;
           gender: string;
           id: string;
-          profile_image_path: string | null;
+          profile_image_path: string;
           username: string;
         };
         Insert: {
           created_at?: string;
           gender: string;
           id?: string;
-          profile_image_path?: string | null;
+          profile_image_path?: string;
           username: string;
         };
         Update: {
           created_at?: string;
           gender?: string;
           id?: string;
-          profile_image_path?: string | null;
+          profile_image_path?: string;
           username?: string;
         };
         Relationships: [];
