@@ -1,5 +1,5 @@
-// import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
-// export async function GET() {
-//   return NextResponse.json({ result: '안녕하세요' });
-// }
+export async function GET() {
+  return NextResponse.json({ result: '안녕하세요' });
+}

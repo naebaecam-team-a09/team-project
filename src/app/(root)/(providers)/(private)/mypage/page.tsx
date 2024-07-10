@@ -2,10 +2,13 @@
 
 import { Post } from '@/types/mytype';
 import Image from 'next/image';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 
 export default async function mypage({ children }: PropsWithChildren) {
   const [userPost, setUserPost] = useState<Post[]>([]);
+  const response = await fetch('http://localhost:3000/api/posts', {});
+  const data = await response.json();
+  console.log(data);
 
   return (
     <div className="w-full h-[500px] ">
