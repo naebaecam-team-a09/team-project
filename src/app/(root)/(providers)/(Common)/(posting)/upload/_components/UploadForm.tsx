@@ -42,11 +42,41 @@ const UploadForm = () => {
     console.log(result);
   };
   return (
-    <>
-      <div className="w-3/5 bg-slate-300">
-        <h1 className="text-6xl te6D758F">포스트 작성</h1>
+    <div className="w-full h-full flex flex-col ">
+      <div className="m-32 mb-6 pb-16 border-b-2 ">
+        <h1 className=" text-6xl text-my-color font-bold">포스트 작성</h1>
+        <h3 className=" text-3xl text-my-color font-semibold mt-20">상세사진</h3>
       </div>
-    </>
+      <div className="flex justify-center">
+        <div className="flex justify-center w-3/4 h-96 m-10 bg-gray-100">
+          <button className="flex items-center text-2xl font-semibold cursor-pointer text-my-color">이미지 선택</button>
+        </div>
+      </div>
+      <div className="flex m-32 mt-1 mb-6 pb-16 border-b-2">
+        <h3 className=" text-3xl text-my-color font-semibold mt-20">이 옷에 대해</h3>
+      </div>
+      <div className="flex justify-center">
+        <input type="text" placeholder="코디에 대해 설명해주세요!" className=" text-xl w-3/4 h-96 m-10 p-6 border-2" />
+      </div>
+      <div className="flex m-32 mt-1 mb-6 pb-16 border-b-2">
+        <h3 className=" text-3xl text-my-color font-semibold mt-20">카테고리</h3>
+      </div>
+      <div>
+        {/* map으로 변경해야함 */}
+        <button>카테고리1</button>
+        <button>카테고리2</button>
+        <button>카테고리3</button>
+        <button>카테고리4</button>
+        <button>카테고리5</button>
+        <button>카테고리6</button>
+        <button>카테고리7</button>
+        <button>카테고리8</button>
+        <button>카테고리9</button>
+        <button>카테고리10</button>
+        <button>카테고리11</button>
+        <button>카테고리12</button>
+      </div>
+    </div>
   );
 };
 
