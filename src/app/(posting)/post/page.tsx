@@ -2,6 +2,7 @@
 'use client';
 import { addPost } from '@/services/posts.services';
 import { PostType } from '@/types/posts';
+import UploadForm from './_components/UploadForm';
 
 const PostingPage = () => {
   const uploadPost = async () => {
@@ -18,8 +19,7 @@ const PostingPage = () => {
   };
   return (
     <>
-      <div>등록페이지</div>
-      <button onClick={uploadPost}>등록</button>
+      <UploadForm />
     </>
   );
 };
