@@ -11,7 +11,7 @@ const RecommendsCard: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col items-center my-20 ">
       <h1 className="text-2xl font-bold mb-4">오늘의 날씨에는 이런 옷을 추천 드려요</h1>
       <h4 className="text-lg mb-8">오늘의 날씨에 대한 짧은 내용 추후 수파베이스에서 코멘트 부분을 가지고 올 꺼임</h4>
       <div className="grid grid-cols-3 gap-4">

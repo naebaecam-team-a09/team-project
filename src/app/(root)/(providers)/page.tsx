@@ -15,7 +15,7 @@ const Home = () => {
 
         const dummyData = {
           imageUrl: 'https://via.placeholder.com/100', // 실제 데이터로 수정 필요
-          temperature: 25
+          temperature: 26
         };
         setData(dummyData); // 추후 날씨 api 에서 가지고 올꺼임 지금 은 테스트 용으로 더미 데이터 설정
       } catch (error) {
@@ -33,9 +33,7 @@ const Home = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
       <WeatherCard imageUrl={data.imageUrl} temperature={data.temperature} />
-      <div className="mt-20">
-        <RecommendsCard />
-      </div>
+      <RecommendsCard />
     </div>
   );
 };
