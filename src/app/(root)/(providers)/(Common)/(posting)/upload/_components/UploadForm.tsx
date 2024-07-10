@@ -2,6 +2,7 @@
 import { addPost } from '@/services/posts.services';
 import { createClient } from '@/supabase/client';
 import { PostType } from '@/types/posts';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useState } from 'react';
 
 const UploadForm = () => {
@@ -10,7 +11,9 @@ const UploadForm = () => {
   const [category, setCategory] = useState<string[]>([]);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
+
+  const supabase = createClient();
+  const queryClient = useQueryClient();
 
   const categoryList = [
     '카테고리1',
@@ -28,28 +31,26 @@ const UploadForm = () => {
   ];
 
   const handleClickCategoryButton = (value: string) => {
-    setCategory((prev) => [...prev, value]);
+    if (!category.includes(value)) setCategory((prev) => [...prev, value]);
+    else setCategory((prev) => prev.filter((category) => category !== value));
     console.log(category);
   };
 
-  const supabase = createClient();
-
   const uploadPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    if (!selectedImage) return;
+    if (!selectedImage) {
+      return;
+    }
     const imagePath = await uploadImageToBucket(selectedImage);
-    if (!imagePath) return;
-    setImageUrl(imagePath);
+
     const newPost: PostType = {
       user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
       title,
       contents,
       category,
-      image_url: imageUrl
+      image_url: imagePath
     };
-    const response = await addPost(newPost);
-    const result = await response.json();
-    console.log(result);
+    addMutate(newPost);
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -67,18 +68,17 @@ const UploadForm = () => {
   };
 
   const uploadImageToBucket = async (file: File) => {
-    const { data, error } = await supabase.storage.from('images').upload(`images/${crypto.randomUUID()}.png`, file);
-    if (error) {
-      console.log(error);
-      return;
-    }
-    if (data) {
-      const { data: imageData } = await supabase.storage.from('images').getPublicUrl(data.path);
-      return imageData.publicUrl;
-    } else {
-      return '';
-    }
+    const { data } = await supabase.storage.from('images').upload(`images/${crypto.randomUUID()}.png`, file);
+    if (!data) return '';
+    const { data: imageData } = supabase.storage.from('images').getPublicUrl(data.path);
+    console.log(imageData.publicUrl);
+    return imageData.publicUrl;
   };
+
+  const { mutate: addMutate } = useMutation({
+    mutationFn: addPost,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+  });
 
   return (
     <div className="w-full h-full p-40">
@@ -123,10 +123,15 @@ const UploadForm = () => {
         <div className="flex p-10 border-b-2">
           <h3 className=" text-3xl text-my-color font-semibold mt-20">카테고리</h3>
         </div>
-        <div>
-          {categoryList.map((category) => (
-            <button key={category} type="button" onClick={() => handleClickCategoryButton(category)}>
-              {category}
+        <div className="grid grid-cols-6 gap-4">
+          {categoryList.map((categoryItem: string) => (
+            <button
+              key={categoryItem}
+              className={`w-1/16 bg-my-color rounded-sm text-white hover:brightness-50 ${category.includes(categoryItem) ? 'text-2xl' : 'text-sm'}`}
+              type="button"
+              onClick={() => handleClickCategoryButton(categoryItem)}
+            >
+              {categoryItem}
             </button>
           ))}
         </div>
