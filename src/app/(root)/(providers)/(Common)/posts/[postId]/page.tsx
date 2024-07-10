@@ -1,5 +1,4 @@
 import { getPost } from '@/services/posts.services';
-import React from 'react';
 import { Tables } from '@/types/supabase';
 
 type PostType = Tables<'posts'>;
@@ -13,11 +12,13 @@ const PostDetailPage = async ({ params }: { params: ParamsType }) => {
   // console.log(params.postId);
 
   // const data = await getData();
-  const response: PostType[] = await getPost(params.postId);
-  const data = response[0];
+  const data: PostType = await getPost(params.postId);
 
   // console.log('data=>', data);
-  const dateCreated = data.created_at.slice(0, 10);
+  const rawDate = data.created_at;
+  const date = new Date(rawDate);
+  const localDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
+  const dateCreated = localDate.toISOString().slice(0, 10);
   // console.log(data[6]);
 
   return (
