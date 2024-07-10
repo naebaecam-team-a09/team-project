@@ -1,9 +1,10 @@
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import Button from './Button';
 
 export default function Header() {
   return (
-    <header className="bg-white shadow-md">
+    <header className="bg-white shadow-md fixed top-0 left-0 w-full z-50">
       <div className="container mx-auto flex justify-between items-center p-4">
         <div className="text-xl font-bold">
           <Link href="/">
@@ -14,9 +15,7 @@ export default function Header() {
           <Link href="/" className="text-gray-700 hover:text-gray-900">
             마이페이지
           </Link>
-          <Link href="/">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">로그인</button>
-          </Link>
+          <Button />
         </div>
       </div>
     </header>
