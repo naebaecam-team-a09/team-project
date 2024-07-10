@@ -1,18 +1,13 @@
+import { createClient } from '@/supabase/server';
 import { NextResponse } from 'next/server';
-import { createClient } from '@/supabase/client';
-
-// Supabase 클라이언트 생성
-const supabase = createClient();
 
 export async function GET() {
-  try {
-    const { data, error } = await supabase.auth.getSession();
-    if (error) {
-      console.log('session error');
-    }
+  const supabase = createClient();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+  console.log(user);
 
-    return NextResponse.json(data);
-  } catch (error) {
-    console.error(error);
-  }
+  if (!user) return NextResponse.json('', { status: 401 });
+  return NextResponse.json(user);
 }
