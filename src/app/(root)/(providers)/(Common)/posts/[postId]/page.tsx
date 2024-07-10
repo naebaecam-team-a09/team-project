@@ -1,4 +1,4 @@
-import { getData } from '@/services/posts.services';
+import { getPost } from '@/services/posts.services';
 import React from 'react';
 import { Tables } from '@/types/supabase';
 
@@ -13,7 +13,7 @@ const PostDetailPage = async ({ params }: { params: ParamsType }) => {
   // console.log(params.postId);
 
   // const data = await getData();
-  const response: PostType[] = await getData(params.postId);
+  const response: PostType[] = await getPost(params.postId);
   const data = response[0];
 
   // console.log('data=>', data);
