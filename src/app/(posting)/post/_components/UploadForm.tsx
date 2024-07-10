@@ -1,5 +1,4 @@
 'use client';
-
 import { addPost } from '@/services/posts.services';
 import { PostType } from '@/types/posts';
 import React, { useState } from 'react';
@@ -44,22 +43,9 @@ const UploadForm = () => {
   };
   return (
     <>
-      <form onSubmit={uploadPost}>
-        <input type="file" />
-        <br />
-        <input type="text" placeholder="title" value={title} onChange={(e) => setTitle(e.target.value)} />
-        <br />
-        <input type="text" placeholder="contents" value={contents} onChange={(e) => setContents(e.target.value)} />
-        <br />
-        <div>
-          {categoryList.map((category) => (
-            <button key={category} onClick={() => handleClickCategoryButton(category)}>
-              {category}
-            </button>
-          ))}
-        </div>
-        <button type="submit">등록</button>
-      </form>
+      <div className="w-3/5 bg-slate-300">
+        <h1 className="text-6xl te6D758F">포스트 작성</h1>
+      </div>
     </>
   );
 };
