@@ -11,7 +11,8 @@ export const getPost = async (postId: string) => {
   const data = await fetch(`http://localhost:3000/api/posts/${postId}`, {
     headers: {
       'Content-type': 'application/json'
-    }
+    },
+    cache: 'no-store'
   });
   const post = await data.json();
   return post.data[0];
