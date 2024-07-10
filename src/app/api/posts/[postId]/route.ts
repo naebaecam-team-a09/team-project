@@ -1,17 +1,28 @@
-import { NextRequest, NextResponse } from 'next/server';
+// get, update(patch), delete
+
 import { createClient } from '@/supabase/client';
+import { NextResponse } from 'next/server';
 
-// type ParamsType = { postId: string };
+const supabase = createClient();
+interface ParamsType {
+  params: { postId: string };
+}
 
-export async function GET(request: NextRequest, { params }: { params: { postId: string } }) {
-  // const data = 'test 데이터 입니다';
+export async function GET(request: Request, { params }: ParamsType) {
+  const { postId } = params;
+  const response = await supabase.from('posts').select('*').eq('id', postId);
+  return NextResponse.json(response);
+}
 
-  // console.log('params=>', params.postId);
-  const supabaseClient = createClient();
-  const { data, error } = await supabaseClient.from('posts').select('*').eq('id', params.postId);
-  //.eq('id', params.postId)
-  // console.log(data);
-  // console.log(data[0].title);
+export async function DELETE(request: Request, { params }: ParamsType) {
+  const { postId } = params;
+  const response = await supabase.from('posts').delete().eq('id', postId);
+  return NextResponse.json(response);
+}
 
-  return NextResponse.json(data);
+export async function PATCH(request: Request, { params }: ParamsType) {
+  const { postId } = params;
+  const updatedPost = await request.json();
+  const response = await supabase.from('posts').update(updatedPost).eq('id', postId);
+  return NextResponse.json(response);
 }
