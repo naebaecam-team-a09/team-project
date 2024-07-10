@@ -3,6 +3,7 @@
 
 import { deletePost, getPost, updatePost } from '@/services/posts.services';
 import { useEffect } from 'react';
+import UpdateForm from './_components/UpdateForm';
 
 const UpdatePage = () => {
   // 데이터 불러오기
@@ -33,6 +34,7 @@ const UpdatePage = () => {
       <div>수정페이지</div>
       <button onClick={handleUpdatePost}>수정</button>
       <button onClick={handleDeletePost}>삭제</button>
+      <UpdateForm />
     </>
   );
 };
