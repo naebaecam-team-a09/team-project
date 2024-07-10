@@ -87,32 +87,29 @@ export type Database = {
       }
       posts: {
         Row: {
-          category: string[]
-          contents: string
-          created_at: string
-          id: string
-          image_url: string | null
-          title: string
-          user_id: string
-        }
+          category: string[];
+          contents: string;
+          created_at: string;
+          id: string;
+          image_url: string | null;
+          user_id: string;
+        };
         Insert: {
-          category: string[]
-          contents: string
-          created_at?: string
-          id?: string
-          image_url?: string | null
-          title: string
-          user_id?: string
-        }
+          category: string[];
+          contents: string;
+          created_at?: string;
+          id?: string;
+          image_url?: string | null;
+          user_id: string;
+        };
         Update: {
-          category?: string[]
-          contents?: string
-          created_at?: string
-          id?: string
-          image_url?: string | null
-          title?: string
-          user_id?: string
-        }
+          category?: string[];
+          contents?: string;
+          created_at?: string;
+          id?: string;
+          image_url?: string | null;
+          user_id?: string;
+        };
         Relationships: [
           {
             foreignKeyName: "posts_user_id_fkey"
@@ -125,59 +122,44 @@ export type Database = {
       }
       recommendations: {
         Row: {
-          clothingItems: string[]
-          contents: string | null
-          created_at: string
-          id: number
-          img_url: string | null
-          temperature_min: number
-          temperatureMax: number
-        }
+          created_at: string;
+          id: number;
+        };
         Insert: {
-          clothingItems: string[]
-          contents?: string | null
-          created_at?: string
-          id?: number
-          img_url?: string | null
-          temperature_min: number
-          temperatureMax: number
-        }
+          created_at?: string;
+          id?: number;
+        };
         Update: {
-          clothingItems?: string[]
-          contents?: string | null
-          created_at?: string
-          id?: number
-          img_url?: string | null
-          temperature_min?: number
-          temperatureMax?: number
-        }
-        Relationships: []
-      }
+          created_at?: string;
+          id?: number;
+        };
+        Relationships: [];
+      };
       users: {
         Row: {
-          created_at: string
-          gender: string
-          id: string
-          profile_image_path: string | null
-          username: string
-        }
+          created_at: string;
+          gender: string;
+          id: string;
+          profile_image_path: string;
+          username: string;
+        };
         Insert: {
-          created_at?: string
-          gender: string
-          id?: string
-          profile_image_path?: string | null
-          username: string
-        }
+          created_at?: string;
+          gender: string;
+          id?: string;
+          profile_image_path: string;
+          username: string;
+        };
         Update: {
-          created_at?: string
-          gender?: string
-          id?: string
-          profile_image_path?: string | null
-          username?: string
-        }
-        Relationships: []
-      }
-    }
+          created_at?: string;
+          gender?: string;
+          id?: string;
+          profile_image_path?: string;
+          username?: string;
+        };
+        Relationships: [];
+      };
+    };
     Views: {
       [_ in never]: never
     }
