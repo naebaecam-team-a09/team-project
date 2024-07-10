@@ -85,6 +85,7 @@ export type Database = {
           created_at: string;
           id: string;
           image_url: string | null;
+          title: string;
           user_id: string;
         };
         Insert: {
@@ -93,7 +94,8 @@ export type Database = {
           created_at?: string;
           id?: string;
           image_url?: string | null;
-          user_id: string;
+          title: string;
+          user_id?: string;
         };
         Update: {
           category?: string[];
@@ -101,6 +103,7 @@ export type Database = {
           created_at?: string;
           id?: string;
           image_url?: string | null;
+          title?: string;
           user_id?: string;
         };
         Relationships: [
@@ -115,16 +118,31 @@ export type Database = {
       };
       recommendations: {
         Row: {
+          clothingItems: string[];
+          contents: string | null;
           created_at: string;
           id: number;
+          img_url: string | null;
+          temperature_min: number;
+          temperatureMax: number;
         };
         Insert: {
+          clothingItems: string[];
+          contents?: string | null;
           created_at?: string;
           id?: number;
+          img_url?: string | null;
+          temperature_min: number;
+          temperatureMax: number;
         };
         Update: {
+          clothingItems?: string[];
+          contents?: string | null;
           created_at?: string;
           id?: number;
+          img_url?: string | null;
+          temperature_min?: number;
+          temperatureMax?: number;
         };
         Relationships: [];
       };
@@ -133,21 +151,21 @@ export type Database = {
           created_at: string;
           gender: string;
           id: string;
-          profile_image_path: string;
+          profile_image_path: string | null;
           username: string;
         };
         Insert: {
           created_at?: string;
           gender: string;
           id?: string;
-          profile_image_path: string;
+          profile_image_path?: string | null;
           username: string;
         };
         Update: {
           created_at?: string;
           gender?: string;
           id?: string;
-          profile_image_path?: string;
+          profile_image_path?: string | null;
           username?: string;
         };
         Relationships: [];
