@@ -33,7 +33,8 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   ];
 
   const handleClickCategoryButton = (value: string) => {
-    setCategory((prev) => [...prev, value]);
+    if (!category.includes(value)) setCategory((prev) => [...prev, value]);
+    else setCategory((prev) => prev.filter((category) => category !== value));
     console.log(category);
   };
 
@@ -116,10 +117,15 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
         <br />
         <input type="text" placeholder="contents" value={contents} onChange={(e) => setContents(e.target.value)} />
         <br />
-        <div>
-          {categoryList.map((category) => (
-            <button key={category} type="button" onClick={() => handleClickCategoryButton(category)}>
-              {category}
+        <div className="grid grid-cols-6 gap-4">
+          {categoryList.map((categoryItem: string) => (
+            <button
+              key={categoryItem}
+              className={`w-1/16 bg-my-color rounded-sm text-white hover:brightness-50 ${category.includes(categoryItem) ? 'text-2xl' : 'text-sm'}`}
+              type="button"
+              onClick={() => handleClickCategoryButton(categoryItem)}
+            >
+              {categoryItem}
             </button>
           ))}
         </div>
