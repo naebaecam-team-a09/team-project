@@ -1,14 +1,17 @@
+import AuthProvider from '@/contexts/auth.context/auth.context';
 import { PropsWithChildren } from 'react';
-import QueryProvider from './_components/QueryProvider';
 import Header from './_components/Header';
+import QueryProvider from './_components/QueryProvider';
 
 const ProvidersLayout = ({ children }: PropsWithChildren) => {
   return (
-    <div>
-      <QueryProvider>
-        <Header />
-        {children}
-      </QueryProvider>
+    <div className="h-full min-h-screen">
+      <AuthProvider>
+        <QueryProvider>
+          <Header />
+          {children}
+        </QueryProvider>
+      </AuthProvider>
     </div>
   );
 };
