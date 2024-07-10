@@ -1,19 +1,6 @@
 // route.ts에 요청을 보내는 함수를 작정해야 함
-export interface PostType {
-  user_id: string; //로그인, 로그아웃 기능 생기면 빼줄꺼에용
-  image_url: string;
-  category: string[];
-  contents: string;
-  title: string;
-}
 
-export interface UpdatedPostType {
-  user_id: string; //로그인, 로그아웃 기능 생기면 빼줄꺼에용
-  image_url?: string; //? -> 바꿀수도있고 안바꿀수도있고
-  category?: string[];
-  contents?: string;
-  title?: string;
-}
+import { PostType, UpdatedPostType } from '@/types/posts';
 
 export const getPost = async (postId: string) => {
   const data = await fetch(`http://localhost:3000/api/posts/${postId}`, {
