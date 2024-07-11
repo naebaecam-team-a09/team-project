@@ -14,9 +14,24 @@ const config: Config = {
       },
       margin: {
         '-317px': '-317px'
+      },
+      boxShadow: {
+        'inner-strong': 'inset 0 2px 2px 2px rgba(0, 0, 0, 0.3)'
       }
     }
   },
   plugins: []
 };
 export default config;
+
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        'my-color': '#6D758F'
+      }
+    }
+  },
+  plugins: []
+};
