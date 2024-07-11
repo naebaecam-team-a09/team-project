@@ -115,8 +115,8 @@ export default function mypage({ children }: PropsWithChildren) {
             </div>
           </div>
           <div className="p-16">
-            <p className="text-lg">닉네임: {userData?.username} </p>
-            <p>성별: {userData?.gender}</p>
+            <p className="text-lg m-2">닉네임 : {userData?.username} </p>
+            <p className="m-3">성별 : {userData?.gender}</p>
             <button
               className="w-24 h-7 p-1 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] mt-5 text-xs text-black"
               onClick={changeInfoClick}
@@ -176,9 +176,7 @@ export default function mypage({ children }: PropsWithChildren) {
           </div>
         )}
         <div className="userStyle w-full flex flex-col justify-center content-center">
-          <div>
-            <Popularwear></Popularwear>
-          </div>
+          <div>{/* <Popularwear></Popularwear> */}</div>
           <h1 className="text-xl ml-12 my-5 text-gray-400 font-bold ">본인이 올린 코디</h1>
           <div className=" divide-solid divide-gray-200 border-[2px] ml-10" />
           <div className="grid grid-cols-3 gap-4">
