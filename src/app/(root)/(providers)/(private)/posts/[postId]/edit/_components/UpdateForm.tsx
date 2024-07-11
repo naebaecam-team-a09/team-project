@@ -126,9 +126,9 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                   <h3 className="text-3xl text-my-color font-semibold mt-6">상세사진</h3>
                 </div>
                 <div className="flex flex-col items-center">
-                  <label className="flex w-full h-[500px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer">
+                  <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl">
                     <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                    <img src={previewImage || currentPost.image_url} className="w-full h-[500px]" />
+                    <img src={previewImage || currentPost.image_url} className="w-[450px] h-[600px] rounded-2xl" />
                   </label>
                   <button
                     type="button"

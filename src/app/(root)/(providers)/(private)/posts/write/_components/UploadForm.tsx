@@ -13,7 +13,9 @@ const UploadForm = () => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string>(
+    'https://jkuhktbimkshohrktrhc.supabase.co/storage/v1/object/public/images/images/Default-Image.png'
+  );
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const supabase = createClient();
@@ -93,9 +95,9 @@ const UploadForm = () => {
                 <h3 className="text-3xl text-my-color font-semibold mt-6">상세사진</h3>
               </div>
               <div className="flex flex-col items-center">
-                <label className="flex w-full h-[500px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer">
+                <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl">
                   <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                  <img src={previewImage} className="w-full h-[500px]" />
+                  <img src={previewImage} className="w-[450px] h-[600px] rounded-2xl" />
                 </label>
                 <button
                   type="button"
@@ -122,7 +124,7 @@ const UploadForm = () => {
                   placeholder="코디에 대해 설명해주세요!"
                   value={contents}
                   onChange={(e) => setContents(e.target.value)}
-                  className="text-lg w-full h-[410px] p-4 border-2 rounded-md"
+                  className="text-lg w-full h-[500px] p-4 border-2 rounded-md"
                 />
               </div>
             </div>
