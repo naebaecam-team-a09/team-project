@@ -1,6 +1,6 @@
 // 등록페이지
 'use client';
-import { addPost } from '@/services/posts.services';
+import { addPost } from '@/services/posts.service';
 import { PostType } from '@/types/posts';
 
 const PostingPage = () => {
