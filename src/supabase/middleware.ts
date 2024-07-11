@@ -1,4 +1,4 @@
-import { DEFAULT_PROFILE_IMAGE_PATH } from '@/constants/constants';
+import { DEFAULT_PROFILE_IMAGE } from '@/constants/constants';
 import { generateRandomNickname } from '@/utils/generateRandomNickname';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
@@ -45,7 +45,7 @@ export async function updateSession(request: NextRequest) {
       const { data, error } = await supabase.from('users').insert({
         gender: '귀여운 사람',
         username: generateRandomNickname(),
-        profile_image_path: DEFAULT_PROFILE_IMAGE_PATH
+        profile_image_path: DEFAULT_PROFILE_IMAGE
       });
     }
   }
