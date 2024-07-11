@@ -1,10 +1,10 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
-interface yorestore {
-  yourState: any;
-  yourAction: (val: any) => void;
+interface TpostIdStore {
+  postId: string;
+  setPostId: (postId: string) => void;
 }
-export const useyorestore = create<yorestore>((set) => ({
-  yourState: "VALUE",
-  yourAction: (val) => set((state) => ({ yourState: state.yourState })),
+export const usePostIdStore = create<TpostIdStore>((set) => ({
+  postId: '',
+  setPostId: (postId) => set(() => ({ postId }))
 }));
