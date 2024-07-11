@@ -17,7 +17,9 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string>(
+    'https://jkuhktbimkshohrktrhc.supabase.co/storage/v1/object/public/images/images/Default-Image.png'
+  );
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const supabase = createClient();
@@ -73,16 +75,19 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target;
-    if (!files) return;
-    const uploadedFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadedFile);
-    reader.onloadend = () => {
-      if (typeof reader.result === 'string') {
-        setPreviewImage(reader.result);
-        setSelectedImage(uploadedFile);
-      }
-    };
+    if (files?.length) {
+      const uploadedFile = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadedFile);
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setPreviewImage(reader.result);
+          setSelectedImage(uploadedFile);
+        }
+      };
+    } else {
+      return;
+    }
   };
 
   const uploadImageToBucket = async (file: File) => {
@@ -142,7 +147,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                 <div className="flex flex-col items-center">
                   <label className="flex w-full h-[500px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer">
                     <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                    <img src={previewImage || currentPost.image_url} className="w-full h-[500px]" />
+                    <img src={previewImage || currentPost.image_url} className="w-full h-[500px] rounded-md" />
                   </label>
                   <button
                     type="button"
