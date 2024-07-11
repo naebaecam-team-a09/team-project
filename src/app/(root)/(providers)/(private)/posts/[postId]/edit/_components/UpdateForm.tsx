@@ -2,7 +2,7 @@
 
 import { getPost, updatePost } from '@/services/posts.service';
 import { createClient } from '@/supabase/client';
-import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
+import { PostType, UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
@@ -38,7 +38,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   const handleClickCategoryButton = (value: string) => {
     if (!category.includes(value)) setCategory((prev) => [...prev, value]);
     else setCategory((prev) => prev.filter((category) => category !== value));
-    console.log(category);
   };
 
   const modifyPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -55,7 +54,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       category,
       image_url: imagePath
     };
-    console.log(updatedPost.image_url);
     const updatePostParams: UpdatePostParamsType = {
       postId,
       updatedPost

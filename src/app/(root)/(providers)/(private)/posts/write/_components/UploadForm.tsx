@@ -33,7 +33,6 @@ const UploadForm = () => {
   const handleClickCategoryButton = (value: string) => {
     if (!category.includes(value)) setCategory((prev) => [...prev, value]);
     else setCategory((prev) => prev.filter((category) => category !== value));
-    console.log(category);
   };
 
   const uploadPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -72,7 +71,7 @@ const UploadForm = () => {
     const { data } = await supabase.storage.from('images').upload(`images/${crypto.randomUUID()}.png`, file);
     if (!data) return '';
     const { data: imageData } = supabase.storage.from('images').getPublicUrl(data.path);
-    console.log(imageData.publicUrl);
+
     return imageData.publicUrl;
   };
 
