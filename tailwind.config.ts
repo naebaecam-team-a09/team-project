@@ -23,3 +23,15 @@ const config: Config = {
   plugins: []
 };
 export default config;
+
+module.exports = {
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: {
+      colors: {
+        'my-color': '#6D758F'
+      }
+    }
+  },
+  plugins: []
+};
