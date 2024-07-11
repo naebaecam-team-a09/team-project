@@ -5,6 +5,7 @@ import { getPost, updatePost } from '@/services/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -18,7 +19,9 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string>(
+    'https://jkuhktbimkshohrktrhc.supabase.co/storage/v1/object/public/images/images/Default-Image.png'
+  );
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const supabase = createClient();
@@ -59,16 +62,19 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target;
-    if (!files) return;
-    const uploadedFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadedFile);
-    reader.onloadend = () => {
-      if (typeof reader.result === 'string') {
-        setPreviewImage(reader.result);
-        setSelectedImage(uploadedFile);
-      }
-    };
+    if (files?.length) {
+      const uploadedFile = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadedFile);
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setPreviewImage(reader.result);
+          setSelectedImage(uploadedFile);
+        }
+      };
+    } else {
+      return;
+    }
   };
 
   const uploadImageToBucket = async (file: File) => {
@@ -128,7 +134,13 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                 <div className="flex flex-col items-center">
                   <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl">
                     <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                    <img src={previewImage || currentPost.image_url} className="w-[450px] h-[600px] rounded-2xl" />
+                    <Image
+                      src={previewImage}
+                      alt="선택한 이미지 미리보기"
+                      width={450}
+                      height={600}
+                      className="rounded-2xl"
+                    />
                   </label>
                   <button
                     type="button"
