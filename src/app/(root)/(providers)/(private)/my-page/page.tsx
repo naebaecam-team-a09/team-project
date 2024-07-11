@@ -4,7 +4,6 @@ import { UserDataType, getUserInfo } from '@/services/users.service';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
-import WeatherCard from '../../_components/WeatherCard';
 import Popularwear from '../../_components/PopularWear';
 
 const supabase = createClient();
@@ -23,11 +22,12 @@ export default function mypage({ children }: PropsWithChildren) {
     console.log('작동함');
     const data = await getUserInfo();
     setUserData(data);
-    setImageUrl(baseUrl + data.profile_image_path + `?timestamp=${new Date().getTime()}`);
+    setImageUrl(data.profile_image_path + `?timestamp=${new Date().getTime()}`);
   }
   useEffect(() => {
     getUserData();
   }, []);
+  console.log(imageUrl);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
@@ -39,7 +39,7 @@ export default function mypage({ children }: PropsWithChildren) {
     if (file) {
       let confirmMessage = '프로필 사진을 업로드 하시겠습니까?';
 
-      if (userData?.profile_image_path !== '/public/avatars/userDefaultImg/defaultImage') {
+      if (userData?.profile_image_path !== `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
         confirmMessage = '프로필 사진을 변경하시겠습니까?';
       }
 
@@ -50,7 +50,7 @@ export default function mypage({ children }: PropsWithChildren) {
       let uploadError = null;
       let uploadResult = null;
 
-      if (userData?.profile_image_path === '/public/avatars/userDefaultImg/defaultImage') {
+      if (userData?.profile_image_path === `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
         const { data, error } = await supabase.storage.from('avatars').upload(`${userData?.id}/profileImg`, file);
         uploadError = error;
         uploadResult = data;
@@ -67,7 +67,7 @@ export default function mypage({ children }: PropsWithChildren) {
 
       await supabase
         .from('users')
-        .update({ profile_image_path: `/public/avatars/${userData?.id}/profileImg` })
+        .update({ profile_image_path: `${baseUrl}/public/avatars/${userData?.id}/profileImg` })
         .eq('id', userData.id);
 
       getUserData();
@@ -114,7 +114,7 @@ export default function mypage({ children }: PropsWithChildren) {
               />
             </div>
           </div>
-          <div className="p-16">
+          <div className="w-80 h-60 p-5 flex flex-col justify-center">
             <p className="text-lg m-2">닉네임 : {userData?.username} </p>
             <p className="m-3">성별 : {userData?.gender}</p>
             <button
