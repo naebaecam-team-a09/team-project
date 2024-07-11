@@ -167,7 +167,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
               {categoryList.map((categoryItem: string) => (
                 <button
                   key={categoryItem}
-                  className={`w-11/12 h-12 bg-gray-100 border-gray-400 border-2 rounded-lg text-my-color hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-500 text-neutral-50' : 'text-lg'}`}
+                  className={`w-11/12 h-12 bg-gray-100 border-gray-400 border-2 rounded-lg hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-600 text-neutral-50' : 'text-lg'}`}
                   type="button"
                   onClick={() => handleClickCategoryButton(categoryItem)}
                 >
@@ -184,7 +184,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
               </button>
               <button
                 type="button"
-                className="w-1/12 h-10 bg-red-500 text-white rounded-lg text-lg m-2  hover:brightness-90"
+                className="w-1/12 h-10 bg-red-600 text-white rounded-lg text-lg m-2  hover:brightness-90"
                 onClick={() => {
                   alert('게시물 수정을 취소합니다.');
                   router.back();
