@@ -47,8 +47,6 @@ const UploadForm = () => {
       image_url: imagePath
     };
     addMutate(newPost);
-    alert('등록이 완료되었습니다.');
-    router.back();
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -77,7 +75,11 @@ const UploadForm = () => {
 
   const { mutate: addMutate } = useMutation({
     mutationFn: addPost,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      alert('등록이 완료되었습니다.');
+      router.back();
+    }
   });
 
   const ref = useRef<HTMLInputElement>(null);

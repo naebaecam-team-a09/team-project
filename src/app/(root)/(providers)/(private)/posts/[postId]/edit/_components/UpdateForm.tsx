@@ -56,8 +56,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       updatedPost
     };
     updateMutate(updatePostParams);
-    alert('수정이 완료되었습니다.');
-    router.push(`/posts/${postId}`);
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -95,7 +93,11 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
 
   const { mutate: updateMutate } = useMutation({
     mutationFn: updatePost,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      alert('수정이 완료되었습니다.');
+      router.push(`/posts/${postId}`);
+    }
   });
   // mutation함수에는 인자가 하나만 들어가는 함수로 설정해야함
   // updatePostParam에 postId, updatedPost를 객체로 묶어서 파라미터로 전달
