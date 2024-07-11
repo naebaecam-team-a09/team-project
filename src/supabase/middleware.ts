@@ -1,3 +1,5 @@
+import { DEFAULT_PROFILE_IMAGE_PATH } from '@/constants/constants';
+import { generateRandomNickname } from '@/utils/generateRandomNickname';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
@@ -33,6 +35,23 @@ export async function updateSession(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser();
 
+  console.log(user);
+
+  // 유저세션이 존재하는 경우.
+  if (user) {
+    const userId = user?.id;
+    const { data } = await supabase.from('users').select('*').eq('id', userId).single();
+
+    // DB에 있는 "users" Table에 유저데이터가 존재하지 않을 경우.
+    if (!data) {
+      const { data, error } = await supabase.from('users').insert({
+        gender: '귀여운 사람',
+        username: generateRandomNickname(),
+        profile_image_path: DEFAULT_PROFILE_IMAGE_PATH
+      });
+    }
+  }
+
   if (user && (request.nextUrl.pathname.startsWith('/log-in') || request.nextUrl.pathname.startsWith('/sign-up'))) {
     const url = request.nextUrl.clone();
     url.pathname = '/';
@@ -41,6 +60,7 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
+    request.nextUrl.pathname !== '/' &&
     !request.nextUrl.pathname.startsWith('/log-in') &&
     !request.nextUrl.pathname.startsWith('/sign-up') &&
     !request.nextUrl.pathname.startsWith('/api')

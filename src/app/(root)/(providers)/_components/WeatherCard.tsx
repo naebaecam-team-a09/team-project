@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import { getWeather } from '@/services/weather.service';
+import React, { useEffect, useState } from 'react';
 
 const WeatherCard: React.FC = () => {
   const [weatherData, setWeatherData] = useState<{
