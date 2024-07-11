@@ -7,3 +7,8 @@ export interface PostType {
 }
 
 export type UpdatedPostType = Partial<PostType>;
+
+export type UpdatePostParamsType = {
+  postId: string;
+  updatedPost: UpdatedPostType;
+};
