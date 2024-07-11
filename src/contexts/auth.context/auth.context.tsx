@@ -67,7 +67,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       setIsPending(true);
       const response = await fetch(`${BASE_URL}/api/auth/provider?provider=${provider}`);
       const data = await response.json();
-      console.log(data);
 
       setIsPending(false);
       alert('로그인되었습니다');
@@ -121,7 +120,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const response = await fetch(`http://localhost:3000/api/auth/users`);
-      console.log('response', response);
+
       if (response.status === 200) {
         const user = await response.json();
 

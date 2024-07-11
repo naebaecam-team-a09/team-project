@@ -35,8 +35,6 @@ export async function updateSession(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser();
 
-  console.log(user);
-
   // 유저세션이 존재하는 경우.
   if (user) {
     const userId = user?.id;
