@@ -10,7 +10,7 @@ const supabase = createClient();
 export default function mypage({ children }: PropsWithChildren) {
   const [userPost, setUserPost] = useState();
   const [userData, setUserData] = useState<UserDataType>();
-  const [imageUrl, setImageUrl] = useState();
+  const [imageUrl, setImageUrl] = useState<string>();
   const dummyId = 'a366fd7e-f57b-429b-b34d-a7a272db7518';
   const fileInputRef = useRef(null);
 
@@ -19,7 +19,8 @@ export default function mypage({ children }: PropsWithChildren) {
       const response = await getUser();
       const data = await getUserInfo(dummyId);
       setUserData(data);
-      console.log('response console', response);
+      console.log('data console', data);
+      setImageUrl(data.profile_image_path);
     }
     getUserData();
   }, []);
@@ -47,21 +48,23 @@ export default function mypage({ children }: PropsWithChildren) {
       }
 
       const imagePath = supabase.storage.from('avatars').getPublicUrl(`${file.name}`);
+      console.log(imagePath);
+      await supabase.from('users').update({ profile_image_path: imagePath.data.publicUrl }).eq('id', dummyId);
 
-      await supabase.from('users').update({ profile_image_path: imagePath }).eq('id', dummyId);
-
-      setImageUrl(imagePath);
+      setImageUrl(imagePath.data.publicUrl);
     }
   };
 
+  console.log(imageUrl);
+
   return (
-    <div className="w-full h-[500px] ">
+    <div className="w-[1440px] h-[500px] ">
       <h1 className="text-2xl ml-12 mt-5 text-gray-500 font-bold ">마이페이지</h1>
       <div className=" profileBox w-full h-[96] m-12 flex items-center border-2 border-gray-300 ">
         <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
           <div className="flex justify-center">
             <div className="flex items-center justify-center w-52 h-52  shadow-lg rounded-md bg-gray-100">
-              <Image src={userData?.profile_image_path} alt="" width={200} height={200} />
+              <Image src={imageUrl} alt="" width={200} height={200} />
             </div>
           </div>
           <div className="flex justify-center">
