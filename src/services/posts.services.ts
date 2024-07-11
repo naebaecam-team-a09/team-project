@@ -1,6 +1,6 @@
 // route.ts에 요청을 보내는 함수를 작정해야 함
 
-import { PostType, UpdatedPostType } from '@/types/posts';
+import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
 export const getPosts = async () => {
   const response = await fetch('http://localhost:3000/api/posts', { method: 'GET' });
   const data = await response.json();
@@ -27,7 +27,8 @@ export const deletePost = async (postId: string) => {
   return data;
 };
 
-export const updatePost = async (postId: string, updatedPost: UpdatedPostType) => {
+export const updatePost = async (updatePostParams: UpdatePostParamsType) => {
+  const { postId, updatedPost } = updatePostParams;
   const data = await fetch(`http://localhost:3000/api/posts/${postId}`, {
     method: 'PATCH',
     body: JSON.stringify(updatedPost),
