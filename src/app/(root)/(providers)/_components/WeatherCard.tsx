@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 // pages/index.tsx
 
+=======
+import { getWeather } from '@/services/weather.service';
+>>>>>>> dev
 import React, { useEffect, useState } from 'react';
 
 const WeatherCard: React.FC = () => {
