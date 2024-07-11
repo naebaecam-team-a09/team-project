@@ -1,3 +1,5 @@
+import { DEFAULT_PROFILE_IMAGE_PATH } from '@/constants/constants';
+import { generateRandomNickname } from '@/utils/generateRandomNickname';
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
@@ -33,23 +35,41 @@ export async function updateSession(request: NextRequest) {
     data: { user }
   } = await supabase.auth.getUser();
 
-  // if (user && (request.nextUrl.pathname.startsWith('/log-in') || request.nextUrl.pathname.startsWith('/sign-up'))) {
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = '/';
-  //   return NextResponse.redirect(url);
-  // }
+  console.log(user);
 
-  // if (
-  //   !user &&
-  //   !request.nextUrl.pathname.startsWith('/log-in') &&
-  //   !request.nextUrl.pathname.startsWith('/sign-up') &&
-  //   !request.nextUrl.pathname.startsWith('/api')
-  // ) {
-  //   // no user, potentially respond by redirecting the user to the login page
-  //   const url = request.nextUrl.clone();
-  //   url.pathname = '/log-in';
-  //   return NextResponse.redirect(url);
-  // }
+  // 유저세션이 존재하는 경우.
+  if (user) {
+    const userId = user?.id;
+    const { data } = await supabase.from('users').select('*').eq('id', userId).single();
+
+    // DB에 있는 "users" Table에 유저데이터가 존재하지 않을 경우.
+    if (!data) {
+      const { data, error } = await supabase.from('users').insert({
+        gender: '귀여운 사람',
+        username: generateRandomNickname(),
+        profile_image_path: DEFAULT_PROFILE_IMAGE_PATH
+      });
+    }
+  }
+
+  if (user && (request.nextUrl.pathname.startsWith('/log-in') || request.nextUrl.pathname.startsWith('/sign-up'))) {
+    const url = request.nextUrl.clone();
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
+
+  if (
+    !user &&
+    request.nextUrl.pathname !== '/' &&
+    !request.nextUrl.pathname.startsWith('/log-in') &&
+    !request.nextUrl.pathname.startsWith('/sign-up') &&
+    !request.nextUrl.pathname.startsWith('/api')
+  ) {
+    // no user, potentially respond by redirecting the user to the login page
+    const url = request.nextUrl.clone();
+    url.pathname = '/log-in';
+    return NextResponse.redirect(url);
+  }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
