@@ -1,4 +1,4 @@
-import { DOMAIN } from '@/constants/domain';
+import { BASE_URL } from '@/constants/constants';
 import { createClient } from '@/supabase/server';
 import { Provider } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider as Provider,
     options: {
-      redirectTo: `${DOMAIN}/api/auth/callback`
+      redirectTo: `${BASE_URL}/api/auth/callback`
     }
   });
 

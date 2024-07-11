@@ -1,6 +1,7 @@
 'use client';
 
-import { DOMAIN } from '@/constants/domain';
+import { BASE_URL } from '@/constants/constants';
+import { createClient } from '@/supabase/client';
 import { Provider, User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
@@ -35,6 +36,7 @@ const AuthContext = createContext<AuthContextValue>(initialValue);
 export const useAuth = () => useContext<AuthContextValue>(AuthContext);
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
+  const supabase = createClient();
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
   const [isInitialized, setIsInitialized] = useState<AuthContextValue['isInitialized']>(false);
@@ -45,7 +47,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     if (me) return alert('이미 로그인되어 있습니다');
     const { email, password } = inputs;
     if (!email || !password) return;
-    const response = await fetch(`${DOMAIN}/api/auth/log-in`, {
+    const response = await fetch(`${BASE_URL}/api/auth/log-in`, {
       method: 'POST',
       body: JSON.stringify(inputs)
     });
@@ -55,16 +57,20 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     } = await response.json();
     if (error) return alert('로그인 실패');
     setMe(user);
-    router.push('/');
+
+    alert('로그인되었습니다');
+    router.replace('/');
   };
 
   const logInWithProvider: AuthContextValue['logInWithProvider'] = async (provider) => {
     try {
       setIsPending(true);
-      const response = await fetch(`${DOMAIN}/api/auth/provider?provider=${provider}`);
+      const response = await fetch(`${BASE_URL}/api/auth/provider?provider=${provider}`);
       const data = await response.json();
+      console.log(data);
 
       setIsPending(false);
+      alert('로그인되었습니다');
       router.replace(data.url);
     } catch (error) {
       console.error(error);
@@ -73,15 +79,18 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logOut: AuthContextValue['logOut'] = async () => {
     if (!me) return alert('로그인 상태가 아닙니다');
-    const response = await fetch(`${DOMAIN}/api/auth/log-out`, {
+    await fetch(`${BASE_URL}/api/auth/log-out`, {
       method: 'DELETE'
     });
     setMe(null);
+    alert('로그아웃 되었습니다. 홈 화면으로 이동합니다');
+    router.replace('/');
   };
+
   const signUp: AuthContextValue['signUp'] = async (inputs) => {
     const { email, password } = inputs;
     if (!email || !password) return alert('이메일과 비밀번호를 모두 입력하세요.');
-    const response = await fetch(`${DOMAIN}/api/auth/sign-up`, {
+    const response = await fetch(`${BASE_URL}/api/auth/sign-up`, {
       method: 'POST',
       body: JSON.stringify({
         email,
@@ -93,8 +102,10 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       error
     } = await response.json();
     if (error) return alert('회원가입 실패');
+
+    alert('회원가입이 완료되었습니다');
     setMe(user);
-    router.push('/');
+    router.replace('/');
   };
 
   const value: AuthContextValue = {
