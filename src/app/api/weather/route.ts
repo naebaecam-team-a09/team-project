@@ -1,27 +1,39 @@
 import { NextResponse } from 'next/server';
 
-const API_KEY = process.env.OPEN_WEATHER_API_KEY;
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}';
-const DEFAULT_LAT = '37.5665'; // 서울의 위도
-const DEFAULT_LON = '126.9780'; // 서울의 경도
-
 export async function GET() {
+  const apiKey = process.env.NEXT_PUBLIC_KMA_API_KEY;
+  const baseUrl = process.env.NEXT_PUBLIC_KMA_URL;
+  const pageNo = 1;
+  const numOfRows = 20;
+  const dataType = 'JSON';
+  const baseTime = '0500';
+  const nx = 52;
+  const ny = 38;
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const baseDate = `${year}${month}${day}`;
+
+  const url = `${baseUrl}?serviceKey=${apiKey}&pageNo=${pageNo}&numOfRows=${numOfRows}&dataType=${dataType}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
+
   try {
-    const response = await fetch(`${BASE_URL}?lat=${DEFAULT_LAT}&lon=${DEFAULT_LON}&units=metric&appid=${API_KEY}`);
+    const response = await fetch(url);
+
     if (!response.ok) {
-      const errorData = await response.json();
-      return NextResponse.json({ error: errorData.message }, { status: response.status });
+      throw new Error('Network response was not ok');
     }
 
     const data = await response.json();
 
-    return NextResponse.json({
-      currentTemperature: data.main.temp,
-      minTemperature: data.main.temp_min,
-      maxTemperature: data.main.temp_max,
-      location: data.name
-    });
+    const temperature = data.response.body.items.item.find(
+      (item: { category: string }) => item.category === 'TMP'
+    )?.fcstValue;
+
+    return NextResponse.json({ temperature });
   } catch (error) {
+    console.error('Failed to fetch weather data:', error);
     return NextResponse.json({ error: 'Failed to fetch weather data' }, { status: 500 });
   }
 }

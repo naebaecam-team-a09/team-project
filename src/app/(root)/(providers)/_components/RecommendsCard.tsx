@@ -7,17 +7,30 @@ interface Recommendation {
   img_url: string[];
   contents: string;
   clothingItems: string[];
+  temperature_min: number;
+  temperature_max: number;
 }
 
 const RecommendsCard: React.FC = () => {
   const [items, setItems] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
+  const [temperature, setTemperature] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchWeather = async () => {
       try {
-        const data = await getRecommendations();
-        setItems(data.slice(0, 1)); // 지금은 슬라이스로 짤랐는데 나중에 온도 데이터랑 연결해서 받을 예정
+        const weatherResponse = await fetch('/api/weather');
+        const weatherData = await weatherResponse.json();
+        setTemperature(weatherData.temperature);
+
+        const recommendationsData: Recommendation[] = await getRecommendations();
+        const matchedRecommendations = recommendationsData.filter(
+          (recommendation) =>
+            weatherData.temperature >= recommendation.temperature_min &&
+            weatherData.temperature <= recommendation.temperature_max
+        );
+
+        setItems(matchedRecommendations);
       } catch (error) {
         console.error('에러:', error);
       } finally {
@@ -25,7 +38,7 @@ const RecommendsCard: React.FC = () => {
       }
     };
 
-    fetchData();
+    fetchWeather();
   }, []);
 
   if (loading) {
