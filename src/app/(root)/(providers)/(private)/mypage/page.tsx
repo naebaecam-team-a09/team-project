@@ -3,9 +3,7 @@
 import { UserDataType, getUserInfo } from '@/services/users.service';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
-import WeatherCard from '../../_components/WeatherCard';
-import Popularwear from '../../_components/PopularWear';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 const supabase = createClient();
 
