@@ -3,9 +3,12 @@ import { addPost } from '@/services/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType } from '@/types/posts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
 const UploadForm = () => {
+  const router = useRouter();
+
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
@@ -33,7 +36,6 @@ const UploadForm = () => {
   const handleClickCategoryButton = (value: string) => {
     if (!category.includes(value)) setCategory((prev) => [...prev, value]);
     else setCategory((prev) => prev.filter((category) => category !== value));
-    console.log(category);
   };
 
   const uploadPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -44,6 +46,10 @@ const UploadForm = () => {
       imagePath = await uploadImageToBucket(selectedImage);
     }
 
+    if (!title.trim()) return alert('제목을 입력해주세요.');
+    if (!contents.trim()) return alert('코디 설명을 입력해주세요.');
+    if (!category.length) return alert('카테고리를 선택해주세요.');
+
     const newPost: PostType = {
       user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
       title,
@@ -52,11 +58,13 @@ const UploadForm = () => {
       image_url: imagePath
     };
     addMutate(newPost);
+    alert('등록이 완료되었습니다.');
+    router.back();
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target;
-    if (!files) throw new Error('Error');
+    if (!files) return;
     const uploadedFile = files[0];
     const reader = new FileReader();
     reader.readAsDataURL(uploadedFile);
@@ -72,7 +80,6 @@ const UploadForm = () => {
     const { data } = await supabase.storage.from('images').upload(`images/${crypto.randomUUID()}.png`, file);
     if (!data) return '';
     const { data: imageData } = supabase.storage.from('images').getPublicUrl(data.path);
-    console.log(imageData.publicUrl);
     return imageData.publicUrl;
   };
 
@@ -157,8 +164,12 @@ const UploadForm = () => {
               등록
             </button>
             <button
-              type="submit"
+              type="button"
               className="w-1/12 h-16 bg-red-500 text-white rounded-lg text-xl m-2  hover:brightness-90"
+              onClick={() => {
+                alert('게시물 등록을 취소합니다.');
+                router.back();
+              }}
             >
               취소
             </button>

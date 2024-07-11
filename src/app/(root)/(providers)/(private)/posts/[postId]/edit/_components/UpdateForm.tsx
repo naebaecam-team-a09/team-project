@@ -4,6 +4,7 @@ import { getPost, updatePost } from '@/services/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 interface UpdateFormType {
@@ -11,6 +12,8 @@ interface UpdateFormType {
 }
 
 const UpdateForm = ({ postId }: UpdateFormType) => {
+  const router = useRouter();
+
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
@@ -38,7 +41,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   const handleClickCategoryButton = (value: string) => {
     if (!category.includes(value)) setCategory((prev) => [...prev, value]);
     else setCategory((prev) => prev.filter((category) => category !== value));
-    console.log(category);
   };
 
   const modifyPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -48,6 +50,11 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     } else {
       imagePath = await uploadImageToBucket(selectedImage);
     }
+
+    if (!title.trim()) return alert('제목을 입력해주세요.');
+    if (!contents.trim()) return alert('코디 설명을 입력해주세요.');
+    if (!category.length) return alert('카테고리를 선택해주세요.');
+
     const updatedPost: UpdatedPostType = {
       user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
       title,
@@ -55,17 +62,18 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       category,
       image_url: imagePath
     };
-    console.log(updatedPost.image_url);
     const updatePostParams: UpdatePostParamsType = {
       postId,
       updatedPost
     };
     updateMutate(updatePostParams);
+    alert('수정이 완료되었습니다.');
+    router.push(`/posts/${postId}`);
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target;
-    if (!files) throw new Error('Error');
+    if (!files) return;
     const uploadedFile = files[0];
     const reader = new FileReader();
     reader.readAsDataURL(uploadedFile);
@@ -189,8 +197,12 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                 등록
               </button>
               <button
-                type="submit"
+                type="button"
                 className="w-1/12 h-16 bg-red-500 text-white rounded-lg text-xl m-2  hover:brightness-90"
+                onClick={() => {
+                  alert('게시물 수정을 취소합니다.');
+                  router.back();
+                }}
               >
                 취소
               </button>
