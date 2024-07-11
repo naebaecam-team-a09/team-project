@@ -5,6 +5,7 @@ import { getPost, updatePost } from '@/services/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -133,7 +134,13 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                 <div className="flex flex-col items-center">
                   <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl">
                     <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                    <img src={previewImage || currentPost.image_url} className="w-[450px] h-[600px] rounded-2xl" />
+                    <Image
+                      src={previewImage}
+                      alt="선택한 이미지 미리보기"
+                      width={450}
+                      height={600}
+                      className="rounded-2xl"
+                    />
                   </label>
                   <button
                     type="button"
