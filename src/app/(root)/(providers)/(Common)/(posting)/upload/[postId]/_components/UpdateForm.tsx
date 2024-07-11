@@ -2,9 +2,9 @@
 
 import { getPost, updatePost } from '@/services/posts.services';
 import { createClient } from '@/supabase/client';
-import { PostType, UpdatedPostType } from '@/types/posts';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useLayoutEffect, useState } from 'react';
+import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 
 interface UpdateFormType {
   postId: string;
@@ -16,7 +16,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
   const [category, setCategory] = useState<string[]>([]);
   const [previewImage, setPreviewImage] = useState<string>('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
 
   const supabase = createClient();
   const queryClient = useQueryClient();
@@ -44,26 +43,24 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
 
   const modifyPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    let imagePath = currentPost?.image_url;
     if (!selectedImage) {
     } else {
-      const imagePath = await uploadImageToBucket(selectedImage);
-      if (!imagePath) {
-      } else {
-        setImageUrl(imagePath);
-      }
+      imagePath = await uploadImageToBucket(selectedImage);
     }
-    console.log(imageUrl);
     const updatedPost: UpdatedPostType = {
       user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
       title,
       contents,
       category,
-      image_url: imageUrl
+      image_url: imagePath
     };
     console.log(updatedPost.image_url);
-    const response = await updatePost(postId, updatedPost);
-    const result = await response.json();
-    console.log(result);
+    const updatePostParams: UpdatePostParamsType = {
+      postId,
+      updatedPost
+    };
+    updateMutate(updatePostParams);
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -91,15 +88,29 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     data: currentPost,
     isError,
     isPending
-  } = useQuery({
+  } = useQuery<PostType, Error, PostType>({
     queryKey: ['posts', postId],
     queryFn: async () => getPost(postId)
   });
 
+  const { mutate: updateMutate } = useMutation({
+    mutationFn: updatePost,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+  });
+  // mutation함수에는 인자가 하나만 들어가는 함수로 설정해야함
+  // updatePostParam에 postId, updatedPost를 객체로 묶어서 파라미터로 전달
+
+  useEffect(() => {
+    if (currentPost) {
+      setTitle(currentPost.title);
+      setContents(currentPost.contents);
+      setCategory(currentPost.category);
+      setPreviewImage(currentPost.image_url || '');
+    }
+  }, [isPending]);
+
   if (isError) return <div>에러</div>;
   if (isPending) return <div>로딩 중...</div>;
-
-  console.log('currentPost => ', currentPost);
 
   return (
     <>
@@ -109,19 +120,9 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       <form onSubmit={modifyPost}>
         <img src={previewImage || currentPost.image_url} />
         <input type="file" accept="image/*" onChange={handleSelectImage} />
-        <input
-          type="text"
-          placeholder="title"
-          defaultValue={currentPost.title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <input type="text" placeholder="title" value={title} onChange={(e) => setTitle(e.target.value)} />
         <br />
-        <input
-          type="text"
-          placeholder="contents"
-          defaultValue={currentPost.contents}
-          onChange={(e) => setContents(e.target.value)}
-        />
+        <input type="text" placeholder="contents" value={contents} onChange={(e) => setContents(e.target.value)} />
         <br />
         <div className="grid grid-cols-6 gap-4">
           {categoryList.map((categoryItem: string) => (

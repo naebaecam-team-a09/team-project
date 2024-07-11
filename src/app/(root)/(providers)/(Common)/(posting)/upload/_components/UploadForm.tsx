@@ -38,10 +38,11 @@ const UploadForm = () => {
 
   const uploadPost: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
+    let imagePath = '';
     if (!selectedImage) {
-      return;
+    } else {
+      imagePath = await uploadImageToBucket(selectedImage);
     }
-    const imagePath = await uploadImageToBucket(selectedImage);
 
     const newPost: PostType = {
       user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
