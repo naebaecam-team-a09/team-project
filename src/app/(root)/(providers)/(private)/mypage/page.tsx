@@ -91,7 +91,7 @@ export default function mypage({ children }: PropsWithChildren) {
       <h1 className="text-2xl mt-28  text-gray-500 font-bold ">마이페이지</h1>
       <div className=" divide-solid divide-gray-200 border-[2px] mt-3" />
       <div className="w-full h-[500px] flex flex-col items-center ">
-        <div className=" profileBox w-[1000px] h-[96] m-12 flex items-center rounded-md justify-around shadow-inner-strong">
+        <div className="boxShadow-inner-strong profileBox w-[1000px] h-[96] m-12 flex items-center rounded-md justify-around  ">
           <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
             <div className="flex justify-center">
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
