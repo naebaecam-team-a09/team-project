@@ -1,4 +1,5 @@
 'use client';
+import { categoryList } from '@/constants/categoryList';
 import { addPost } from '@/services/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType } from '@/types/posts';
@@ -14,21 +15,6 @@ const UploadForm = () => {
 
   const supabase = createClient();
   const queryClient = useQueryClient();
-
-  const categoryList = [
-    '패딩',
-    '두꺼운 코트',
-    '누빔옷',
-    '목도리',
-    '울코트',
-    '히트텍',
-    '가죽 옷',
-    '기모바지',
-    '트렌치 코트',
-    '야상',
-    '점퍼',
-    '스타킹'
-  ];
 
   const handleClickCategoryButton = (value: string) => {
     if (!category.includes(value)) setCategory((prev) => [...prev, value]);
@@ -106,7 +92,7 @@ const UploadForm = () => {
                 </label>
                 <button
                   type="button"
-                  className="w-2/5 h-full bg-my-color text-white rounded-lg text-md p-2 hover:brightness-90"
+                  className="w-2/5 h-10 bg-my-color text-white rounded-lg text-lg p-2 hover:brightness-90"
                   onClick={imageSelector}
                 >
                   {selectedImage ? '이미지 수정' : '이미지 등록'}
@@ -141,7 +127,7 @@ const UploadForm = () => {
             {categoryList.map((categoryItem: string) => (
               <button
                 key={categoryItem}
-                className={`w-11/12 h-16 bg-gray-100 border-gray-400 border-2 rounded-lg text-my-color hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-500 text-neutral-50' : 'text-lg'}`}
+                className={`w-11/12 h-12 bg-gray-100 border-gray-400 border-2 rounded-lg text-my-color hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-500 text-neutral-50' : 'text-lg'}`}
                 type="button"
                 onClick={() => handleClickCategoryButton(categoryItem)}
               >
@@ -152,13 +138,13 @@ const UploadForm = () => {
           <div className="flex justify-end mt-16">
             <button
               type="submit"
-              className="w-1/12 h-16 bg-my-color text-white rounded-lg text-xl m-2  hover:brightness-90"
+              className="w-1/12 h-10 bg-my-color text-white rounded-lg text-lg m-2  hover:brightness-90"
             >
               등록
             </button>
             <button
               type="submit"
-              className="w-1/12 h-16 bg-red-500 text-white rounded-lg text-xl m-2  hover:brightness-90"
+              className="w-1/12 h-10 bg-red-500 text-white rounded-lg text-lg m-2  hover:brightness-90"
             >
               취소
             </button>
