@@ -5,16 +5,11 @@ type PostType = Tables<'posts'>;
 
 const PostDetail = async ({ params }: { params: { postId: string } }) => {
   const data: PostType = await getPost(params.postId);
-  console.log(data);
 
-  console.log(params.postId);
-
-  // console.log('data=>', data);
   const rawDate = data.created_at;
   const date = new Date(rawDate);
   const localDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
   const dateCreated = localDate.toISOString().slice(0, 10);
-  // console.log(data[6]);
 
   return (
     <div className="max-w-4xl w-full border border-gray-300 rounded-lg shadow-md mb-[80px]">

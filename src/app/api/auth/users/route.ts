@@ -14,7 +14,7 @@ export async function GET() {
   if (!userId) return;
   try {
     const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
-    console.log(data);
+
     if (error) {
       throw error;
     }

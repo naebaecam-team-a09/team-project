@@ -18,11 +18,11 @@ export default function mypage({ children }: PropsWithChildren) {
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
 
   async function getUserData() {
-    console.log('작동함');
     const data = await getUserInfo();
     setUserData(data);
     setImageUrl(baseUrl + data.profile_image_path + `?timestamp=${new Date().getTime()}`);
   }
+
   useEffect(() => {
     getUserData();
   }, []);

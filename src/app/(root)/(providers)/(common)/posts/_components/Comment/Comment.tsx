@@ -40,9 +40,9 @@ const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_i
 
   const { me } = useAuth();
   const userId = me?.id;
-  console.log(user_id, userId);
+
   const isOwner = userId === user_id;
-  console.log(isOwner);
+
   return (
     <div className="relative">
       <div className="bg-white z-10 relative shadow-md rounded-xl flex flex-col justify-between px-5 py-10 w-[320px] h-[220px]">
