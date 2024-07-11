@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import UpdateForm from './_components/UpdateForm';
-import { getPost } from '@/services/posts.services';
+import { getPost } from '@/services/posts.service';
 
 const UpdatePage = async ({ params }: { params: { postId: string } }) => {
   const { postId } = params;
