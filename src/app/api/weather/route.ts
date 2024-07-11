@@ -1,27 +1,29 @@
-import { NextResponse } from 'next/server';
+// src/app/api/weather/route.ts
 
-const API_KEY = process.env.OPEN_WEATHER_API_KEY;
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}';
-const DEFAULT_LAT = '37.5665'; // 서울의 위도
-const DEFAULT_LON = '126.9780'; // 서울의 경도
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export async function GET() {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const serviceKey = 'CWuKl3zGpf5wdiftk8feig1ofmE42raCph%2FPcuudVpQNk2jzf3d2VsCk3vuSTxvObiqm%2FettPhRTjHGwkMrePQ%3D%3D';
+  const baseDate = '20210711'; // 기준 날짜 (YYYYMMDD 형식)
+  const baseTime = '0600'; // 기준 시간 (HHMM 형식)
+  const nx = 60; // 예보지점 X 좌표
+  const ny = 127; // 예보지점 Y 좌표
+
+  const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=CWuKl3zGpf5wdiftk8feig1ofmE42raCph%2FPcuudVpQNk2jzf3d2VsCk3vuSTxvObiqm%2FettPhRTjHGwkMrePQ%3D%3D&pageNo=1&numOfRows=14&dataType=JSON&base_date=20240711&base_time=0500&nx=55&ny=127`;
+
   try {
-    const response = await fetch(`${BASE_URL}?lat=${DEFAULT_LAT}&lon=${DEFAULT_LON}&units=metric&appid=${API_KEY}`);
-    if (!response.ok) {
-      const errorData = await response.json();
-      return NextResponse.json({ error: errorData.message }, { status: response.status });
-    }
-
+    const response = await fetch(url);
     const data = await response.json();
 
-    return NextResponse.json({
-      currentTemperature: data.main.temp,
-      minTemperature: data.main.temp_min,
-      maxTemperature: data.main.temp_max,
-      location: data.name
-    });
+    // TMP (현재 온도) 데이터 추출
+    const items = data.response.body.items.item;
+    const temperatureItem = items.find((item: any) => item.category === 'TMP');
+    const temperature = temperatureItem ? temperatureItem.fcstValue : 'N/A';
+
+    res.status(200).json({ temperature });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch weather data' }, { status: 500 });
+    res.status(500).json({ error: 'Failed to fetch weather data' });
   }
-}
+};
+
+export default handler;
