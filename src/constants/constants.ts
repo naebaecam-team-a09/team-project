@@ -1,3 +1,2 @@
 export const BASE_URL = 'http://localhost:3000';
-export const DEFAULT_PROFILE_IMAGE_PATH =
-  'https://jkuhktbimkshohrktrhc.supabase.co/storage/v1/object/public/avatars/people_10100764.png';
+export const DEFAULT_PROFILE_IMAGE_PATH = '/public/avatars/userDefaultImg/defaultImage';
