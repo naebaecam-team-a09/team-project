@@ -1,7 +1,7 @@
 // 불러오기, 수정, 삭제하기 페이지
 'use client';
 
-import { deletePost, getPost, updatePost } from '@/services/posts.services';
+import { deletePost, getPost, updatePost } from '@/services/posts.service';
 import { useEffect } from 'react';
 
 const UpdatePage = () => {
