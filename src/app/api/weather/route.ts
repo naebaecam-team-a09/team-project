@@ -15,8 +15,6 @@ export async function GET() {
   const month = String(today.getMonth() + 1).padStart(2, '0');
   const day = String(today.getDate()).padStart(2, '0');
   const baseDate = `${year}${month}${day}`;
-  const currentHour = today.getHours();
-  console.log(currentHour);
 
   const url = `${baseUrl}?serviceKey=${apiKey}&pageNo=${pageNo}&numOfRows=${numOfRows}&dataType=${dataType}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
