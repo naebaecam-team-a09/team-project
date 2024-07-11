@@ -1,6 +1,6 @@
 // route.ts에 요청을 보내는 함수를 작정해야 함
 
-import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
+import { PostType, UpdatePostParamsType } from '@/types/posts';
 export const getPosts = async () => {
   const response = await fetch('http://localhost:3000/api/posts', { method: 'GET' });
   const data = await response.json();

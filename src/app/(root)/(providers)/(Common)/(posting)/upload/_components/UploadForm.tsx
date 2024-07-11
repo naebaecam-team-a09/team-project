@@ -3,7 +3,7 @@ import { addPost } from '@/services/posts.services';
 import { createClient } from '@/supabase/client';
 import { PostType } from '@/types/posts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const UploadForm = () => {
   const [title, setTitle] = useState('');
