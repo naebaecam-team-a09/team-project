@@ -1,5 +1,7 @@
 import { getPost } from '@/services/posts.service';
 import { Tables } from '@/types/supabase';
+import { CommentButton } from '../_components/Comment/CommentButton';
+import Comments from '../_components/Comment/Comments';
 
 type PostType = Tables<'posts'>;
 type ParamsType = { postId: string };
@@ -10,9 +12,11 @@ const PostDetailPage = async ({ params }: { params: ParamsType }) => {
   // console.log(params.postId);
   // const categories = ['카테고리1', '카테고리2', '카테고리3', '카테고리4', '카테고리5'];
   // console.log(params.postId);
-
   // const data = await getData();
+
   const data: PostType = await getPost(params.postId);
+
+  console.log(params.postId);
 
   // console.log('data=>', data);
   const rawDate = data.created_at;
@@ -22,7 +26,7 @@ const PostDetailPage = async ({ params }: { params: ParamsType }) => {
   // console.log(data[6]);
 
   return (
-    <div className="flex justify-center my-10">
+    <article className="flex flex-col items-center justify-center my-10">
       <div className="max-w-4xl w-full border border-gray-300 rounded-lg shadow-md">
         <div className="flex">
           <div className="w-1/2 relative h-[80vh]">
@@ -52,7 +56,13 @@ const PostDetailPage = async ({ params }: { params: ParamsType }) => {
           </div>
         </div>
       </div>
-    </div>
+      <div className="w-[1000px]">
+        <CommentButton postId={params.postId} />
+        <Comments postId={params.postId} />
+      </div>
+
+      <div id="white-space" className="h-60"></div>
+    </article>
   );
 };
 
