@@ -1,29 +1,41 @@
-// src/app/api/weather/route.ts
+import { NextResponse } from 'next/server';
 
-import { NextApiRequest, NextApiResponse } from 'next';
+export async function GET() {
+  const apiKey = process.env.NEXT_PUBLIC_KMA_API_KEY;
+  const baseUrl = process.env.NEXT_PUBLIC_KMA_URL;
+  const pageNo = 1;
+  const numOfRows = 20;
+  const dataType = 'JSON';
+  const baseTime = '0500';
+  const nx = 52;
+  const ny = 38;
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const serviceKey = 'CWuKl3zGpf5wdiftk8feig1ofmE42raCph%2FPcuudVpQNk2jzf3d2VsCk3vuSTxvObiqm%2FettPhRTjHGwkMrePQ%3D%3D';
-  const baseDate = '20210711'; // 기준 날짜 (YYYYMMDD 형식)
-  const baseTime = '0600'; // 기준 시간 (HHMM 형식)
-  const nx = 60; // 예보지점 X 좌표
-  const ny = 127; // 예보지점 Y 좌표
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const baseDate = `${year}${month}${day}`;
+  const currentHour = today.getHours();
+  console.log(currentHour);
 
-  const url = `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=CWuKl3zGpf5wdiftk8feig1ofmE42raCph%2FPcuudVpQNk2jzf3d2VsCk3vuSTxvObiqm%2FettPhRTjHGwkMrePQ%3D%3D&pageNo=1&numOfRows=14&dataType=JSON&base_date=20240711&base_time=0500&nx=55&ny=127`;
+  const url = `${baseUrl}?serviceKey=${apiKey}&pageNo=${pageNo}&numOfRows=${numOfRows}&dataType=${dataType}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
 
   try {
     const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
     const data = await response.json();
 
-    // TMP (현재 온도) 데이터 추출
-    const items = data.response.body.items.item;
-    const temperatureItem = items.find((item: any) => item.category === 'TMP');
-    const temperature = temperatureItem ? temperatureItem.fcstValue : 'N/A';
+    const temperature = data.response.body.items.item.find(
+      (item: { category: string }) => item.category === 'TMP'
+    )?.fcstValue;
 
-    res.status(200).json({ temperature });
+    return NextResponse.json({ temperature });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch weather data' });
+    console.error('Failed to fetch weather data:', error);
+    return NextResponse.json({ error: 'Failed to fetch weather data' }, { status: 500 });
   }
-};
-
-export default handler;
+}
