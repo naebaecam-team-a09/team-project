@@ -1,3 +1,4 @@
+import { createClient } from '@/supabase/client';
 import { UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 export const getPosts = async () => {
   const response = await fetch('http://localhost:3000/api/posts', { method: 'GET' });
@@ -51,5 +52,17 @@ export const addPost = async (newPost: UpdatedPostType) => {
     }
   });
 
+  return data;
+};
+
+export const getPostsWithUserInfo = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`*, users(username, profile_image_path)`)
+    .order('created_at', { ascending: false });
+  if (error) {
+    throw error;
+  }
   return data;
 };

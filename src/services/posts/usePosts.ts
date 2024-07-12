@@ -1,8 +1,7 @@
+import { PostType } from '@/types/posts';
 import { useQuery } from '@tanstack/react-query';
-import { getPosts } from './posts.service';
+import { queryOptions } from './queries';
 
-export const usePosts = () =>
-  useQuery({
-    queryKey: ['posts', 'all'],
-    queryFn: getPosts
-  });
+export const usePosts = () => useQuery<PostType[]>(queryOptions.all());
+
+export const usePostsWithUserInfo = () => useQuery(queryOptions.allWithUserInfo());
