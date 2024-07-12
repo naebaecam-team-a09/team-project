@@ -1,5 +1,4 @@
 export interface PostType {
-  user_id: string;
   image_url?: string;
   category: string[];
   contents: string;

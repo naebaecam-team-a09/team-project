@@ -7,8 +7,8 @@ export async function GET() {
   const numOfRows = 20;
   const dataType = 'JSON';
   const baseTime = '0500';
-  const nx = 52;
-  const ny = 38;
+  const nx = 60;
+  const ny = 127;
 
   const today = new Date();
   const year = today.getFullYear();

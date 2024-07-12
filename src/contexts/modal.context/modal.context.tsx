@@ -1,11 +1,8 @@
 'use client';
 
+import Backdrop from '@/components/Modal/BackDrop';
 // import { useScrollLock } from "@yoojinyoung/usescrolllock";
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
-
-// 1. 만들기
-
-// 2. 사용한다
 
 interface TInitialValue {
   open: (element: React.ReactElement) => void;
@@ -37,10 +34,11 @@ export function ModalProvider({ children }: PropsWithChildren) {
       // scrolllock.release();
     }
   };
+
   return (
     <ModalContext.Provider value={value}>
       {children}
-      {modal}
+      {modal && <Backdrop>{modal}</Backdrop>}
     </ModalContext.Provider>
   );
 }

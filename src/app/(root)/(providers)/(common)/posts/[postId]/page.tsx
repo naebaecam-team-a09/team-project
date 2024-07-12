@@ -1,5 +1,5 @@
 import { CommentButton } from '../_components/Comment/CommentButton';
-import Comments from '../_components/Comment/Comments';
+import Comments from '../_components/Comment/CommentList';
 import PostDetail from '../_components/Comment/PostDetail';
 import Heart from '../_components/Heart/Heart';
 

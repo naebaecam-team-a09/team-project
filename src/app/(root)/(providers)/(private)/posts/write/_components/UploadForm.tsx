@@ -44,7 +44,6 @@ const UploadForm = () => {
     }
 
     const newPost: PostType = {
-      user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
       title,
       contents,
       category,
