@@ -32,7 +32,6 @@ export async function updateSession(request: NextRequest) {
   // issues with users being randomly logged out.
 
   const nickname = generateRandomNickname();
-  console.log(nickname);
 
   const {
     data: { user }
