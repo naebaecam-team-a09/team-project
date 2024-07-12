@@ -77,7 +77,7 @@ export default function MyPage() {
       open(<ConfirmationModal content={confirmMessage} onNextEvent={() => updateProfile(file, userData)} />);
     }
   };
-  const changeInfoClick = () => {
+  const handleChangeInfoClick = () => {
     setShowModal(true); // Show the form when the button is clicked
   };
 
@@ -128,7 +128,7 @@ export default function MyPage() {
             <p className="m-3 text-gray-500">성별 : {userData?.gender}</p>
             <button
               className="w-24 h-7 p-1 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] mt-5 text-xs text-black"
-              onClick={changeInfoClick}
+              onClick={handleChangeInfoClick}
             >
               개인 설정 변경
             </button>

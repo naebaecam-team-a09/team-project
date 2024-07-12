@@ -3,6 +3,7 @@
 import AlertModal from '@/components/Modal/AlertModal';
 import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { categoryList } from '@/constants/categoryList';
+import { useAuth } from '@/contexts/auth.context/auth.context';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { getPost, updatePost } from '@/services/posts/posts.service';
 import { createClient } from '@/supabase/client';
@@ -19,6 +20,8 @@ interface UpdateFormType {
 const UpdateForm = ({ postId }: UpdateFormType) => {
   const router = useRouter();
   const { open, close } = useModal();
+  const { me } = useAuth();
+  const userId = me?.id;
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
@@ -48,7 +51,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     if (!category.length) return alert('카테고리를 선택해주세요.');
 
     const updatedPost: UpdatedPostType = {
-      user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
+      user_id: userId,
       title,
       contents,
       category,
