@@ -491,6 +491,11 @@
     "@typescript-eslint/types" "7.2.0"
     eslint-visitor-keys "^3.4.1"
 
+"@yoojinyoung/usescrolllock@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@yoojinyoung/usescrolllock/-/usescrolllock-1.1.4.tgz#0526d80a95cc6df9e7ad94e07ab9c2f3699c627b"
+  integrity sha512-aCHQqa4GSK3hb+eL3ZvHSyAIh7JvZacqOMKZu2EXJ7gifDYCjcxu7/+oesuScYf1OxEc5Qr9dZKQYL41//+cbA==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"

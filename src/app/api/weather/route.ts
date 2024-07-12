@@ -1,7 +1,7 @@
 // pages/api/weather.ts
 
-import { NextResponse } from 'next/server';
 import { getBaseTime } from '@/utils/getTime';
+import { NextResponse } from 'next/server';
 
 export async function GET() {
   const apiKey = process.env.NEXT_PUBLIC_KMA_API_KEY;
@@ -20,7 +20,7 @@ export async function GET() {
   const baseDate = `${year}${month}${day}`;
 
   const url = `${baseUrl}?serviceKey=${apiKey}&pageNo=${pageNo}&numOfRows=${numOfRows}&dataType=${dataType}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
-  console.log(url);
+
   try {
     const response = await fetch(url);
 
@@ -29,7 +29,6 @@ export async function GET() {
     }
 
     const data = await response.json();
-    console.log(data);
 
     const temperature = data.response.body.items.item.find(
       (item: { category: string }) => item.category === 'TMP'
