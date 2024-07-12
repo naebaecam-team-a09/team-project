@@ -3,9 +3,7 @@
 import { UserDataType, getUserInfo } from '@/services/users.service';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
-import WeatherCard from '../../_components/WeatherCard';
-import Popularwear from '../../_components/PopularWear';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 
 const supabase = createClient();
 
@@ -20,11 +18,11 @@ export default function mypage({ children }: PropsWithChildren) {
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
 
   async function getUserData() {
-    console.log('작동함');
     const data = await getUserInfo();
     setUserData(data);
     setImageUrl(baseUrl + data.profile_image_path + `?timestamp=${new Date().getTime()}`);
   }
+
   useEffect(() => {
     getUserData();
   }, []);

@@ -3,7 +3,7 @@
 import { useAuth } from '@/contexts/auth.context/auth.context';
 import Link from 'next/link';
 
-const Button = () => {
+const AuthButton = () => {
   const { me } = useAuth();
   const { logOut } = useAuth();
   const handleClickLogOut = async () => {
@@ -25,4 +25,4 @@ const Button = () => {
   );
 };
 
-export default Button;
+export default AuthButton;

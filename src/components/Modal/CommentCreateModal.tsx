@@ -3,17 +3,20 @@
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { createComment } from '@/services/comments/comments.service';
 import { usePostIdStore } from '@/zustand/store';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import Backdrop from './BackDrop';
 
-function CommentModal() {
+function CommentCreateModal() {
+  const queryClient = useQueryClient();
   const modal = useModal();
   const postId = usePostIdStore((state) => state.postId);
   const { mutate } = useMutation({
     mutationFn: ({ postId, contents }: { postId: string; contents: string }) => createComment(postId, contents),
     onSuccess: () => {
       alert('댓글이 성공적으로 등록되었습니다');
+      modal.close();
+      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
     }
   });
 
@@ -55,4 +58,4 @@ function CommentModal() {
   );
 }
 
-export default CommentModal;
+export default CommentCreateModal;
