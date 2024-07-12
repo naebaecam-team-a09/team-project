@@ -113,7 +113,9 @@ export default function mypage({ children }: PropsWithChildren) {
             </div>
           </div>
           <div className="w-80 h-60 p-5 flex flex-col justify-center">
-            <p className="text-lg m-2 font-bold text-gray-600">닉네임 : {userData?.username} </p>
+            <p className="text-2xl m-2 font-bold text-gray-600 underline underline-offset-8">
+              닉네임 : {userData?.username}{' '}
+            </p>
             <p className="m-3 text-gray-500">성별 : {userData?.gender}</p>
             <button
               className="w-24 h-7 p-1 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] mt-5 text-xs text-black"

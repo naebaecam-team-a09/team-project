@@ -13,6 +13,10 @@ export const getPost = async (postId: string) => {
     cache: 'no-store'
   });
   const post = await data.json();
+
+  if (!post.data || !post.data.length) {
+    return null;
+  }
   return post.data[0];
 };
 
