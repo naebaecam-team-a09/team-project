@@ -14,7 +14,7 @@ export default function mypage({ children }: PropsWithChildren) {
   const [showModal, setShowModal] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [newGender, setNewGender] = useState('');
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
 
   async function getUserData() {
@@ -33,6 +33,9 @@ export default function mypage({ children }: PropsWithChildren) {
 
   const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
+    if (!userData) {
+      return;
+    }
 
     if (file) {
       let confirmMessage = '프로필 사진을 업로드 하시겠습니까?';
@@ -77,6 +80,9 @@ export default function mypage({ children }: PropsWithChildren) {
 
   const handleFormSubmit = async (e: any) => {
     e.preventDefault();
+    if (!userData) {
+      return;
+    }
 
     await supabase.from('users').update({ username: newUsername, gender: newGender }).eq('id', userData.id);
 
@@ -93,7 +99,7 @@ export default function mypage({ children }: PropsWithChildren) {
           <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
             <div className="flex justify-center">
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
-                <Image src={imageUrl} alt="" width={200} height={200} />
+                {imageUrl && <Image src={imageUrl} alt="" width={200} height={200} />}
               </div>
             </div>
             <div className="flex justify-center">
