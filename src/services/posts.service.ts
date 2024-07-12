@@ -2,6 +2,7 @@ import { PostType, UpdatePostParamsType } from '@/types/posts';
 export const getPosts = async () => {
   const response = await fetch('http://localhost:3000/api/posts', { method: 'GET' });
   const data = await response.json();
+  return data;
 };
 
 export const getPost = async (postId: string) => {
@@ -12,6 +13,10 @@ export const getPost = async (postId: string) => {
     cache: 'no-store'
   });
   const post = await data.json();
+
+  if (!post.data || !post.data.length) {
+    return null;
+  }
   return post.data[0];
 };
 
