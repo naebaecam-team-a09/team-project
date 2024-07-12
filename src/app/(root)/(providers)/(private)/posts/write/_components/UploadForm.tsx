@@ -1,9 +1,10 @@
 'use client';
 import { categoryList } from '@/constants/categoryList';
 import { addPost } from '@/services/posts.service';
+import { getUserInfo } from '@/services/users.service';
 import { createClient } from '@/supabase/client';
 import { PostType } from '@/types/posts';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
@@ -40,7 +41,7 @@ const UploadForm = () => {
     if (!category.length) return alert('카테고리를 선택해주세요.');
 
     const newPost: PostType = {
-      user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
+      user_id,
       title,
       contents,
       category,
@@ -72,6 +73,12 @@ const UploadForm = () => {
     const { data: imageData } = supabase.storage.from('images').getPublicUrl(data.path);
     return imageData.publicUrl;
   };
+
+  const { data: user_id } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserInfo,
+    select: (user) => user.id
+  });
 
   const { mutate: addMutate } = useMutation({
     mutationFn: addPost,
