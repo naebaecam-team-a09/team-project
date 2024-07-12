@@ -1,5 +1,5 @@
 'use client';
-import { addPost } from '@/services/posts.service';
+import { addPost } from '@/services/posts/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType } from '@/types/posts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';

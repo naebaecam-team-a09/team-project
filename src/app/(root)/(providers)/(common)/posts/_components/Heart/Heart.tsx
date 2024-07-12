@@ -1,48 +1,19 @@
 'use client';
 
 import { useAuth } from '@/contexts/auth.context/auth.context';
-import { getLike, toggleLike } from '@/services/likes/likes.service';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useIsLike, useLikesCount, useToggleLike } from '@/services/likes/useLikes';
+import { useQueryClient } from '@tanstack/react-query';
+import getHeartCompSource from './_utils/getHeartCompSource';
 
 const Heart = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
   const { me }: any = useAuth();
+  const userId = me?.id;
 
-  const {
-    data: isHeart,
-    isPending,
-    error
-  } = useQuery({
-    queryKey: ['heart', postId],
-    queryFn: () => getLike({ postId, userId: me?.id }),
-    enabled: !!me
-  });
-
-  const { mutate: toggleLikeMutation } = useMutation({
-    mutationFn: ({ userId, postId, isHeart }: any) => toggleLike({ userId, postId, isHeart }),
-    onMutate: async (newState) => {
-      await queryClient.cancelQueries({ queryKey: ['heart', postId] });
-      const previousState = queryClient.getQueryData(['heart', postId]);
-      queryClient.setQueryData(['heart', postId], newState);
-      return { previousState };
-    },
-    onError: (error, variables, context) => {
-      queryClient.setQueryData(['heart', postId], context?.previousState);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['heart', postId] });
-    }
-  });
-
-  const options = !!isHeart
-    ? {
-        path: '/heart/icon-heart-filled.png',
-        alt: 'filled heart'
-      }
-    : {
-        path: '/heart/icon-heart-empty.png',
-        alt: 'empty heart'
-      };
+  const { data: likeCount } = useLikesCount({ postId, userId });
+  const { data: isHeart, isPending, error } = useIsLike({ postId, userId });
+  const { mutate: toggleLikeMutation } = useToggleLike({ postId, queryClient, userId: me?.id });
+  const options = getHeartCompSource(isHeart);
 
   const handleClickHeart = () => {
     toggleLikeMutation({ userId: me?.id, postId, isHeart });
@@ -51,11 +22,12 @@ const Heart = ({ postId }: { postId: string }) => {
   if (isPending) return <div>loading...</div>;
 
   return (
-    <>
+    <div className="flex items-center gap-2">
+      <p className="text-2xl font-black">{likeCount}</p>
       <div className=" cursor-pointer" onClick={handleClickHeart}>
-        <img className="hover:scale-125 transition w-12 h-12" src={options.path} alt={options.alt} />
+        <img className="hover:scale-125 transition w-10 h-10" src={options.path} alt={options.alt} />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -6,7 +6,7 @@ const supabase = createClient();
 
 export async function GET() {
   try {
-    const { data, error } = await supabase.from('posts').select('*');
+    const { data, error } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
 
     if (error) {
       throw error;

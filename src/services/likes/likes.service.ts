@@ -1,12 +1,26 @@
 import { createClient } from '@/supabase/client';
+import _ from 'lodash';
 
-export const getLike = async ({ userId, postId }: { userId: string; postId: string }) => {
+export const getIsLike = async ({ userId, postId }: { userId: string; postId: string }) => {
   const supabase = createClient();
-  const { error } = await supabase.from('likes').select('*').eq('user_id', userId).eq('post_id', postId).single();
+
+  const { data, error } = await supabase.from('likes').select('*').eq('user_id', userId).eq('post_id', postId);
+
   if (error) {
     return false;
   }
+  if (_.isEmpty(data)) return false;
+
   return true;
+};
+
+export const getLikeCount = async ({ postId }: { postId: string }) => {
+  const supabase = createClient();
+  const { count, error } = await supabase.from('likes').select('*', { count: 'exact' }).eq('post_id', postId);
+  if (error) {
+    throw error;
+  }
+  return count;
 };
 
 export const toggleLike = async ({ userId, postId, isHeart }: { userId: string; postId: string; isHeart: boolean }) => {
@@ -29,4 +43,16 @@ export const toggleLike = async ({ userId, postId, isHeart }: { userId: string; 
 
     return true;
   }
+};
+
+export const getAllPostLikeCount = async () => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from('likes').select('post_id', { count: 'exact' });
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
 };

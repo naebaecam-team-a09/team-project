@@ -8,7 +8,6 @@ function Backdrop({ children }: PropsWithChildren) {
   return (
     <div className="  z-20 fixed inset-0  flex justify-center items-center">
       {children}
-
       <div onClick={close} className="-z-10 fixed inset-0 bg-black/50"></div>
     </div>
   );

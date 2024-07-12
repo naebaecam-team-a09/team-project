@@ -16,6 +16,7 @@ const CommentCreateModal = () => {
     mutationFn: ({ postId, contents }: { postId: string; contents: string }) => createComment(postId, contents),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+
       open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
     }
   });
@@ -40,7 +41,7 @@ const CommentCreateModal = () => {
           <h3 className="ml-4 text-2xl text-[#2d2d2d] font-bold">댓글작성</h3>
           <button
             onClick={handleClickCancelButton}
-            className=" text-2xl text-white w-11 h-11 bg-[#6D758F] rounded-full"
+            className=" font-bold text-2xl text-white w-11 h-11 bg-[#6D758F] rounded-full"
           >
             X
           </button>
