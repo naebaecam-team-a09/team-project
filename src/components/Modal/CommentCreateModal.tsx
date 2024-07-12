@@ -5,22 +5,20 @@ import { createComment } from '@/services/comments/comments.service';
 import { usePostIdStore } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import Backdrop from './BackDrop';
+import AlertModal from './AlertModal';
 
-function CommentCreateModal() {
+const CommentCreateModal = () => {
+  const [contents, setContents] = useState<string>('');
+  const { open, close, isModalOpen } = useModal();
   const queryClient = useQueryClient();
-  const modal = useModal();
   const postId = usePostIdStore((state) => state.postId);
   const { mutate } = useMutation({
     mutationFn: ({ postId, contents }: { postId: string; contents: string }) => createComment(postId, contents),
     onSuccess: () => {
-      alert('댓글이 성공적으로 등록되었습니다');
-      modal.close();
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+      open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
     }
   });
-
-  const [contents, setContents] = useState<string>('');
 
   const handleChangeTextarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setContents(e.target.value);
@@ -30,32 +28,41 @@ function CommentCreateModal() {
     e.preventDefault();
     mutate({ postId, contents });
   };
+
+  const handleClickCancelButton = () => {
+    close();
+  };
+
   return (
-    <Backdrop>
-      <article className="w-full bg-white p-10 rounded-xl max-w-[640px]">
-        <form className="py-8 w-full flex flex-col justify-between gap-10 items-center" onSubmit={handleSubmit}>
+    <article className="p-1.5 relative w-[560px] h-[560px] rounded-[36px] bg-white post-modal-shadow opacity-[97%]">
+      <div className="px-2.5 post-modal-background rounded-[28px]">
+        <div className="flex justify-between w-full items-center py-5">
+          <h3 className="ml-4 text-2xl text-[#2d2d2d] font-bold">댓글작성</h3>
+          <button
+            onClick={handleClickCancelButton}
+            className=" text-2xl text-white w-11 h-11 bg-[#6D758F] rounded-full"
+          >
+            X
+          </button>
+        </div>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
           <textarea
+            placeholder="댓글을 입력해주세요"
+            className="p-4 resize-none w-full h-[340px] rounded-lg bg-white brightness-110"
             value={contents}
             onChange={handleChangeTextarea}
-            className=" px-4 py-2 w-full h-20 resize-none bg-gray-200"
           />
-          <div className="w-full flex justify-between">
-            <button
-              className="w-28 h-12 rounded-lg text-white font-bold bg-[#6D758F]"
-              onClick={() => {
-                modal.close();
-              }}
-            >
-              닫기
-            </button>
-            <button type="submit" className="w-28 h-12 rounded-lg text-white font-bold bg-[#6D758F]">
-              댓글 작성
-            </button>
-          </div>
+          <div className="w-full h-1.5 bg-[#6D758F] rounded-xl"></div>
+          <button
+            className="text-xl text-white font-bold h-14 w-full flex justify-center items-center rounded-xl bg-[#656F8F]"
+            type="submit"
+          >
+            저장하기
+          </button>
         </form>
-      </article>
-    </Backdrop>
+      </div>
+    </article>
   );
-}
+};
 
 export default CommentCreateModal;

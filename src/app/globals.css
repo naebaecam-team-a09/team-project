@@ -3,15 +3,55 @@
 @tailwind utilities;
 
 @layer utilities {
-}
-.loader {
-  border-top-color: #233f52;
-  animation: spin 1s linear infinite;
-}
+  .post-modal-background {
+    background: linear-gradient(0deg, #ffffffd4 0%, #c7c7c7d4 100%);
+  }
+  .post-modal-shadow {
+    filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25));
+    box-shadow: inset 0 -12px 2px rgba(0, 0, 0, 0.25);
+  }
+  .custom-stroke {
+    stroke: url(#gradient);
+    stroke-width: 2px;
+    fill: none;
+  }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .custom-gradient {
+    background: linear-gradient(to top right, #1e212b, #667190);
+  }
+
+  .custom-stroke-container {
+    position: relative;
+  }
+
+  .custom-stroke-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    background: linear-gradient(to top right, #1e212b, #667190);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: destination-out;
+    padding: 2px;
+  }
+  .loader {
+    border-top-color: #233f52;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 .custom-stroke {

@@ -1,5 +1,7 @@
 'use client';
 
+import AlertModal from '@/components/Modal/AlertModal';
+import ConfirmationModal from '@/components/Modal/ComfirmationModal';
 import CommentEditModal from '@/components/Modal/CommentEditModal';
 import { useAuth } from '@/contexts/auth.context/auth.context';
 import { useModal } from '@/contexts/modal.context/modal.context';
@@ -20,22 +22,24 @@ interface TComment {
 }
 
 const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_image_path, username } }: TComment) => {
-  const modal = useModal();
+  const { open, close } = useModal();
   const queryClient = useQueryClient();
   const { mutate: deleteCommentMutation } = useMutation({
     mutationFn: (id: string) => deleteComment(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', post_id] });
-      alert('삭제가 완료되었습니다!');
+      open(<AlertModal content="삭제가 완료되었습니다" />);
     }
   });
 
   const handleClickDeleteButton = () => {
-    deleteCommentMutation(commentId);
+    open(
+      <ConfirmationModal content={'댓글을 삭제하시겠습니까?'} onNextEvent={() => deleteCommentMutation(commentId)} />
+    );
   };
 
   const handleClickEditButton = () => {
-    modal.open(<CommentEditModal commentId={commentId} />);
+    open(<CommentEditModal commentId={commentId} />);
   };
 
   const { me } = useAuth();
@@ -45,7 +49,7 @@ const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_i
 
   return (
     <div className="relative">
-      <div className="bg-white z-10 relative shadow-md rounded-xl flex flex-col justify-between px-5 py-10 w-[320px] h-[220px]">
+      <div className=" bg-[#FCFDFF] z-10 relative shadow-md rounded-xl flex flex-col justify-between px-5 py-10 w-[320px] h-[220px]">
         <p className="text-[#575c6f]">{contents}</p>
         <div className="flex items-center gap-2">
           <div className="relative rounded-full overflow-hidden">

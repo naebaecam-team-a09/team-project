@@ -53,7 +53,7 @@ const Heart = ({ postId }: { postId: string }) => {
   return (
     <>
       <div className=" cursor-pointer" onClick={handleClickHeart}>
-        <img className="w-12 h-12" src={options.path} alt={options.alt} />
+        <img className="hover:scale-125 transition w-12 h-12" src={options.path} alt={options.alt} />
       </div>
     </>
   );
