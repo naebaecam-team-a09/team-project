@@ -6,5 +6,14 @@ interface TpostIdStore {
 }
 export const usePostIdStore = create<TpostIdStore>((set) => ({
   postId: '',
-  setPostId: (postId) => set(() => ({ postId }))
+  setPostId: (postId: string) => set(() => ({ postId }))
+}));
+
+interface TcommentIdStore {
+  commentId: string;
+  setCommentId: (commentId: string) => void;
+}
+export const useCommentIdStore = create<TcommentIdStore>((set) => ({
+  commentId: '',
+  setCommentId: (commentId) => set(() => ({ commentId }))
 }));

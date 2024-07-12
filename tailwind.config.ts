@@ -14,9 +14,6 @@ const config: Config = {
       },
       margin: {
         '-317px': '-317px'
-      },
-      boxShadow: {
-        'inner-strong': 'inset 0 2px 2px 2px rgba(0, 0, 0, 0.3)'
       }
     }
   },

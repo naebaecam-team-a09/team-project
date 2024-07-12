@@ -4,42 +4,44 @@ import { UserDataType, getUserInfo } from '@/services/users.service';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
-import WeatherCard from '../../_components/WeatherCard';
-import Popularwear from '../../_components/PopularWear';
+import UserPost from '../_components/UserPostCard';
 
 const supabase = createClient();
 
 export default function mypage({ children }: PropsWithChildren) {
-  const [userPost, setUserPost] = useState();
   const [userData, setUserData] = useState<UserDataType>();
   const [imageUrl, setImageUrl] = useState<string>();
   const [showModal, setShowModal] = useState(false);
   const [newUsername, setNewUsername] = useState('');
   const [newGender, setNewGender] = useState('');
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
 
   async function getUserData() {
-    console.log('작동함');
     const data = await getUserInfo();
     setUserData(data);
-    setImageUrl(baseUrl + data.profile_image_path + `?timestamp=${new Date().getTime()}`);
+    setImageUrl(data.profile_image_path + `?timestamp=${new Date().getTime()}`);
   }
+
   useEffect(() => {
     getUserData();
   }, []);
+  console.log(imageUrl);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (event) => {
+  const handleFileChange = async (event: any) => {
     const file = event.target.files[0];
+    if (!userData) {
+      return;
+    }
 
     if (file) {
       let confirmMessage = '프로필 사진을 업로드 하시겠습니까?';
 
-      if (userData?.profile_image_path !== '/public/avatars/userDefaultImg/defaultImage') {
+      if (userData?.profile_image_path !== `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
         confirmMessage = '프로필 사진을 변경하시겠습니까?';
       }
 
@@ -50,7 +52,7 @@ export default function mypage({ children }: PropsWithChildren) {
       let uploadError = null;
       let uploadResult = null;
 
-      if (userData?.profile_image_path === '/public/avatars/userDefaultImg/defaultImage') {
+      if (userData?.profile_image_path === `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
         const { data, error } = await supabase.storage.from('avatars').upload(`${userData?.id}/profileImg`, file);
         uploadError = error;
         uploadResult = data;
@@ -67,7 +69,7 @@ export default function mypage({ children }: PropsWithChildren) {
 
       await supabase
         .from('users')
-        .update({ profile_image_path: `/public/avatars/${userData?.id}/profileImg` })
+        .update({ profile_image_path: `${baseUrl}/public/avatars/${userData?.id}/profileImg` })
         .eq('id', userData.id);
 
       getUserData();
@@ -77,8 +79,11 @@ export default function mypage({ children }: PropsWithChildren) {
     setShowModal(true); // Show the form when the button is clicked
   };
 
-  const handleFormSubmit = async (e) => {
+  const handleFormSubmit = async (e: any) => {
     e.preventDefault();
+    if (!userData) {
+      return;
+    }
 
     await supabase.from('users').update({ username: newUsername, gender: newGender }).eq('id', userData.id);
 
@@ -88,14 +93,14 @@ export default function mypage({ children }: PropsWithChildren) {
 
   return (
     <div className="wrap max-w-[1440px] mx-auto px-4 flex flex-col justify-center">
-      <h1 className="text-2xl mt-28  text-gray-500 font-bold ">마이페이지</h1>
-      <div className=" divide-solid divide-gray-200 border-[2px] mt-3" />
+      <h1 className="text-3xl mt-28  text-gray-500 font-bold ">마이페이지</h1>
+      <div className=" divide-solid divide-gray-200 border-t mt-3" />
       <div className="w-full h-[500px] flex flex-col items-center ">
-        <div className=" profileBox w-[1000px] h-[96] m-12 flex items-center rounded-md justify-around shadow-inner-strong">
+        <div className=" profileBox w-[1000px] h-[96] m-12 flex items-center rounded-md justify-around shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
           <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
             <div className="flex justify-center">
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
-                <Image src={imageUrl} alt="" width={200} height={200} />
+                {imageUrl && <Image src={imageUrl} alt="" width={200} height={200} />}
               </div>
             </div>
             <div className="flex justify-center">
@@ -114,9 +119,11 @@ export default function mypage({ children }: PropsWithChildren) {
               />
             </div>
           </div>
-          <div className="p-16">
-            <p className="text-lg m-2">닉네임 : {userData?.username} </p>
-            <p className="m-3">성별 : {userData?.gender}</p>
+          <div className="w-80 h-60 p-5 flex flex-col justify-center">
+            <p className="text-2xl m-2 font-bold text-gray-600 underline underline-offset-8">
+              닉네임 : {userData?.username}{' '}
+            </p>
+            <p className="m-3 text-gray-500">성별 : {userData?.gender}</p>
             <button
               className="w-24 h-7 p-1 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] mt-5 text-xs text-black"
               onClick={changeInfoClick}
@@ -176,22 +183,7 @@ export default function mypage({ children }: PropsWithChildren) {
           </div>
         )}
         <div className="userStyle w-full flex flex-col justify-center content-center">
-          <div>{/* <Popularwear></Popularwear> */}</div>
-          <h1 className="text-xl ml-12 my-5 text-gray-400 font-bold ">본인이 올린 코디</h1>
-          <div className=" divide-solid divide-gray-200 border-[2px] ml-10" />
-          <div className="grid grid-cols-3 gap-4">
-            {/* {userPost.map((post, index) => (
-            <div key={index} className="w-full h-48 overflow-hidden">
-              <Image
-                src={post.image_url}
-                alt={`${index}`}
-                width={300}
-                height={200}
-                className="w-full h-full border-[2px] border-black object-cover "
-              />
-            </div>
-          ))} */}
-          </div>
+          <div>{<UserPost></UserPost>}</div>
         </div>
       </div>
     </div>

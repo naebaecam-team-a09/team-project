@@ -1,9 +1,9 @@
 'use client';
 
 import { categoryList } from '@/constants/categoryList';
-import { getPost, updatePost } from '@/services/posts.service';
+import { getPost, updatePost } from '@/services/posts/posts.service';
 import { createClient } from '@/supabase/client';
-import { PostType, UpdatedPostType, UpdatePostParamsType } from '@/types/posts';
+import { PostType, UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

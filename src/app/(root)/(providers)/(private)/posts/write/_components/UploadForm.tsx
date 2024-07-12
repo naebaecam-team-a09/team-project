@@ -1,13 +1,13 @@
 'use client';
 import { categoryList } from '@/constants/categoryList';
-import { addPost } from '@/services/posts.service';
 import { getUserInfo } from '@/services/users.service';
 import { createClient } from '@/supabase/client';
-import { PostType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import React, { useRef, useState } from 'react';
+import { addPost } from '@/services/posts/posts.service';
+import { UpdatedPostType } from '@/types/posts';
+import { useRef, useState } from 'react';
 
 const UploadForm = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const UploadForm = () => {
     if (!contents.trim()) return alert('코디 설명을 입력해주세요.');
     if (!category.length) return alert('카테고리를 선택해주세요.');
 
-    const newPost: PostType = {
+    const newPost: UpdatedPostType = {
       user_id,
       title,
       contents,
