@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
 import { useModal } from '@/contexts/modal.context/modal.context';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 
 const ConfirmationModal = ({ content, onNextEvent }: { content: string; onNextEvent: () => void }) => {
   const modal = useModal();

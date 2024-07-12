@@ -1,8 +1,8 @@
 'use client';
 
 import AlertModal from '@/components/Modal/AlertModal';
-import ConfirmationModal from '@/components/Modal/ComfirmationModal';
 import CommentEditModal from '@/components/Modal/CommentEditModal';
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { useAuth } from '@/contexts/auth.context/auth.context';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { deleteComment } from '@/services/comments/comments.service';
