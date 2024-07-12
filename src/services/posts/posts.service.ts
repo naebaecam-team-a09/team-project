@@ -1,4 +1,4 @@
-import { PostType, UpdatePostParamsType } from '@/types/posts';
+import { UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 export const getPosts = async () => {
   const response = await fetch('http://localhost:3000/api/posts', { method: 'GET' });
   const data = await response.json();
@@ -42,7 +42,7 @@ export const updatePost = async (updatePostParams: UpdatePostParamsType) => {
   return data;
 };
 
-export const addPost = async (newPost: PostType) => {
+export const addPost = async (newPost: UpdatedPostType) => {
   const data = await fetch(`http://localhost:3000/api/posts`, {
     method: 'POST',
     body: JSON.stringify(newPost),

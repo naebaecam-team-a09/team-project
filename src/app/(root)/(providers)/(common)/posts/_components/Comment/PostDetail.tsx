@@ -1,4 +1,4 @@
-import { getPost } from '@/services/posts/posts.service';
+import { getPost } from '@/services/posts.service';
 import { Tables } from '@/types/supabase';
 
 type PostType = Tables<'posts'>;
