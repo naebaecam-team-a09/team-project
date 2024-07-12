@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Popularwear: React.FC = () => {
+const Popularwear = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const images = [
     'https://via.placeholder.com/400x550',

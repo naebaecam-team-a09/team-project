@@ -21,9 +21,7 @@ const AlertModal = ({ content }: { content: string }) => {
               close();
             }}
           >
-            <h2 className="font-semibold" style={{ fontSize: '23px' }}>
-              닫기
-            </h2>
+            닫기
           </button>
         </div>
       </div>

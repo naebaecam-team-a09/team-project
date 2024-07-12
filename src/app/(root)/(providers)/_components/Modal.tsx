@@ -7,7 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion, useAnimation } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-const Modal: React.FC = () => {
+const Modal = () => {
   const { close, isModalOpen: isOpen } = useModal();
   const controls = useAnimation();
 

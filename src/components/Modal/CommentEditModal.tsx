@@ -10,7 +10,7 @@ import AlertModal from './AlertModal';
 
 const CommentEditModal = ({ commentId }: { commentId: string }) => {
   const [contents, setContents] = useState<string>('');
-  const { open, close, isModalOpen } = useModal();
+  const { open, close } = useModal();
   const queryClient = useQueryClient();
   const postId = usePostIdStore((state) => state.postId);
   const { mutate } = useMutation({
