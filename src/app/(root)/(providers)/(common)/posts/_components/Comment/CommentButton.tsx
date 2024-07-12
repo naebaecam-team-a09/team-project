@@ -1,6 +1,6 @@
 'use client';
 
-import CommentCreateModal from '@/components/Modal/CommentCreateModal';
+import Modal from '@/app/(root)/(providers)/_components/Modal';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { usePostIdStore } from '@/zustand/store';
 import { useEffect } from 'react';
@@ -13,7 +13,7 @@ export const CommentButton = ({ postId }: { postId: string }) => {
   const modal = useModal();
 
   const handleClickButton = () => {
-    modal.open(<CommentCreateModal />);
+    modal.open(<Modal />);
   };
 
   return (
