@@ -1,7 +1,7 @@
 'use client';
-import { addPost } from '@/services/posts.service';
+import { addPost } from '@/services/posts/posts.service';
 import { createClient } from '@/supabase/client';
-import { PostType } from '@/types/posts';
+import { UpdatedPostType } from '@/types/posts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import React, { useRef, useState } from 'react';
 
@@ -43,7 +43,7 @@ const UploadForm = () => {
       imagePath = await uploadImageToBucket(selectedImage);
     }
 
-    const newPost: PostType = {
+    const newPost: UpdatedPostType = {
       title,
       contents,
       category,

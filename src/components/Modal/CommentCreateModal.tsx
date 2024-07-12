@@ -4,8 +4,8 @@ import { useModal } from '@/contexts/modal.context/modal.context';
 import { createComment } from '@/services/comments/comments.service';
 import { usePostIdStore } from '@/zustand/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import AlertModal from './AlertModal';
 
 const CommentCreateModal = () => {
