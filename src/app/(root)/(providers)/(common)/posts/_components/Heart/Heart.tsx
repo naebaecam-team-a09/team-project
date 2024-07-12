@@ -3,6 +3,7 @@
 import { useAuth } from '@/contexts/auth.context/auth.context';
 import { useIsLike, useLikesCount, useToggleLike } from '@/services/likes/useLikes';
 import { useQueryClient } from '@tanstack/react-query';
+import { getLikeComponentProps } from './utils';
 
 const Heart = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
@@ -15,15 +16,7 @@ const Heart = ({ postId }: { postId: string }) => {
 
   const { mutate: toggleLikeMutation } = useToggleLike({ postId, userId, queryClient });
 
-  const options = !!isHeart
-    ? {
-        path: '/heart/icon-heart-filled.png',
-        alt: 'filled heart'
-      }
-    : {
-        path: '/heart/icon-heart-empty.png',
-        alt: 'empty heart'
-      };
+  const options = getLikeComponentProps(isHeart);
 
   const handleClickHeart = () => {
     toggleLikeMutation({ userId: me?.id, postId, isHeart });
@@ -32,8 +25,8 @@ const Heart = ({ postId }: { postId: string }) => {
   if (isPending) return <div>loading...</div>;
 
   return (
-    <div>
-      <p>{likeCount}</p>
+    <div className="flex gap-2 items-center">
+      <p className="text-2xl font-bold">{likeCount}</p>
       <div className=" cursor-pointer" onClick={handleClickHeart}>
         <img className="hover:scale-125 transition w-12 h-12" src={options.path} alt={options.alt} />
       </div>
