@@ -8,7 +8,7 @@ import UserPost from '../_components/UserPostCard';
 
 const supabase = createClient();
 
-export default function mypage({ children }: PropsWithChildren) {
+export default function Mypage({ children }: PropsWithChildren) {
   const [userData, setUserData] = useState<UserDataType>();
   const [imageUrl, setImageUrl] = useState<string>();
   const [showModal, setShowModal] = useState(false);
