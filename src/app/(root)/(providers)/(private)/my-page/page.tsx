@@ -22,6 +22,7 @@ export default function mypage({ children }: PropsWithChildren) {
     setUserData(data);
     setImageUrl(data.profile_image_path + `?timestamp=${new Date().getTime()}`);
   }
+
   useEffect(() => {
     getUserData();
   }, []);

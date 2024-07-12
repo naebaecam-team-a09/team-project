@@ -1,20 +1,19 @@
 'use client';
 
+import Backdrop from '@/components/Modal/BackDrop';
 // import { useScrollLock } from "@yoojinyoung/usescrolllock";
 import { PropsWithChildren, createContext, useContext, useState } from 'react';
-
-// 1. 만들기
-
-// 2. 사용한다
 
 interface TInitialValue {
   open: (element: React.ReactElement) => void;
   close: () => void;
+  isModalOpen: boolean;
 }
 
 const initialValue: TInitialValue = {
   open: () => {},
-  close: () => {}
+  close: () => {},
+  isModalOpen: false
 };
 const ModalContext = createContext<TInitialValue>(initialValue);
 export const useModal = () => useContext<TInitialValue>(ModalContext);
@@ -25,6 +24,7 @@ export function ModalProvider({ children }: PropsWithChildren) {
   // const scrolllock = useScrollLock();
   const [modal, setModal] = useState<React.ReactElement | null>(null);
   const value = {
+    isModalOpen: !!modal,
     open: (element: React.ReactElement) => {
       setModal(element);
       // scrolllock.lock();
@@ -34,10 +34,11 @@ export function ModalProvider({ children }: PropsWithChildren) {
       // scrolllock.release();
     }
   };
+
   return (
     <ModalContext.Provider value={value}>
       {children}
-      {modal}
+      {modal && <Backdrop>{modal}</Backdrop>}
     </ModalContext.Provider>
   );
 }

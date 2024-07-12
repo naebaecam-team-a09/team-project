@@ -11,7 +11,7 @@ interface Recommendation {
   temperature_max: number;
 }
 
-const RecommendsCard: React.FC = () => {
+const RecommendsCard = () => {
   const [items, setItems] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [temperature, setTemperature] = useState<number | null>(null);
