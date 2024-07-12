@@ -1,4 +1,4 @@
-import { getPosts } from '@/services/posts.service';
+import { getPosts } from '@/services/posts/posts.service';
 import { getUserInfo } from '@/services/users.service';
 import { PostType } from '@/types/posts';
 import Link from 'next/link';
