@@ -1,9 +1,12 @@
 'use client';
 
+import { categoryList } from '@/constants/categoryList';
 import { getPost, updatePost } from '@/services/posts/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType, UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 interface UpdateFormType {
@@ -11,29 +14,18 @@ interface UpdateFormType {
 }
 
 const UpdateForm = ({ postId }: UpdateFormType) => {
+  const router = useRouter();
+
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
-  const [previewImage, setPreviewImage] = useState<string>('');
+  const [previewImage, setPreviewImage] = useState<string>(
+    'https://jkuhktbimkshohrktrhc.supabase.co/storage/v1/object/public/images/images/Default-Image.png'
+  );
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const supabase = createClient();
   const queryClient = useQueryClient();
-
-  const categoryList = [
-    '패딩',
-    '두꺼운 코트',
-    '누빔옷',
-    '목도리',
-    '울코트',
-    '히트텍',
-    '가죽 옷',
-    '기모바지',
-    '트렌치 코트',
-    '야상',
-    '점퍼',
-    '스타킹'
-  ];
 
   const handleClickCategoryButton = (value: string) => {
     if (!category.includes(value)) setCategory((prev) => [...prev, value]);
@@ -47,6 +39,11 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     } else {
       imagePath = await uploadImageToBucket(selectedImage);
     }
+
+    if (!title.trim()) return alert('제목을 입력해주세요.');
+    if (!contents.trim()) return alert('코디 설명을 입력해주세요.');
+    if (!category.length) return alert('카테고리를 선택해주세요.');
+
     const updatedPost: UpdatedPostType = {
       user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
       title,
@@ -63,16 +60,19 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { files } = e.target;
-    if (!files) throw new Error('Error');
-    const uploadedFile = files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(uploadedFile);
-    reader.onloadend = () => {
-      if (typeof reader.result === 'string') {
-        setPreviewImage(reader.result);
-        setSelectedImage(uploadedFile);
-      }
-    };
+    if (files?.length) {
+      const uploadedFile = files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(uploadedFile);
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          setPreviewImage(reader.result);
+          setSelectedImage(uploadedFile);
+        }
+      };
+    } else {
+      return;
+    }
   };
 
   const uploadImageToBucket = async (file: File) => {
@@ -93,7 +93,11 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
 
   const { mutate: updateMutate } = useMutation({
     mutationFn: updatePost,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['posts'] })
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      alert('수정이 완료되었습니다.');
+      router.push(`/posts/${postId}`);
+    }
   });
   // mutation함수에는 인자가 하나만 들어가는 함수로 설정해야함
   // updatePostParam에 postId, updatedPost를 객체로 묶어서 파라미터로 전달
@@ -122,7 +126,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     <>
       <div className="w-full flex justify-evenly items-center">
         <div className="max-w-[1440px] p-20">
-          <h1 className="p-6 text-6xl text-my-color font-bold border-b-2">게시글 작성</h1>
+          <h1 className="p-6 text-6xl text-my-color font-bold border-b-2">게시글 수정</h1>
           <form onSubmit={modifyPost} className="mx-auto">
             <div className="grid grid-cols-2">
               <div className="flex flex-col p-6 mr-5">
@@ -130,13 +134,19 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                   <h3 className="text-3xl text-my-color font-semibold mt-6">상세사진</h3>
                 </div>
                 <div className="flex flex-col items-center">
-                  <label className="flex w-full h-[500px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer">
+                  <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl">
                     <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                    <img src={previewImage || currentPost.image_url} className="w-full h-[500px]" />
+                    <Image
+                      src={previewImage}
+                      alt="선택한 이미지 미리보기"
+                      width={450}
+                      height={600}
+                      className="rounded-2xl"
+                    />
                   </label>
                   <button
                     type="button"
-                    className="w-2/5 h-full bg-my-color text-white rounded-lg text-md p-2 hover:brightness-90"
+                    className="w-2/5 h-10 bg-my-color text-white rounded-lg text-lg p-2 hover:brightness-90"
                     onClick={imageSelector}
                   >
                     이미지 수정
@@ -171,7 +181,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
               {categoryList.map((categoryItem: string) => (
                 <button
                   key={categoryItem}
-                  className={`w-11/12 h-16 bg-gray-100 border-gray-400 border-2 rounded-lg text-my-color hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-500 text-neutral-50' : 'text-lg'}`}
+                  className={`w-11/12 h-12 bg-gray-100 border-gray-400 border-2 rounded-lg hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-600 text-neutral-50' : 'text-lg'}`}
                   type="button"
                   onClick={() => handleClickCategoryButton(categoryItem)}
                 >
@@ -182,13 +192,17 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
             <div className="flex justify-end mt-16">
               <button
                 type="submit"
-                className="w-1/12 h-16 bg-my-color text-white rounded-lg text-xl m-2  hover:brightness-90"
+                className="w-1/12 h-10 bg-my-color text-white rounded-lg text-lg m-2  hover:brightness-90"
               >
-                등록
+                수정
               </button>
               <button
-                type="submit"
-                className="w-1/12 h-16 bg-red-500 text-white rounded-lg text-xl m-2  hover:brightness-90"
+                type="button"
+                className="w-1/12 h-10 bg-red-600 text-white rounded-lg text-lg m-2  hover:brightness-90"
+                onClick={() => {
+                  alert('게시물 수정을 취소합니다.');
+                  router.back();
+                }}
               >
                 취소
               </button>
