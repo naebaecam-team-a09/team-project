@@ -1,6 +1,6 @@
 // pages/api/weather.ts
 
-import { getBaseTime } from '@/utils/getTime';
+import { getBaseTime, getDateDay } from '@/utils/getTime';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -12,28 +12,22 @@ export async function GET() {
   const baseTime = getBaseTime();
   const nx = 60;
   const ny = 127;
-
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
+  const day = getDateDay();
+
   const baseDate = `${year}${month}${day}`;
-
   const url = `${baseUrl}?serviceKey=${apiKey}&pageNo=${pageNo}&numOfRows=${numOfRows}&dataType=${dataType}&base_date=${baseDate}&base_time=${baseTime}&nx=${nx}&ny=${ny}`;
-
   try {
     const response = await fetch(url);
-
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-
     const data = await response.json();
-
     const temperature = data.response.body.items.item.find(
       (item: { category: string }) => item.category === 'TMP'
     )?.fcstValue;
-
     return NextResponse.json({ temperature });
   } catch (error) {
     console.error('Failed to fetch weather data:', error);
