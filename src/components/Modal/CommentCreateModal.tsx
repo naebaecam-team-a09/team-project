@@ -16,7 +16,6 @@ const CommentCreateModal = () => {
     mutationFn: ({ postId, contents }: { postId: string; contents: string }) => createComment(postId, contents),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-
       open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
     }
   });
