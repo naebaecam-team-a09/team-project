@@ -79,3 +79,16 @@ export const getPostWithUserInfo = async ({ postId }: { postId: string }) => {
   }
   return data;
 };
+
+export const getPopularPosts = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`*, users(username, profile_image_path)`)
+    .order('likes', { ascending: false })
+    .limit(6);
+  if (error) {
+    throw error;
+  }
+  return data;
+};

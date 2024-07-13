@@ -27,6 +27,9 @@ module.exports = {
     extend: {
       colors: {
         'my-color': '#6D758F'
+      },
+      screens: {
+        xs: '480px'
       }
     }
   },

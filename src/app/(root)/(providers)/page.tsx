@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useRef } from 'react';
-import WeatherCard from './_components/WeatherCard';
-import RecommendsCard from './_components/RecommendsCard';
-import Popularwear from './_components/PopularWear';
+import { useRef } from 'react';
+
+import Popularwear from './_components/(home)/PopularWear';
+import RecommendsCard from './_components/(home)/RecommendsCard';
+import WeatherCard from './_components/(home)/WeatherCard';
 import ScrollToTopButton from './_components/ScrollToTopButton';
 
 const Home = () => {

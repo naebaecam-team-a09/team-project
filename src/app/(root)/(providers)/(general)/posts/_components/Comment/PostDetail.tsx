@@ -1,4 +1,4 @@
-import { getPost, getPostWithUserInfo } from '@/services/posts/posts.service';
+import { getPostWithUserInfo } from '@/services/posts/posts.service';
 
 import { Tables } from '@/types/supabase';
 import Image from 'next/image';
