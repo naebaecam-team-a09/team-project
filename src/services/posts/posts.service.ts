@@ -1,13 +1,13 @@
 import { createClient } from '@/supabase/client';
 import { UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 export const getPosts = async () => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, { method: 'GET' });
+  const response = await fetch(`/api/posts`, { method: 'GET' });
   const data = await response.json();
   return data;
 };
 
 export const getPost = async (postId: string) => {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${postId}`, {
+  const data = await fetch(`/api/posts/${postId}`, {
     headers: {
       'Content-type': 'application/json'
     },
@@ -22,7 +22,7 @@ export const getPost = async (postId: string) => {
 };
 
 export const deletePost = async (postId: string) => {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${postId}`, {
+  const data = await fetch(`/api/posts/${postId}`, {
     method: 'DELETE',
     headers: {
       'Content-type': 'application/json'
@@ -33,7 +33,7 @@ export const deletePost = async (postId: string) => {
 
 export const updatePost = async (updatePostParams: UpdatePostParamsType) => {
   const { postId, updatedPost } = updatePostParams;
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts/${postId}`, {
+  const data = await fetch(`/api/posts/${postId}`, {
     method: 'PATCH',
     body: JSON.stringify(updatedPost),
     headers: {
@@ -44,7 +44,7 @@ export const updatePost = async (updatePostParams: UpdatePostParamsType) => {
 };
 
 export const addPost = async (newPost: UpdatedPostType) => {
-  const data = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, {
+  const data = await fetch(`/api/posts`, {
     method: 'POST',
     body: JSON.stringify(newPost),
     headers: {

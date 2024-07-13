@@ -1,4 +1,3 @@
-import { process } from '@/constants/constants';
 import { createClient } from '@/supabase/server';
 import { Provider } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
@@ -12,7 +11,7 @@ export async function GET(request: NextRequest) {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: provider as Provider,
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/callback`
+      redirectTo: `/api/auth/callback`
     }
   });
 
