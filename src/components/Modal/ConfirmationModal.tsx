@@ -11,7 +11,7 @@ const ConfirmationModal = ({ content, onNextEvent }: { content: string; onNextEv
     setIsVisible(false);
     setTimeout(() => {
       modal.close();
-    }, 300); // 애니메이션 지속 시간과 일치 시킴
+    }, 300);
   };
 
   return (
