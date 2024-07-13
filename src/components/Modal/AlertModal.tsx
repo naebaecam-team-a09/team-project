@@ -1,7 +1,7 @@
 'use client';
 import { useModal } from '@/contexts/modal.context/modal.context';
 
-const AlertModal = ({ content }: { content: string }) => {
+const AlertModal = ({ content, onNextEvent }: { content: string; onNextEvent: () => void }) => {
   const { close } = useModal();
 
   return (

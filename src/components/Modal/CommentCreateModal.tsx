@@ -16,7 +16,7 @@ const CommentCreateModal = () => {
   const postId = usePostIdStore((state) => state.postId);
   const onSuccessCreateComment = () => {
     queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-    open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
+    open(<AlertModal content="댓글이 성공적으로 저장되었습니다" onNextEvent={close} />);
   };
   const { mutate: createCommentMutation } = useCreateMutation({
     onNextEvent: onSuccessCreateComment

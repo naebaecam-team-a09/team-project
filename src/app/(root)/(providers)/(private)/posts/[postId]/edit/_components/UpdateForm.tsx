@@ -105,8 +105,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     mutationFn: updatePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      open(<AlertModal content="수정이 완료되었습니다!" />);
-      router.push(`/posts/${postId}`);
+      open(<AlertModal content="수정이 완료되었습니다!" onNextEvent={() => router.push(`/posts/${postId}`)} />);
     }
   });
   // mutation함수에는 인자가 하나만 들어가는 함수로 설정해야함

@@ -27,7 +27,7 @@ const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_i
   const queryClient = useQueryClient();
   const onSuccessDeleteComment = () => {
     queryClient.invalidateQueries({ queryKey: commentsQueryKeys.comments(post_id) });
-    open(<AlertModal content="삭제가 완료되었습니다" />);
+    open(<AlertModal content="삭제가 완료되었습니다" onNextEvent={close} />);
   };
 
   const { mutate: deleteCommentMutation } = useDeleteCommentMutation({

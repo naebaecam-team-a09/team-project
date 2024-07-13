@@ -1,9 +1,11 @@
 'use client';
 
+import AlertModal from '@/components/Modal/AlertModal';
 import { createClient } from '@/supabase/client';
 import { Provider, User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
+import { useModal } from '../modal.context/modal.context';
 
 type Inputs = {
   email: string;
@@ -35,6 +37,7 @@ const AuthContext = createContext<AuthContextValue>(initialValue);
 export const useAuth = () => useContext<AuthContextValue>(AuthContext);
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
+  const modal = useModal();
   const supabase = createClient();
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
@@ -57,8 +60,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     if (error) return alert('로그인 실패');
     setMe(user);
 
-    alert('로그인되었습니다');
-    router.replace('/');
+    modal.open(<AlertModal content="로그인에 성공했습니다" onNextEvent={() => router.replace('/')} />);
   };
 
   const logInWithProvider: AuthContextValue['logInWithProvider'] = async (provider) => {
@@ -66,10 +68,10 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       setIsPending(true);
       const response = await fetch(`/api/auth/provider?provider=${provider}`);
       const data = await response.json();
-
+      console.log(data.url);
       setIsPending(false);
-      alert('로그인되었습니다');
-      router.replace('/');
+      open;
+      router.replace(data.url);
     } catch (error) {
       console.error(error);
     }

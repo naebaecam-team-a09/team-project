@@ -81,8 +81,7 @@ const UploadForm = () => {
   const { data: user_id } = useGetUser();
 
   const { mutate: addMutate } = useAddPost(queryClient, () => {
-    open(<AlertModal content="등록이 완료되었습니다" />);
-    router.replace('/posts/discover');
+    open(<AlertModal content="등록이 완료되었습니다" onNextEvent={() => router.replace('/posts/discover')} />);
   });
 
   const ref = useRef<HTMLInputElement>(null);

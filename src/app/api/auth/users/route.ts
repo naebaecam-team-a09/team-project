@@ -16,7 +16,7 @@ export async function GET() {
     const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
 
     if (error) {
-      throw error;
+      NextResponse.json(error);
     }
 
     return NextResponse.json(data);

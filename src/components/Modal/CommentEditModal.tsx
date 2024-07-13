@@ -18,7 +18,7 @@ const CommentEditModal = ({ commentId }: { commentId: string }) => {
       updateComment(commentId, contents),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-      open(<AlertModal content="댓글이 성공적으로 수정되었습니다" />);
+      open(<AlertModal content="댓글이 성공적으로 수정되었습니다" onNextEvent={close} />);
     }
   });
 
