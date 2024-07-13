@@ -14,13 +14,14 @@ export async function GET() {
   if (!userId) return;
   try {
     const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
-
+    console.log(data);
+    console.log(error);
     if (error) {
-      throw error;
+      NextResponse.json(null);
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    NextResponse.json(error);
+    NextResponse.json(null);
   }
 }

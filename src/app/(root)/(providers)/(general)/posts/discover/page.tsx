@@ -1,12 +1,12 @@
 'use client';
 
-import { usePostsWithUserInfo } from '@/services/posts/usePosts';
+import { useGetPostsWithUserInfo } from '@/services/posts/usePosts';
 import Card from './_components/Card';
 import DiscoverHeader from './_components/DiscoverHeader';
 import Divider from './_components/Divider';
 
 const DiscoverPage = () => {
-  const { data: posts, isPending, error } = usePostsWithUserInfo();
+  const { data: posts, isPending, error } = useGetPostsWithUserInfo();
 
   if (isPending) return <div>Loading...</div>;
 

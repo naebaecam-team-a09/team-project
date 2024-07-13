@@ -13,6 +13,7 @@ const Heart = ({ postId }: { postId: string }) => {
   const { data: isHeart, isPending, error } = useIsLike({ postId, userId });
 
   const { data: likeCount } = useLikesCount({ postId, userId });
+  console.log(likeCount);
 
   const { mutate: toggleLikeMutation } = useToggleLike({ postId, userId, queryClient });
 

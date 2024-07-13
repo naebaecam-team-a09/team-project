@@ -2,7 +2,7 @@ import AuthProvider from '@/contexts/auth.context/auth.context';
 import { ModalProvider } from '@/contexts/modal.context/modal.context';
 import { PropsWithChildren } from 'react';
 import Header from './_components/Header';
-import QueryProvider from './_components/QueryProvider';
+import QueryProvider from './_components/providers/QueryProvider';
 
 const ProvidersLayout = ({ children }: PropsWithChildren) => {
   return (

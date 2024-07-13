@@ -1,6 +1,6 @@
 import { getRecommendations } from '@/services/recommendations/recommendations.service';
 import { useEffect, useState } from 'react';
-import Loading from './Loading';
+import Loading from '../Loading';
 
 interface Recommendation {
   id: number;
