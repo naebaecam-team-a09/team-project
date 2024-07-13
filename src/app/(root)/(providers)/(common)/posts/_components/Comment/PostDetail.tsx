@@ -1,28 +1,30 @@
-
 import { getPost } from '@/services/posts/posts.service';
 import { Tables } from '@/types/supabase';
+import Image from 'next/image';
 
 type PostType = Tables<'posts'>;
 
 const PostDetail = async ({ params }: { params: { postId: string } }) => {
   const data: PostType = await getPost(params.postId);
-
   const rawDate = data.created_at;
   const date = new Date(rawDate);
   const localDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
   const dateCreated = localDate.toISOString().slice(0, 10);
 
   return (
-    <div className="max-w-4xl w-full border border-gray-300 rounded-lg shadow-md mb-[80px]">
+    <div className="overflow-hidden max-w-4xl w-full border border-gray-300 rounded-lg shadow-md mb-[80px]">
       <div className="flex">
         <div className="w-1/2 relative h-[600px]">
           {data.image_url ? (
-            <img
-              src={data.image_url}
-              // src={data.image_url ?data.image_url: 기본이미지 }
-              alt="코디 이미지 사진"
-              className="absolute top-0 left-0 w-full h-full object-cover rounded-lg"
-            />
+            <div className="absolute top-0 left-0 w-full h-full object-cover rounded-lg">
+              <Image
+                fill
+                src={data.image_url}
+                // src={data.image_url ?data.image_url: 기본이미지 }
+                alt="코디 이미지 사진"
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
           ) : undefined}
         </div>
         <div className="w-1/2 flex flex-col justify-center p-8">

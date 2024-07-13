@@ -84,7 +84,7 @@ export type Database = {
           contents: string;
           created_at: string;
           id: string;
-          image_url: string | null;
+          image_url: string;
           title: string;
           user_id: string;
         };
@@ -93,7 +93,7 @@ export type Database = {
           contents: string;
           created_at?: string;
           id?: string;
-          image_url?: string | null;
+          image_url: string;
           title: string;
           user_id?: string;
         };
@@ -102,7 +102,7 @@ export type Database = {
           contents?: string;
           created_at?: string;
           id?: string;
-          image_url?: string | null;
+          image_url?: string;
           title?: string;
           user_id?: string;
         };
@@ -122,27 +122,30 @@ export type Database = {
           contents: string | null;
           created_at: string;
           id: number;
-          img_url: string | null;
+          img_url: string[] | null;
+          temperature_max: number;
           temperature_min: number;
-          temperatureMax: number;
+          weather_img_url: string | null;
         };
         Insert: {
           clothingItems: string[];
           contents?: string | null;
           created_at?: string;
           id?: number;
-          img_url?: string | null;
+          img_url?: string[] | null;
+          temperature_max: number;
           temperature_min: number;
-          temperatureMax: number;
+          weather_img_url?: string | null;
         };
         Update: {
           clothingItems?: string[];
           contents?: string | null;
           created_at?: string;
           id?: number;
-          img_url?: string | null;
+          img_url?: string[] | null;
+          temperature_max?: number;
           temperature_min?: number;
-          temperatureMax?: number;
+          weather_img_url?: string | null;
         };
         Relationships: [];
       };
@@ -158,7 +161,7 @@ export type Database = {
           created_at?: string;
           gender: string;
           id?: string;
-          profile_image_path?: string;
+          profile_image_path: string;
           username: string;
         };
         Update: {

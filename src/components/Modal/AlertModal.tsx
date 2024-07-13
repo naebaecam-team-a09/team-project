@@ -1,9 +1,7 @@
 'use client';
 import { useModal } from '@/contexts/modal.context/modal.context';
-import { useRouter } from 'next/navigation';
 
 const AlertModal = ({ content }: { content: string }) => {
-  const router = useRouter();
   const { close } = useModal();
 
   return (
