@@ -1,4 +1,3 @@
-import { process } from '@/constants/constants';
 import { createClient } from '@/supabase/server';
 import { Provider } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
