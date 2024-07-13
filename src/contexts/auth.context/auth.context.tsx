@@ -118,7 +118,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/users`);
+      const response = await fetch(`/api/auth/users`);
 
       if (response.status === 200) {
         const user = await response.json();
