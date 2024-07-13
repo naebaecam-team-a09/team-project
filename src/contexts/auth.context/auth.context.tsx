@@ -46,7 +46,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     if (me) return alert('이미 로그인되어 있습니다');
     const { email, password } = inputs;
     if (!email || !password) return;
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/log-in`, {
+    const response = await fetch(`/api/auth/log-in`, {
       method: 'POST',
       body: JSON.stringify(inputs)
     });
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const logInWithProvider: AuthContextValue['logInWithProvider'] = async (provider) => {
     try {
       setIsPending(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/provider?provider=${provider}`);
+      const response = await fetch(`/api/auth/provider?provider=${provider}`);
       const data = await response.json();
 
       setIsPending(false);
@@ -77,7 +77,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logOut: AuthContextValue['logOut'] = async () => {
     if (!me) return alert('로그인 상태가 아닙니다');
-    await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/log-out`, {
+    await fetch(`/api/auth/log-out`, {
       method: 'DELETE'
     });
     setMe(null);
@@ -88,7 +88,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const signUp: AuthContextValue['signUp'] = async (inputs) => {
     const { email, password } = inputs;
     if (!email || !password) return alert('이메일과 비밀번호를 모두 입력하세요.');
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/sign-up`, {
+    const response = await fetch(`/api/auth/sign-up`, {
       method: 'POST',
       body: JSON.stringify({
         email,
@@ -118,7 +118,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const response = await fetch(`http://localhost:3000/api/auth/users`);
+      const response = await fetch(`/api/auth/users`);
 
       if (response.status === 200) {
         const user = await response.json();
