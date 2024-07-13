@@ -1,14 +1,16 @@
 'use client';
 
-import { UserDataType, getUserInfo } from '@/services/users.service';
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
+import { useModal } from '@/contexts/modal.context/modal.context';
+import { UserDataType, getUserInfo } from '@/services/users/users.service';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import UserPost from '../_components/UserPostCard';
 
 const supabase = createClient();
 
-export default function Mypage({ children }: PropsWithChildren) {
+export default function MyPage() {
   const [userData, setUserData] = useState<UserDataType>();
   const [imageUrl, setImageUrl] = useState<string>();
   const [showModal, setShowModal] = useState(false);
@@ -16,6 +18,8 @@ export default function Mypage({ children }: PropsWithChildren) {
   const [newGender, setNewGender] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
+
+  const { open } = useModal();
 
   async function getUserData() {
     const data = await getUserInfo();
@@ -33,22 +37,7 @@ export default function Mypage({ children }: PropsWithChildren) {
   };
 
   const handleFileChange = async (event: any) => {
-    const file = event.target.files[0];
-    if (!userData) {
-      return;
-    }
-
-    if (file) {
-      let confirmMessage = '프로필 사진을 업로드 하시겠습니까?';
-
-      if (userData?.profile_image_path !== `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
-        confirmMessage = '프로필 사진을 변경하시겠습니까?';
-      }
-
-      if (!confirm(confirmMessage)) {
-        return;
-      }
-
+    const updateProfile = async (file: File, userData: UserDataType) => {
       let uploadError = null;
       let uploadResult = null;
 
@@ -73,9 +62,22 @@ export default function Mypage({ children }: PropsWithChildren) {
         .eq('id', userData.id);
 
       getUserData();
+    };
+
+    const file = event.target.files[0];
+    if (!userData) {
+      return;
+    }
+    if (file) {
+      let confirmMessage = '프로필 사진을 업로드 하시겠습니까?';
+
+      if (userData?.profile_image_path !== `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
+        confirmMessage = '프로필 사진을 변경하시겠습니까?';
+      }
+      open(<ConfirmationModal content={confirmMessage} onNextEvent={() => updateProfile(file, userData)} />);
     }
   };
-  const changeInfoClick = () => {
+  const handleChangeInfoClick = () => {
     setShowModal(true); // Show the form when the button is clicked
   };
 
@@ -126,7 +128,7 @@ export default function Mypage({ children }: PropsWithChildren) {
             <p className="m-3 text-gray-500">성별 : {userData?.gender}</p>
             <button
               className="w-24 h-7 p-1 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] mt-5 text-xs text-black"
-              onClick={changeInfoClick}
+              onClick={handleChangeInfoClick}
             >
               개인 설정 변경
             </button>

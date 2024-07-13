@@ -23,3 +23,10 @@ export function getBaseTime(): string {
     return '2300';
   }
 }
+
+export function getDateDay() {
+  const today = new Date();
+  return (today.getHours() <= 2 && today.getMinutes() <= 10) || today.getHours() <= 1
+    ? String(today.getDate() - 1).padStart(2, '0')
+    : String(today.getDate()).padStart(2, '0');
+}

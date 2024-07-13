@@ -1,5 +1,5 @@
-import { getRecommendations } from '@/services/recommendations.service';
-import React, { useEffect, useState } from 'react';
+import { getRecommendations } from '@/services/recommendations/recommendations.service';
+import { useEffect, useState } from 'react';
 import Loading from './Loading';
 
 interface Recommendation {

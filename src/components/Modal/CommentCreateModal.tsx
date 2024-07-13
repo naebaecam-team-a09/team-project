@@ -1,9 +1,9 @@
 'use client';
 
 import { useModal } from '@/contexts/modal.context/modal.context';
-import { createComment } from '@/services/comments/comments.service';
+import { useCreateMutation } from '@/services/comments/useComments';
 import { usePostIdStore } from '@/zustand/store';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import AlertModal from './AlertModal';
@@ -14,12 +14,12 @@ const CommentCreateModal = () => {
   const { open, close } = useModal();
   const queryClient = useQueryClient();
   const postId = usePostIdStore((state) => state.postId);
-  const { mutate } = useMutation({
-    mutationFn: ({ postId, contents }: { postId: string; contents: string }) => createComment(postId, contents),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-      open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
-    }
+  const onSuccessCreateComment = () => {
+    queryClient.invalidateQueries({ queryKey: ['comments', postId] });
+    open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
+  };
+  const { mutate: createCommentMutation } = useCreateMutation({
+    onNextEvent: onSuccessCreateComment
   });
 
   const handleChangeTextarea = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,7 +28,7 @@ const CommentCreateModal = () => {
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    mutate({ postId, contents });
+    createCommentMutation({ postId, contents });
   };
 
   const handleClickCancelButton = () => {

@@ -1,6 +1,10 @@
 'use client';
 
+import AlertModal from '@/components/Modal/AlertModal';
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { categoryList } from '@/constants/categoryList';
+import { useAuth } from '@/contexts/auth.context/auth.context';
+import { useModal } from '@/contexts/modal.context/modal.context';
 import { getPost, updatePost } from '@/services/posts/posts.service';
 import { createClient } from '@/supabase/client';
 import { PostType, UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
@@ -15,7 +19,9 @@ interface UpdateFormType {
 
 const UpdateForm = ({ postId }: UpdateFormType) => {
   const router = useRouter();
-
+  const { open, close } = useModal();
+  const { me } = useAuth();
+  const userId = me?.id;
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
   const [category, setCategory] = useState<string[]>([]);
@@ -45,7 +51,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     if (!category.length) return alert('카테고리를 선택해주세요.');
 
     const updatedPost: UpdatedPostType = {
-      user_id: 'a366fd7e-f57b-429b-b34d-a7a272db7518',
+      user_id: userId,
       title,
       contents,
       category,
@@ -55,7 +61,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       postId,
       updatedPost
     };
-    updateMutate(updatePostParams);
+    open(<ConfirmationModal content="게시글을 수정하시겠습니까?" onNextEvent={() => updateMutate(updatePostParams)} />);
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -73,6 +79,10 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     } else {
       return;
     }
+  };
+
+  const handleClickCancelButton = () => {
+    open(<ConfirmationModal content="게시물 수정을 취소하시겠습니까?" onNextEvent={() => router.back()} />);
   };
 
   const uploadImageToBucket = async (file: File) => {
@@ -95,7 +105,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     mutationFn: updatePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      alert('수정이 완료되었습니다.');
+      open(<AlertModal content="수정이 완료되었습니다!" />);
       router.push(`/posts/${postId}`);
     }
   });
@@ -199,10 +209,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
               <button
                 type="button"
                 className="w-1/12 h-10 bg-red-600 text-white rounded-lg text-lg m-2  hover:brightness-90"
-                onClick={() => {
-                  alert('게시물 수정을 취소합니다.');
-                  router.back();
-                }}
+                onClick={handleClickCancelButton}
               >
                 취소
               </button>

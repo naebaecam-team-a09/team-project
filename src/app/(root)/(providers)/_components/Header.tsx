@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import AuthButton from './Button';
-import MyPageButton from './MyPageButton';
+import PrivateButtons from './PrivateButtons';
 
 export default function Header() {
   return (
@@ -13,7 +13,10 @@ export default function Header() {
           </Link>
         </div>
         <div className="flex space-x-4 items-center">
-          <MyPageButton />
+          <Link className="text-gray-700 hover:text-gray-900" href="/posts/discover">
+            둘러보기
+          </Link>
+          <PrivateButtons />
           <AuthButton />
         </div>
       </div>
