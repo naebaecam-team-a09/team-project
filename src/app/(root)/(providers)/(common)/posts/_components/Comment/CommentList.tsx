@@ -6,9 +6,9 @@ import { useState } from 'react';
 import Comment from './Comment';
 
 const Comments = ({ postId }: { postId: string }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
-  const { data: comments, error, isPending } = useComments(postId);
+  const { data: comments, isPending } = useComments(postId);
 
   const nextSlide = () => {
     if (!comments || comments.length < 3) return;

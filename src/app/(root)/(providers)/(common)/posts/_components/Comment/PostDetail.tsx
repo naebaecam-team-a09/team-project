@@ -6,7 +6,6 @@ type PostType = Tables<'posts'>;
 
 const PostDetail = async ({ params }: { params: { postId: string } }) => {
   const data: PostType = await getPost(params.postId);
-
   const rawDate = data.created_at;
   const date = new Date(rawDate);
   const localDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));

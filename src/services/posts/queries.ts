@@ -1,18 +1,18 @@
 import { getPosts, getPostsWithUserInfo } from './posts.service';
 
-export const queryKeys = {
-  BASE_QUERY_KEY: 'posts',
-  all: () => [queryKeys.BASE_QUERY_KEY, 'all'],
-  allWithUserInfo: () => [queryKeys.BASE_QUERY_KEY, 'all', 'users']
+export const postsQueryKeys = {
+  all: ['posts'],
+  posts: () => [...postsQueryKeys.all, 'all'],
+  postsWithUserInfo: () => [...postsQueryKeys.all, 'all', 'users']
 };
 
 export const queryOptions = {
-  all: () => ({
-    queryKey: queryKeys.all(),
+  posts: () => ({
+    queryKey: postsQueryKeys.posts(),
     queryFn: getPosts
   }),
-  allWithUserInfo: () => ({
-    queryKey: queryKeys.allWithUserInfo(),
+  postsWithUserInfo: () => ({
+    queryKey: postsQueryKeys.postsWithUserInfo(),
     queryFn: getPostsWithUserInfo
   })
 };

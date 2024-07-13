@@ -3,12 +3,11 @@ import AlertModal from '@/components/Modal/AlertModal';
 import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { categoryList } from '@/constants/categoryList';
 import { useModal } from '@/contexts/modal.context/modal.context';
-import { addPost } from '@/services/posts/posts.service';
-import { queryKeys } from '@/services/posts/queries';
-import { getUserInfo } from '@/services/users.service';
+import { useAddPost } from '@/services/posts/usePosts';
+import { useGetUser } from '@/services/users/useUsers';
 import { createClient } from '@/supabase/client';
 import { UpdatedPostType } from '@/types/posts';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
@@ -79,20 +78,11 @@ const UploadForm = () => {
     return imageData.publicUrl;
   };
 
-  const { data: user_id } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUserInfo,
-    select: (user) => user.id
-  });
+  const { data: user_id } = useGetUser();
 
-  const { mutate: addMutate } = useMutation({
-    mutationFn: addPost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-      queryClient.invalidateQueries({ queryKey: queryKeys.allWithUserInfo() });
-      open(<AlertModal content="등록이 완료되었습니다" />);
-      router.replace('/posts/discover');
-    }
+  const { mutate: addMutate } = useAddPost(queryClient, () => {
+    open(<AlertModal content="등록이 완료되었습니다" />);
+    router.replace('/posts/discover');
   });
 
   const ref = useRef<HTMLInputElement>(null);

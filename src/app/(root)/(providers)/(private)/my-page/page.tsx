@@ -2,7 +2,7 @@
 
 import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { useModal } from '@/contexts/modal.context/modal.context';
-import { UserDataType, getUserInfo } from '@/services/users.service';
+import { UserDataType, getUserInfo } from '@/services/users/users.service';
 import { createClient } from '@/supabase/client';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
