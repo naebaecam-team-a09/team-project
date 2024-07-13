@@ -6,6 +6,7 @@ import Heart from '../_components/Heart/Heart';
 type ParamsType = { postId: string };
 
 const PostDetailPage = async ({ params }: { params: ParamsType }) => {
+  console.log('hello');
   return (
     <article className="flex flex-col items-center justify-center my-10">
       <div className="h-24 mt-[80px] max-w-4xl w-full flex justify-end items-center pr-4">
