@@ -66,3 +66,16 @@ export const getPostsWithUserInfo = async () => {
   }
   return data;
 };
+
+export const getPostWithUserInfo = async ({ postId }: { postId: string }) => {
+  const supabase = createClient();
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`*, users(username, profile_image_path)`)
+    .eq('id', postId)
+    .single();
+  if (error) {
+    throw error;
+  }
+  return data;
+};
