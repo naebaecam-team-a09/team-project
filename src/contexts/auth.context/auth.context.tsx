@@ -69,7 +69,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
       setIsPending(false);
       alert('로그인되었습니다');
-      router.replace(data.url);
+      router.replace('/');
     } catch (error) {
       console.error(error);
     }
