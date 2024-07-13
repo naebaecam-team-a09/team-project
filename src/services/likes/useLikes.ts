@@ -1,5 +1,6 @@
 import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
-import { getIsLike, getLikeCount, toggleLike } from './likes.service';
+import { toggleLike } from './likes.service';
+import { queryOptions } from './queries';
 
 // 후에 쿼리키로 바꾸기
 
@@ -37,15 +38,7 @@ export const useToggleLike = ({
   });
 
 export const useIsLike = ({ postId, userId }: { postId: string; userId: string }) =>
-  useQuery({
-    queryKey: ['likes', postId, userId],
-    queryFn: () => getIsLike({ postId, userId }),
-    enabled: !!userId
-  });
+  useQuery(queryOptions.isLike({ postId, userId }));
 
 export const useLikesCount = ({ userId, postId }: { userId: string; postId: string }) =>
-  useQuery({
-    queryKey: ['likes', postId],
-    queryFn: () => getLikeCount({ postId }),
-    enabled: !!postId && !!userId
-  });
+  useQuery(queryOptions.likesCount({ userId, postId }));

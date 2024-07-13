@@ -1,5 +1,5 @@
-import { getPosts } from '@/services/posts.service';
-import { getUserInfo } from '@/services/users.service';
+import { getPosts } from '@/services/posts/posts.service';
+import { getUserInfo } from '@/services/users/users.service';
 import { PostType } from '@/types/posts';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
@@ -29,7 +29,6 @@ const UserPost: React.FC<{}> = () => {
       setCurrentIndex((prevIndex) => prevIndex + 1);
     }
   };
-  console.log(currentIndex);
 
   const prevSlide = () => {
     if (currentIndex > 0) {

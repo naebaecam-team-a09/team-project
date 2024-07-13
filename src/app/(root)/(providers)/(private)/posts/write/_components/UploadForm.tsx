@@ -1,16 +1,20 @@
 'use client';
+import AlertModal from '@/components/Modal/AlertModal';
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { categoryList } from '@/constants/categoryList';
-import { getUserInfo } from '@/services/users.service';
+import { useModal } from '@/contexts/modal.context/modal.context';
+import { useAddPost } from '@/services/posts/usePosts';
+import { useGetUser } from '@/services/users/useUsers';
 import { createClient } from '@/supabase/client';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { UpdatedPostType } from '@/types/posts';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { addPost } from '@/services/posts/posts.service';
-import { UpdatedPostType } from '@/types/posts';
 import { useRef, useState } from 'react';
 
 const UploadForm = () => {
   const router = useRouter();
+  const { open } = useModal();
 
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
@@ -74,19 +78,11 @@ const UploadForm = () => {
     return imageData.publicUrl;
   };
 
-  const { data: user_id } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUserInfo,
-    select: (user) => user.id
-  });
+  const { data: user_id } = useGetUser();
 
-  const { mutate: addMutate } = useMutation({
-    mutationFn: addPost,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-      alert('등록이 완료되었습니다.');
-      router.back();
-    }
+  const { mutate: addMutate } = useAddPost(queryClient, () => {
+    open(<AlertModal content="등록이 완료되었습니다" />);
+    router.replace('/posts/discover');
   });
 
   const ref = useRef<HTMLInputElement>(null);
@@ -95,6 +91,10 @@ const UploadForm = () => {
     if (ref.current) {
       ref.current!.click();
     }
+  };
+
+  const handleClickCancelButton = () => {
+    open(<ConfirmationModal content={'게시글 작성을 취소하시겠습니까?'} onNextEvent={() => router.back()} />);
   };
 
   return (
@@ -173,10 +173,7 @@ const UploadForm = () => {
             <button
               type="button"
               className="w-1/12 h-10 bg-red-600 text-white rounded-lg text-lg m-2  hover:brightness-90"
-              onClick={() => {
-                alert('게시물 등록을 취소합니다.');
-                router.back();
-              }}
+              onClick={handleClickCancelButton}
             >
               취소
             </button>

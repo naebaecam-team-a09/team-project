@@ -22,7 +22,7 @@ export const getComment = async (commentId: string) => {
   return data;
 };
 
-export const createComment = async (postId: string, contents: string) => {
+export const createComment = async ({ postId, contents }: { postId: string; contents: string }) => {
   const supabase = createClient();
   const { data, error } = await supabase.from('comments').insert({ post_id: postId, contents }).select();
   if (error) {

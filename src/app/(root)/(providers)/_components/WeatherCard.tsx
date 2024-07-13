@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getRecommendations } from '@/services/recommendations.service';
+import { getRecommendations } from '@/services/recommendations/recommendations.service';
+import { useEffect, useState } from 'react';
 
 interface Recommendation {
   temperature_min: number;
