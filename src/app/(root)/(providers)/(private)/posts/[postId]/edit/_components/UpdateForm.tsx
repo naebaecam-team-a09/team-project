@@ -158,12 +158,12 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     <>
       <div className="w-full flex justify-evenly items-center">
         <div className="max-w-[1440px] p-20">
-          <h1 className="p-6 text-6xl text-my-color font-bold border-b-2">게시글 수정</h1>
+          <h1 className="p-6 text-6xl text-[#E7C891] font-bold">게시글 수정</h1>
           <form onSubmit={modifyPost} className="mx-auto">
             <div className="grid grid-cols-2">
               <div className="flex flex-col p-6 mr-5">
-                <div className="border-b-2 p-4 ">
-                  <h3 className="text-3xl text-my-color font-semibold mt-6">상세사진</h3>
+                <div className="border-b-2 border-[#E7C891] p-4 ">
+                  <h3 className="text-3xl text-white font-semibold mt-6">상세사진</h3>
                 </div>
                 <div className="flex flex-col items-center">
                   <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl overflow-hidden">
@@ -180,7 +180,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                   </label>
                   <button
                     type="button"
-                    className="w-2/5 h-10 bg-my-color text-white rounded-lg text-lg p-2 hover:brightness-90"
+                    className="w-2/5 h-10 bg-[#9F8264] text-white rounded-lg text-lg p-2 hover:brightness-90"
                     onClick={imageSelector}
                   >
                     이미지 수정
@@ -188,8 +188,8 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                 </div>
               </div>
               <div className=" flex flex-col p-6 ml-5">
-                <div className="border-b-2 p-4 ">
-                  <h3 className="text-3xl text-my-color font-semibold mt-6">이 옷에 대해</h3>
+                <div className="border-b-2 border-[#E7C891] p-4 ">
+                  <h3 className="text-3xl text-white font-semibold mt-6">이 옷에 대해</h3>
                 </div>
                 <div className="mt-10">
                   <input
@@ -203,19 +203,19 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                     placeholder="코디에 대해 설명해주세요!"
                     value={contents}
                     onChange={(e) => setContents(e.target.value)}
-                    className="text-lg w-full h-[410px] p-4 border-2 rounded-md"
+                    className="text-lg w-full h-[500px] p-4 border-2 rounded-md"
                   />
                 </div>
               </div>
             </div>
-            <div className="flex p-6 border-b-2">
-              <h3 className="text-3xl text-my-color font-semibold mt-6">카테고리</h3>
+            <div className="flex p-6 border-b-2 border-[#E7C891]">
+              <h3 className="text-3xl text-white font-semibold mt-6">카테고리</h3>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 place-items-center mt-10">
               {categoryList.map((categoryItem: string) => (
                 <button
                   key={categoryItem}
-                  className={`w-11/12 h-12 bg-gray-100 border-gray-400 border-2 rounded-lg hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-gray-600 text-neutral-50' : 'text-lg'}`}
+                  className={`w-11/12 h-12 rounded-lg hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-[#CACACA]' : 'text-lg bg-[#E7C891]'}`}
                   type="button"
                   onClick={() => handleClickCategoryButton(categoryItem)}
                 >
@@ -226,13 +226,13 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
             <div className="flex justify-end mt-16">
               <button
                 type="submit"
-                className="w-1/12 h-10 bg-my-color text-white rounded-lg text-lg m-2  hover:brightness-90"
+                className="w-1/12 h-10 bg-[#E7C891] text-[#132A43] rounded-lg text-lg m-2  hover:brightness-90"
               >
                 수정
               </button>
               <button
                 type="button"
-                className="w-1/12 h-10 bg-red-600 text-white rounded-lg text-lg m-2  hover:brightness-90"
+                className="w-1/12 h-10 bg-[#C8C8C8] text-[#172E47] rounded-lg text-lg m-2  hover:brightness-90"
                 onClick={handleClickCancelButton}
               >
                 취소
