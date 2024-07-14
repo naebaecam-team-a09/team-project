@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import AuthButton from './Button';
 import PrivateButtons from './PrivateButtons';
 
@@ -64,7 +64,7 @@ export default function Header() {
               className="bg-[#132A43] shadow-md fixed top-[4rem] left-0 mt-2 w-full z-50 overflow-hidden"
             >
               <div className="container mx-auto p-4">
-                <div className="flex justify-center space-x-4 mt-1.5 items-center ml-6 mr-20">
+                <div className="flex justify-center space-x-4 mt-1.5 items-center ml-6 mr-20 gap-4">
                   <Link className="text-gray-100 hover:text-[#E7C891]" href="/posts/discover">
                     둘러보기
                   </Link>
