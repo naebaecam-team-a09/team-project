@@ -18,7 +18,7 @@ export const CommentButton = ({ postId }: { postId: string }) => {
 
   const handleClickButton = () => {
     if (!me) {
-      open(<AlertModal content={'로그인 후 이용해주세요.'} />);
+      open(<AlertModal content={'로그인 후 이용해주세요.'} onNextEvent={() => close()} />);
       return;
     }
     open(<CommentCreateModal />);

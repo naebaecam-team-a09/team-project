@@ -8,10 +8,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import AlertModal from './AlertModal';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 const CommentEditModal = ({ commentId }: { commentId: string }) => {
   const [contents, setContents] = useState<string>('');
   const { open, close } = useModal();
+  const router = useRouter();
   const [isClosing, setIsClosing] = useState(false);
   const queryClient = useQueryClient();
   const postId = usePostIdStore((state) => state.postId);
@@ -20,7 +22,14 @@ const CommentEditModal = ({ commentId }: { commentId: string }) => {
       updateComment(commentId, contents),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-      open(<AlertModal content="댓글이 성공적으로 수정되었습니다" />);
+      open(
+        <AlertModal
+          content="댓글이 성공적으로 수정되었습니다"
+          onNextEvent={() => {
+            close();
+          }}
+        />
+      );
     }
   });
 

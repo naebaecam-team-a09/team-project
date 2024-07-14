@@ -4,6 +4,8 @@ import { createClient } from '@/supabase/client';
 import { Provider, User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
+import { useModal } from '../modal.context/modal.context';
+import AlertModal from '@/components/Modal/AlertModal';
 
 type Inputs = {
   email: string;
@@ -41,9 +43,21 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isInitialized, setIsInitialized] = useState<AuthContextValue['isInitialized']>(false);
   const [me, setMe] = useState<AuthContextValue['me']>(null);
   const isLoggedIn = !!me;
+  const { open, close } = useModal();
 
   const logIn: AuthContextValue['logIn'] = async (inputs) => {
-    if (me) return alert('이미 로그인되어 있습니다');
+    if (me) {
+      open(
+        <AlertModal
+          content={'이미 로그인되어 있습니다'}
+          onNextEvent={() => {
+            router.replace('/');
+            close();
+          }}
+        />
+      );
+      return;
+    }
     const { email, password } = inputs;
     if (!email || !password) return;
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/log-in`, {
@@ -54,11 +68,28 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       data: { user },
       error
     } = await response.json();
-    if (error) return alert('로그인 실패');
+    if (error) {
+      open(
+        <AlertModal
+          content={'로그인에 실패했습니다.'}
+          onNextEvent={() => {
+            close();
+          }}
+        />
+      );
+      return;
+    }
     setMe(user);
 
-    alert('로그인되었습니다');
-    router.replace('/');
+    open(
+      <AlertModal
+        content={'환영합니다.'}
+        onNextEvent={() => {
+          router.replace('/');
+          close();
+        }}
+      />
+    );
   };
 
   const logInWithProvider: AuthContextValue['logInWithProvider'] = async (provider) => {
@@ -68,26 +99,61 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       const data = await response.json();
 
       setIsPending(false);
-      alert('로그인되었습니다');
-      router.replace(data.url);
+      open(
+        <AlertModal
+          content={'환영합니다.'}
+          onNextEvent={() => {
+            router.replace(data.url);
+            close();
+          }}
+        />
+      );
     } catch (error) {
       console.error(error);
     }
   };
 
   const logOut: AuthContextValue['logOut'] = async () => {
-    if (!me) return alert('로그인 상태가 아닙니다');
+    if (!me) {
+      open(
+        <AlertModal
+          content={'로그인 상태가 아닙니다'}
+          onNextEvent={() => {
+            router.replace('/');
+            close();
+          }}
+        />
+      );
+      return;
+    }
     await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/log-out`, {
       method: 'DELETE'
     });
     setMe(null);
-    alert('로그아웃 되었습니다. 홈 화면으로 이동합니다');
-    router.replace('/');
+    open(
+      <AlertModal
+        content={'로그아웃 되었습니다. 홈 화면으로 이동합니다'}
+        onNextEvent={() => {
+          router.replace('/');
+          close();
+        }}
+      />
+    );
   };
 
   const signUp: AuthContextValue['signUp'] = async (inputs) => {
     const { email, password } = inputs;
-    if (!email || !password) return alert('이메일과 비밀번호를 모두 입력하세요.');
+    if (!email || !password) {
+      open(
+        <AlertModal
+          content={'이메일과 비밀번호를 모두 입력하세요.'}
+          onNextEvent={() => {
+            close();
+          }}
+        />
+      );
+      return;
+    }
     const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/sign-up`, {
       method: 'POST',
       body: JSON.stringify({
@@ -99,11 +165,28 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       data: { user },
       error
     } = await response.json();
-    if (error) return alert('회원가입 실패');
+    if (error) {
+      open(
+        <AlertModal
+          content={'회원가입에 실패했습니다.'}
+          onNextEvent={() => {
+            close();
+          }}
+        />
+      );
+      return;
+    }
 
-    alert('회원가입이 완료되었습니다');
-    setMe(user);
-    router.replace('/');
+    open(
+      <AlertModal
+        content={'회원가입이 완료되었습니다'}
+        onNextEvent={() => {
+          setMe(user);
+          router.replace('/');
+          close();
+        }}
+      />
+    );
   };
 
   const value: AuthContextValue = {

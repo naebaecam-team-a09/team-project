@@ -7,16 +7,25 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import AlertModal from './AlertModal';
+import { useRouter } from 'next/navigation';
 
 const CommentCreateModal = () => {
   const [contents, setContents] = useState<string>('');
   const [isClosing, setIsClosing] = useState(false);
   const { open, close } = useModal();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const postId = usePostIdStore((state) => state.postId);
   const onSuccessCreateComment = () => {
     queryClient.invalidateQueries({ queryKey: ['comments', postId] });
-    open(<AlertModal content="댓글이 성공적으로 저장되었습니다" />);
+    open(
+      <AlertModal
+        content="댓글이 성공적으로 저장되었습니다"
+        onNextEvent={() => {
+          close();
+        }}
+      />
+    );
   };
   const { mutate: createCommentMutation } = useCreateMutation({
     onNextEvent: onSuccessCreateComment
