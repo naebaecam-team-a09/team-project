@@ -1,11 +1,11 @@
 'use client';
 
+import AlertModal from '@/components/Modal/AlertModal';
 import { useAuth } from '@/contexts/auth.context/auth.context';
+import { useModal } from '@/contexts/modal.context/modal.context';
 import { useIsLike, useLikesCount, useToggleLike } from '@/services/likes/useLikes';
 import { useQueryClient } from '@tanstack/react-query';
 import { getLikeComponentProps } from './utils';
-import { useModal } from '@/contexts/modal.context/modal.context';
-import AlertModal from '@/components/Modal/AlertModal';
 
 const Heart = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
@@ -35,9 +35,9 @@ const Heart = ({ postId }: { postId: string }) => {
 
   return (
     <div className="flex gap-2 items-center">
-      <p className="text-2xl font-bold">{likeCount}</p>
+      <p className="text-2xl font-bold text-white">{likeCount}</p>
       <div className=" cursor-pointer" onClick={handleClickHeart}>
-        <img className="hover:scale-125 transition w-12 h-12" src={options.path} alt={options.alt} />
+        <img className="hover:scale-125 transition w-8 h-8" src={options.path} alt={options.alt} />
       </div>
     </div>
   );
