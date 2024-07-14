@@ -54,7 +54,7 @@ const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_i
         <p className="text-[#575c6f]">{contents}</p>
         <div className="flex items-center gap-2">
           <div className="relative rounded-full overflow-hidden w-10 h-10">
-            <Image src={profile_image_path} alt="" fill />
+            <Image src={profile_image_path} alt="" fill style={{ objectFit: 'cover' }} />
           </div>
           <p className="text-lg font-medium text-[#575c6f]">{username}</p>
         </div>
