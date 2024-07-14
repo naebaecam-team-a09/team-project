@@ -26,7 +26,10 @@ const Comments = ({ postId }: { postId: string }) => {
   if (isPending) return <div>loading...</div>;
   return (
     <div className="relative w-full max-w-5xl flex items-center justify-center">
-      <button className="absolute left-0 p-2 bg-white rounded-full shadow-md z-10" onClick={prevSlide}>
+      <button
+        className="absolute text-sm left-2 w-8 h-8 text-white bg-[#9F8264] rounded-md shadow-md z-10"
+        onClick={prevSlide}
+      >
         &lt;
       </button>
       <div className="overflow-x-hidden w-full h-[300px] flex items-center justify-center">
@@ -45,7 +48,10 @@ const Comments = ({ postId }: { postId: string }) => {
           </div>
         )}
       </div>
-      <button className="absolute right-0 p-2 bg-white rounded-full shadow-md z-10" onClick={nextSlide}>
+      <button
+        className="absolute text-sm right-2 w-8 h-8 text-white bg-[#9F8264] rounded-md shadow-md z-10"
+        onClick={nextSlide}
+      >
         &gt;
       </button>
     </div>
