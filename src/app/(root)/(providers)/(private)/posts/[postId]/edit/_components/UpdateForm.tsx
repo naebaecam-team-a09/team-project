@@ -61,6 +61,10 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       <ConfirmationModal
         content="게시글을 수정하시겠습니까?"
         onNextEvent={() => {
+          if (!imagePath) {
+            open(<AlertModal content={'이미지를 선택해주세요.'} onNextEvent={() => close()} />);
+            return;
+          }
           if (!title.trim()) {
             open(<AlertModal content={'제목을 입력해주세요.'} onNextEvent={() => close()} />);
             return;

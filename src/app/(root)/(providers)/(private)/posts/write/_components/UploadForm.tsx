@@ -39,7 +39,10 @@ const UploadForm = () => {
     } else {
       imagePath = await uploadImageToBucket(selectedImage);
     }
-
+    if (!imagePath) {
+      open(<AlertModal content={'이미지를 선택해주세요.'} onNextEvent={() => close()} />);
+      return;
+    }
     if (!title.trim()) {
       open(<AlertModal content={'제목을 입력해주세요.'} onNextEvent={() => close()} />);
       return;
