@@ -144,15 +144,17 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
                   <h3 className="text-3xl text-my-color font-semibold mt-6">상세사진</h3>
                 </div>
                 <div className="flex flex-col items-center">
-                  <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl">
+                  <label className="flex w-[450px] h-[600px] m-10 bg-gray-100 text-my-color font-semibold text-x cursor-pointer rounded-2xl overflow-hidden">
                     <input type="file" ref={ref} accept="image/*" onChange={handleSelectImage} className="hidden" />
-                    <Image
-                      src={previewImage}
-                      alt="선택한 이미지 미리보기"
-                      width={450}
-                      height={600}
-                      className="rounded-2xl"
-                    />
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={previewImage}
+                        alt="선택한 이미지 미리보기"
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        className="rounded-2xl absolute w-full h-full"
+                      />
+                    </div>
                   </label>
                   <button
                     type="button"
