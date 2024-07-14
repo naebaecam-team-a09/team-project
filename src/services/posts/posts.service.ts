@@ -68,6 +68,39 @@ export const getPostsWithUserInfo = async ({ order }: { order: OrderType }) => {
   return data;
 };
 
+export const getPagenatedPostsWithUserInfo = async ({ page, order }: { page: number; order: OrderType }) => {
+  const limit = 6;
+  const supabase = createClient();
+  const to = (page - 1) * limit;
+  const from = page * limit;
+  const { data, error } = await supabase
+    .from('posts')
+    .select(`*, users(username, profile_image_path)`)
+    .order(order, { ascending: false })
+    .range(to, from);
+
+  if (error) {
+    return { error: error.message, data: null, nextPage: null };
+  }
+
+  if (!data || data.length < 1) {
+    return {
+      error: `${page} Page does not exist`,
+      data: null,
+      nextPage: null
+    };
+  }
+
+  if (data.length > limit) {
+    const response = data.slice(0, limit);
+    const nextPage = page + 1;
+    return { error: null, data: response, nextPage };
+  } else {
+    const nextPage = null;
+    return { error: null, data, nextPage };
+  }
+};
+
 export const getPostWithUserInfo = async ({ postId }: { postId: string }) => {
   const supabase = createClient();
   const { data, error } = await supabase
