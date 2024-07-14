@@ -10,7 +10,7 @@ import AlertModal from '@/components/Modal/AlertModal';
 const Heart = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
   const { me }: any = useAuth();
-  const { open } = useModal();
+  const { open, close } = useModal();
   const userId = me?.id;
 
   const { data: isHeart, isPending, error } = useIsLike({ postId, userId });
