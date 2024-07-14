@@ -1,1 +1,1 @@
-export type OrderType = 'createdAt' | 'likes';
+export type OrderType = 'created_at' | 'likes';

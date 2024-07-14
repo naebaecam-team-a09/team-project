@@ -25,6 +25,6 @@ interface TOrderStore {
 }
 
 export const useOrderStore = create<TOrderStore>((set) => ({
-  order: 'createdAt',
+  order: 'created_at',
   setOrder: (order) => set(() => ({ order }))
 }));

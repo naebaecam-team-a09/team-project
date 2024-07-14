@@ -1,8 +1,10 @@
 import { useGetPostsWithUserInfo } from '@/services/posts/usePosts';
+import { useOrderStore } from '@/zustand/store';
 import Card from '../Card';
 
 const DiscoverPosts = () => {
-  const { data: posts, isPending, error } = useGetPostsWithUserInfo();
+  const order = useOrderStore((state) => state.order);
+  const { data: posts, isPending, error } = useGetPostsWithUserInfo({ order });
 
   if (isPending) return <div>Loading...</div>;
 
