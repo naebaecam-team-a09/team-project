@@ -32,7 +32,8 @@ const PostDetail = ({ params }: { params: { postId: string } }) => {
           ) : undefined}
         </div>
 
-        <div className="w-3/5 flex flex-col justify-center p-8 bg-[#132A43]">
+        <div className="relative w-3/5 flex flex-col justify-center p-8 bg-[#132A43]">
+          <Buttons ownerId={user_id} postId={params.postId} />
           <div className="flex w-full justify-between items-center">
             <div className="flex items-center mb-4">
               {data.users?.profile_image_path && (
@@ -63,7 +64,6 @@ const PostDetail = ({ params }: { params: { postId: string } }) => {
               <Heart postId={params.postId} />
             </div>
           </div>
-          <Buttons ownerId={user_id} postId={params.postId} />
         </div>
       </div>
     </div>
