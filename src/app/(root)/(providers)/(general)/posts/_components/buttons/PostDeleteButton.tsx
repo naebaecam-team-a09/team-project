@@ -1,17 +1,24 @@
 'use client';
 
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
+import { useModal } from '@/contexts/modal.context/modal.context';
 import { deletePost } from '@/services/posts/posts.service';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const PostDeleteButton = ({ postId }: { postId: string }) => {
   const router = useRouter();
+  const { open, close } = useModal();
   const handleDelete = async () => {
-    const isConfirm = window.confirm('작성글을 삭제하시겠습니까?');
-    if (isConfirm) {
-      await deletePost(postId);
-      router.replace(`/`);
-    }
+    open(
+      <ConfirmationModal
+        content={'게시물을 삭제하시겠습니까?'}
+        onNextEvent={async () => {
+          await deletePost(postId);
+          router.replace(`/`);
+        }}
+      />
+    );
   };
 
   return (

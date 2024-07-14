@@ -1,15 +1,15 @@
 'use client';
 
+import ConfirmationModal from '@/components/Modal/ConfirmationModal';
+import { useModal } from '@/contexts/modal.context/modal.context';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const PostEditButton = ({ postId }: { postId: string }) => {
   const router = useRouter();
+  const { open, close } = useModal();
   const handleEdit = () => {
-    const isConfirm = window.confirm('작성글을 수정하시겠습니까?');
-    if (isConfirm) {
-      router.push(`/posts/${postId}/edit`);
-    }
+    open(<ConfirmationModal content={'수정하시겠습니까?'} onNextEvent={() => router.push(`/posts/${postId}/edit`)} />);
   };
 
   return (

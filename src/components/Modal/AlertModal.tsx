@@ -3,11 +3,12 @@ import { useModal } from '@/contexts/modal.context/modal.context';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
-const AlertModal = ({ content }: { content: string }) => {
+const AlertModal = ({ content, onNextEvent }: { content: string; onNextEvent: () => void }) => {
   const modal = useModal();
   const [isVisible, setIsVisible] = useState(true);
 
   const handleClose = () => {
+    onNextEvent();
     setIsVisible(false);
     setTimeout(() => {
       modal.close();
