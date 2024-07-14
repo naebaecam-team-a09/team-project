@@ -1,4 +1,5 @@
 import { createClient } from '@/supabase/client';
+import { OrderType } from '@/types/order';
 import { UpdatePostParamsType, UpdatedPostType } from '@/types/posts';
 export const getPosts = async () => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/posts`, { method: 'GET' });
@@ -55,12 +56,12 @@ export const addPost = async (newPost: UpdatedPostType) => {
   return data;
 };
 
-export const getPostsWithUserInfo = async () => {
+export const getPostsWithUserInfo = async ({ order }: { order: OrderType }) => {
   const supabase = createClient();
   const { data, error } = await supabase
     .from('posts')
     .select(`*, users(username, profile_image_path)`)
-    .order('created_at', { ascending: false });
+    .order(order, { ascending: false });
   if (error) {
     throw error;
   }
