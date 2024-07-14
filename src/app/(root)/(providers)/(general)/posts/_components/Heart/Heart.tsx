@@ -11,7 +11,7 @@ const Heart = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
   const { me }: any = useAuth();
   const { open, close } = useModal();
-  const userId = me?.id;
+  const userId = me?.id || '2ba38681-3d44-4844-8ab8-be659bcbba27';
 
   const { data: isHeart, isPending, error } = useIsLike({ postId, userId });
 
