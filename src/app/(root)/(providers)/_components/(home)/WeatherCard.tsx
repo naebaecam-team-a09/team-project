@@ -1,5 +1,7 @@
 import { getRecommendations } from '@/services/recommendations/recommendations.service';
 import { useEffect, useState } from 'react';
+import RecommendsText from './RecommendsText';
+import RecommendsCards from './RecommendsCards';
 
 interface Recommendation {
   temperature_min: number;
@@ -7,13 +9,7 @@ interface Recommendation {
   weather_img_url: string;
 }
 
-const WeatherCard = ({
-  onRecommendClick,
-  onPopularClick
-}: {
-  onRecommendClick: () => void;
-  onPopularClick: () => void;
-}) => {
+const WeatherCard = () => {
   const [temperature, setTemperature] = useState<number | null>(null);
   const [weatherImgUrl, setWeatherImgUrl] = useState<string | null>(null);
 
@@ -41,26 +37,26 @@ const WeatherCard = ({
   }, []);
 
   return (
-    <div className="flex items-center rounded-md mt-[120px] mb-[80px]">
-      <div className="w-[859px] h-[457px]">
-        <img
-          src={weatherImgUrl || 'https://via.placeholder.com/800x550'}
-          alt="Weather"
-          className="w-full h-full object-cover rounded-md"
-        />
-      </div>
-      <div className="-ml-[317px] w-[560px] h-[260px] flex flex-col items-start justify-center bg-gray-50 rounded-md shadow-md p-4">
-        <h1 className="ml-12 text-4xl font-bold mb-2">오늘의 날씨는</h1>
-        <h3 className="ml-12 text-2xl mb-2">현재 온도: {temperature !== null ? `${temperature}°C` : '로딩 중...'}</h3>
-
-        <div className="ml-12 flex space-x-4">
-          <button className="px-4 py-2 bg-gray-500 text-white rounded-md" onClick={onRecommendClick}>
-            오늘의 추천
-          </button>
-          <button className="px-4 py-2 bg-gray-200 text-black shadow-md rounded-md" onClick={onPopularClick}>
-            오늘의 인기
-          </button>
+    <div className="relative w-full h-[650px] ">
+      <img
+        src={weatherImgUrl || 'https://via.placeholder.com/800x550'}
+        alt="Weather"
+        className="w-full h-full object-cover filter blur-sm"
+      />
+      <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black bg-opacity-50 p-4">
+        <h1 className="text-[75px] font-bold mb-2 text-white">현재 온도</h1>
+        <div className="flex items-center mb-2">
+          <div className="h-[3px] w-[117px] bg-[#E6C68F]"></div>
+          <h3 className="text-[48px] font-bold mx-[140px] text-white">
+            {temperature !== null ? `${temperature}°C` : '로딩 중...'}
+          </h3>
+          <div className="h-[3px] w-[117px] bg-[#E6C68F]"></div>
         </div>
+        <h1 className="text-2xl text-white font-bold mb-4 mt-4">오늘의 날씨에는 이런 옷을 추천 드려요</h1>
+        <RecommendsText />
+      </div>
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2">
+        <RecommendsCards />
       </div>
     </div>
   );
