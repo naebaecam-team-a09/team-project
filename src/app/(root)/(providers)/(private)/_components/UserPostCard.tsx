@@ -37,12 +37,12 @@ const UserPost: React.FC<{}> = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center">
-      <div className="w-full max-w-5xl">
-        <h1 className="text-2xl text-gray-400 font-bold mb-5 text-left">내가 올린 코디</h1>
-        <div className="border-t border-gray-300 my-5"></div>
+      <div className="w-full">
+        <h1 className="text-3xl text-[#E7C891] font-bold mb-5 text-left">내가 올린 코디</h1>
+        <div className="border-t border-[#E7C891] my-5"></div>
       </div>
-      <div className="relative w-full max-w-5xl flex items-center justify-center">
-        <button className="absolute left-0 p-2 bg-white rounded-full shadow-md z-10" onClick={prevSlide}>
+      <div className="relative w-full flex items-center justify-center">
+        <button className="absolute left-2 w-10 h-10 bg-white rounded-lg shadow-md z-10" onClick={prevSlide}>
           &lt;
         </button>
         <div className="overflow-hidden w-full">
@@ -69,7 +69,7 @@ const UserPost: React.FC<{}> = () => {
               ))}
           </div>
         </div>
-        <button className="absolute right-0 p-2 bg-white rounded-full shadow-md z-10" onClick={nextSlide}>
+        <button className="absolute right-0 p-2 rounded-full shadow-md z-10" onClick={nextSlide}>
           &gt;
         </button>
       </div>
