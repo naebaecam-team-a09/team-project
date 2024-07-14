@@ -4,7 +4,6 @@ import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { deletePost } from '@/services/posts/posts.service';
 import { useRouter } from 'next/navigation';
-import React from 'react';
 
 const PostDeleteButton = ({ postId }: { postId: string }) => {
   const router = useRouter();
@@ -24,7 +23,7 @@ const PostDeleteButton = ({ postId }: { postId: string }) => {
   return (
     <div className="mt-4 text-right">
       <button
-        className="bg-red-500 hover:bg-red-600 text-white rounded-md
+        className="bg-[#C8C8C8] hover:brightness-75 text-[#172E47] rounded-md font-bold
         px-2 py-1 text-[8px]
         xs:px-2 xs:py-1 xs:text-[10px]
         sm:px-3 sm:py-1.5 sm:text-sm
