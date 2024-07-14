@@ -1,6 +1,6 @@
 import { getRecommendations } from '@/services/recommendations/recommendations.service';
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 interface Recommendation {
   id: number;
@@ -18,7 +18,7 @@ const RecommendsCards = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const weatherResponse = await fetch('/api/weather');
+        const weatherResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/weather`);
         const weatherData = await weatherResponse.json();
 
         const recommendationsData: Recommendation[] = await getRecommendations();

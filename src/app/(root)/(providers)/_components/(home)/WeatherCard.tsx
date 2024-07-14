@@ -1,8 +1,8 @@
 import { getRecommendations } from '@/services/recommendations/recommendations.service';
-import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import RecommendsText from './RecommendsText';
+import { useEffect, useState } from 'react';
 import RecommendsCards from './RecommendsCards';
+import RecommendsText from './RecommendsText';
 
 interface Recommendation {
   temperature_min: number;
@@ -17,7 +17,7 @@ const WeatherCard = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const weatherResponse = await fetch('/api/weather');
+        const weatherResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/weather`);
         const weatherData = await weatherResponse.json();
         setTemperature(weatherData.temperature);
 

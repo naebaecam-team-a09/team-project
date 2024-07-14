@@ -19,7 +19,7 @@ const RecommendsText = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const weatherResponse = await fetch('/api/weather');
+        const weatherResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/weather`);
         const weatherData = await weatherResponse.json();
         setTemperature(weatherData.temperature);
 
