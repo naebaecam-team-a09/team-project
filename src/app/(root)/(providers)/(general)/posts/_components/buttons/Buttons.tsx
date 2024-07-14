@@ -12,7 +12,7 @@ const Buttons = ({ ownerId, postId }: { ownerId: string; postId: string }) => {
   return (
     <>
       {isOwner && (
-        <div className="flex justify-end space-x-2 mt-4">
+        <div className="flex justify-end space-x-2 mt-4 absolute top-0 right-8">
           <PostEditButton postId={postId} />
           <PostDeleteButton postId={postId} />
         </div>
