@@ -64,6 +64,9 @@ export default function MyPage() {
         .eq('id', userData.id);
 
       getUserData();
+
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['comments'] });
     };
 
     const file = event.target.files[0];
