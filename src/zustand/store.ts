@@ -1,3 +1,4 @@
+import { OrderType } from '@/types/order';
 import { create } from 'zustand';
 
 interface TpostIdStore {
@@ -16,4 +17,14 @@ interface TcommentIdStore {
 export const useCommentIdStore = create<TcommentIdStore>((set) => ({
   commentId: '',
   setCommentId: (commentId) => set(() => ({ commentId }))
+}));
+
+interface TOrderStore {
+  order: OrderType;
+  setOrder: (order: OrderType) => void;
+}
+
+export const useOrderStore = create<TOrderStore>((set) => ({
+  order: 'createdAt',
+  setOrder: (order) => set(() => ({ order }))
 }));
