@@ -46,10 +46,6 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       imagePath = await uploadImageToBucket(selectedImage);
     }
 
-    if (!title.trim()) return alert('제목을 입력해주세요.');
-    if (!contents.trim()) return alert('코디 설명을 입력해주세요.');
-    if (!category.length) return alert('카테고리를 선택해주세요.');
-
     const updatedPost: UpdatedPostType = {
       user_id: userId,
       title,
@@ -61,7 +57,26 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
       postId,
       updatedPost
     };
-    open(<ConfirmationModal content="게시글을 수정하시겠습니까?" onNextEvent={() => updateMutate(updatePostParams)} />);
+    open(
+      <ConfirmationModal
+        content="게시글을 수정하시겠습니까?"
+        onNextEvent={() => {
+          if (!title.trim()) {
+            open(<AlertModal content={'제목을 입력해주세요.'} onNextEvent={() => close()} />);
+            return;
+          }
+          if (!contents.trim()) {
+            open(<AlertModal content={'코디에 대한 설명을 입력해주세요.'} onNextEvent={() => close()} />);
+            return;
+          }
+          if (!category.length) {
+            open(<AlertModal content={'카테고리를 선택해주세요.'} onNextEvent={() => close()} />);
+            return;
+          }
+          updateMutate(updatePostParams);
+        }}
+      />
+    );
   };
 
   const handleSelectImage: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -105,8 +120,15 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
     mutationFn: updatePost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
-      open(<AlertModal content="수정이 완료되었습니다!" />);
-      router.push(`/posts/${postId}`);
+      open(
+        <AlertModal
+          content="수정이 완료되었습니다!"
+          onNextEvent={() => {
+            router.push(`/posts/${postId}`);
+            close();
+          }}
+        />
+      );
     }
   });
   // mutation함수에는 인자가 하나만 들어가는 함수로 설정해야함

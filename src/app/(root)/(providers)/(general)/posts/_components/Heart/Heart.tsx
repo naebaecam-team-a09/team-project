@@ -24,7 +24,7 @@ const Heart = ({ postId }: { postId: string }) => {
 
   const handleClickHeart = () => {
     if (!me) {
-      open(<AlertModal content={'로그인 후 이용해주세요.'} />);
+      open(<AlertModal content={'로그인 후 이용해주세요.'} onNextEvent={() => close()} />);
       return;
     }
     toggleLikeMutation({ userId: me?.id, postId, isHeart });
