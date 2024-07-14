@@ -1,6 +1,8 @@
 'use client';
 
+import AlertModal from '@/components/Modal/AlertModal';
 import { useAuth } from '@/contexts/auth.context/auth.context';
+import { useModal } from '@/contexts/modal.context/modal.context';
 import { useInputs } from '@/hooks/useInput';
 import Link from 'next/link';
 import BackBoard from '../_components/BackBoard/BackBoard';
@@ -13,10 +15,15 @@ type Inputs = {
 };
 
 const SignUpPage = () => {
+  const { open } = useModal();
   const [inputs, setInputs] = useInputs<Inputs>({ email: '', password: '', passwordConfirm: '' });
   const { signUp } = useAuth();
 
   const handleClickSignUp = async () => {
+    if (inputs.password !== inputs.passwordConfirm) {
+      open(<AlertModal content={'비밀번호가 일치하지 않습니다.'} onNextEvent={() => {}} />);
+      return;
+    }
     signUp(inputs);
   };
 
