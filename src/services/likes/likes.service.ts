@@ -27,7 +27,7 @@ export const toggleLike = async ({ userId, postId, isHeart }: { userId: string; 
   const supabase = createClient();
   const { data } = await supabase.from('posts').select('likes').eq('id', postId);
   const currentCount = data?.[0].likes;
-  if (!currentCount) return;
+  if (currentCount === null || currentCount === undefined) return;
 
   if (isHeart) {
     const { error } = await supabase.from('likes').delete().eq('user_id', userId).eq('post_id', postId);
