@@ -13,7 +13,7 @@ const PopularPostList = () => {
       {popularPosts?.map(({ id: postId, likes, title, users, image_url }, index) => {
         if (!users?.profile_image_path || !users?.username) return;
         return (
-          <div key={postId} className="flex-none w-1/3 px-2">
+          <div key={postId} className="flex-none w-1/3 box-border px-4">
             <div className=" relative aspect-[3/5] overflow-hidden rounded-lg">
               <div className="z-10 w-full h-60 absolute bottom-0 custom-post-card-info-bg text-white flex flex-col justify-end p-4 gap-4">
                 <p className="text-lg font-semibold">♥︎ {likes}</p>
