@@ -4,10 +4,13 @@ import { useAuth } from '@/contexts/auth.context/auth.context';
 import { useIsLike, useLikesCount, useToggleLike } from '@/services/likes/useLikes';
 import { useQueryClient } from '@tanstack/react-query';
 import { getLikeComponentProps } from './utils';
+import { useModal } from '@/contexts/modal.context/modal.context';
+import AlertModal from '@/components/Modal/AlertModal';
 
 const Heart = ({ postId }: { postId: string }) => {
   const queryClient = useQueryClient();
   const { me }: any = useAuth();
+  const { open } = useModal();
   const userId = me?.id;
 
   const { data: isHeart, isPending, error } = useIsLike({ postId, userId });
@@ -20,7 +23,12 @@ const Heart = ({ postId }: { postId: string }) => {
   const options = getLikeComponentProps(isHeart);
 
   const handleClickHeart = () => {
+    if (!me) {
+      open(<AlertModal content={'로그인 후 이용해주세요.'} />);
+      return;
+    }
     toggleLikeMutation({ userId: me?.id, postId, isHeart });
+    console.log('성공맨~');
   };
 
   if (isPending) return <div>loading...</div>;

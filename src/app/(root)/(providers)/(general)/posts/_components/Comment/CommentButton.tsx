@@ -1,6 +1,8 @@
 'use client';
 
+import AlertModal from '@/components/Modal/AlertModal';
 import CommentCreateModal from '@/components/Modal/CommentCreateModal';
+import { useAuth } from '@/contexts/auth.context/auth.context';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { usePostIdStore } from '@/zustand/store';
 import { useEffect } from 'react';
@@ -12,7 +14,13 @@ export const CommentButton = ({ postId }: { postId: string }) => {
   }, [postId]);
   const { open } = useModal();
 
+  const { me }: any = useAuth();
+
   const handleClickButton = () => {
+    if (!me) {
+      open(<AlertModal content={'로그인 후 이용해주세요.'} />);
+      return;
+    }
     open(<CommentCreateModal />);
   };
 
