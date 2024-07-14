@@ -1,14 +1,19 @@
+'use client';
 import { getPostWithUserInfo } from '@/services/posts/posts.service';
-
 import { Tables } from '@/types/supabase';
+import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
 import Buttons from '../buttons/Buttons';
 
 type PostType = Tables<'posts'>;
 export type UserType = Tables<'users'>;
 
-const PostDetail = async ({ params }: { params: { postId: string } }) => {
-  const data = await getPostWithUserInfo({ postId: params.postId });
+const PostDetail = ({ params }: { params: { postId: string } }) => {
+  const { data, isPending } = useQuery({
+    queryKey: ['posts', params.postId],
+    queryFn: () => getPostWithUserInfo({ postId: params.postId })
+  });
+  if (!data || isPending) return <div>loading...</div>;
   const rawDate = data.created_at;
   const date = new Date(rawDate);
   const localDate = new Date(date.toLocaleString('en-US', { timeZone: 'Asia/Seoul' }));
