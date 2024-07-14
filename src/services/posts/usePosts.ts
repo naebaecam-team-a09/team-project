@@ -25,7 +25,7 @@ export const useAddPost = (queryClient: QueryClient, onNextEvent: () => void) =>
 
 export const useGetPagenatedPostsWithUserInfo = ({ order }: { order: OrderType }) =>
   useInfiniteQuery({
-    queryKey: ['posts', 'paginated'],
+    queryKey: ['posts', 'paginated', order],
     queryFn: ({ pageParam }) => getPagenatedPostsWithUserInfo({ page: pageParam, order }),
     getNextPageParam: (lastPage) => lastPage.nextPage,
     initialPageParam: 1
