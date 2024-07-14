@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { PostsWithUserDataType } from '@/types/posts';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,14 +24,22 @@ const Card = ({ id, likes, title, image_url, users: { username, profile_image_pa
             <p className="text-xl font-bold">{username}</p>
           </div>
         </div>
-        <Image
-          src={image_url}
-          alt={'코디 사진'}
-          fill
-          style={{
-            objectFit: 'cover'
-          }}
-        />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+          whileHover={{ scale: 1.05 }}
+          className="relative w-full h-full"
+        >
+          <Image
+            src={image_url}
+            alt={'코디 사진'}
+            fill
+            style={{
+              objectFit: 'cover'
+            }}
+          />
+        </motion.div>
       </div>
     </Link>
   );

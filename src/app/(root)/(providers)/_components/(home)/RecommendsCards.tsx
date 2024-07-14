@@ -1,6 +1,6 @@
 import { getRecommendations } from '@/services/recommendations/recommendations.service';
 import { useEffect, useState } from 'react';
-import Loading from '../Loading';
+import { motion } from 'framer-motion';
 
 interface Recommendation {
   id: number;
@@ -39,12 +39,8 @@ const RecommendsCards = () => {
     fetchWeather();
   }, []);
 
-  if (loading) {
-    return <Loading />;
-  }
-
   if (items.length === 0) {
-    return <div>추천 데이터를 불러오지 못했습니다.</div>;
+    return <div></div>;
   }
 
   const item = items[0];
@@ -53,15 +49,18 @@ const RecommendsCards = () => {
     <div className="flex flex-col items-center">
       <div className="flex ">
         {item.clothingItems.map((clothingItem, index) => (
-          <div
+          <motion.div
             key={index}
             className="flex w-[300px] h-[340px] flex-col items-center bg-[#132A43] border-4 border-[#E7C891] p-2 m-2"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 + index * 0.5, duration: 0.5 }}
           >
             <div className="w-full h-3/4">
               <img src={item.img_url[index]} alt={'내용을 불러오는중'} className="w-full h-full object-cover p-2" />
             </div>
             <p className="text-lg font-bold text-white font-medium mt-2">{clothingItem}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>
