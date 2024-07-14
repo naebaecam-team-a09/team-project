@@ -53,8 +53,8 @@ const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_i
       <div className=" bg-[#FCFDFF] z-10 relative shadow-md rounded-xl flex flex-col justify-between px-5 py-10 w-[320px] h-[220px]">
         <p className="text-[#575c6f]">{contents}</p>
         <div className="flex items-center gap-2">
-          <div className="relative rounded-full overflow-hidden">
-            <Image src={profile_image_path} alt="" width={40} height={40} />
+          <div className="relative rounded-full overflow-hidden w-10 h-10">
+            <Image src={profile_image_path} alt="" fill />
           </div>
           <p className="text-lg font-medium text-[#575c6f]">{username}</p>
         </div>
