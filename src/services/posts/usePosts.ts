@@ -1,10 +1,12 @@
-import { QueryClient, useMutation, useQuery } from '@tanstack/react-query';
-import { addPost, getPopularPosts } from './posts.service';
+import { OrderType } from '@/types/order';
+import { QueryClient, useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { addPost, getPagenatedPostsWithUserInfo, getPopularPosts } from './posts.service';
 import { postsQueryKeys, queryOptions } from './queries';
 
 export const useGetPosts = () => useQuery(queryOptions.posts());
 
-export const useGetPostsWithUserInfo = () => useQuery(queryOptions.postsWithUserInfo());
+export const useGetPostsWithUserInfo = ({ order }: { order: OrderType }) =>
+  useQuery(queryOptions.postsWithUserInfo({ order }));
 
 export const useGetPopularPosts = () =>
   useQuery({
@@ -17,7 +19,14 @@ export const useAddPost = (queryClient: QueryClient, onNextEvent: () => void) =>
     mutationFn: addPost,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: postsQueryKeys.all });
-      queryClient.invalidateQueries({ queryKey: postsQueryKeys.postsWithUserInfo() });
       onNextEvent();
     }
+  });
+
+export const useGetPagenatedPostsWithUserInfo = ({ order }: { order: OrderType }) =>
+  useInfiniteQuery({
+    queryKey: ['posts', 'paginated'],
+    queryFn: ({ pageParam }) => getPagenatedPostsWithUserInfo({ page: pageParam, order }),
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1
   });

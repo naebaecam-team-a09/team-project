@@ -40,9 +40,18 @@ const UploadForm = () => {
       imagePath = await uploadImageToBucket(selectedImage);
     }
 
-    if (!title.trim()) return alert('제목을 입력해주세요.');
-    if (!contents.trim()) return alert('코디 설명을 입력해주세요.');
-    if (!category.length) return alert('카테고리를 선택해주세요.');
+    if (!title.trim()) {
+      open(<AlertModal content={'제목을 입력해주세요.'} onNextEvent={() => close()} />);
+      return;
+    }
+    if (!contents.trim()) {
+      open(<AlertModal content={'코디에 대한 설명을 입력해주세요.'} onNextEvent={() => close()} />);
+      return;
+    }
+    if (!category.length) {
+      open(<AlertModal content={'카테고리를 선택해주세요.'} onNextEvent={() => close()} />);
+      return;
+    }
 
     const newPost: UpdatedPostType = {
       user_id,
@@ -81,8 +90,15 @@ const UploadForm = () => {
   const { data: user_id } = useGetUser();
 
   const { mutate: addMutate } = useAddPost(queryClient, () => {
-    open(<AlertModal content="등록이 완료되었습니다" />);
-    router.replace('/posts/discover');
+    open(
+      <AlertModal
+        content="등록이 완료되었습니다"
+        onNextEvent={() => {
+          router.replace('/posts/discover');
+          close();
+        }}
+      />
+    );
   });
 
   const ref = useRef<HTMLInputElement>(null);
