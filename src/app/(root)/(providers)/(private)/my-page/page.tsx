@@ -111,12 +111,16 @@ export default function MyPage() {
           <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
             <div className="flex justify-center">
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
-                {imageUrl && <Image src={imageUrl} alt="" width={200} height={200} />}
+                {imageUrl && (
+                  <div className="relative w-[200px] aspect-square overflow-hidden">
+                    <Image src={imageUrl} alt="" fill />
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex justify-center">
               <button
-                className=" w-24 h-7 p-1 bg-slate-400 rounded-[7px] mt-5 text-xs text-white"
+                className="px-4 py-2 bg-slate-400 rounded-[7px] mt-5 text-xs text-white"
                 onClick={handleButtonClick}
               >
                 프로필 사진 변경
@@ -194,7 +198,7 @@ export default function MyPage() {
           </div>
         )}
         <div className="userStyle w-full flex flex-col justify-center content-center">
-          <div>{<UserPost></UserPost>}</div>
+          <UserPost />
         </div>
       </div>
     </div>
