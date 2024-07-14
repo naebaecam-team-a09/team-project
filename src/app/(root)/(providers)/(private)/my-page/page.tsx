@@ -64,6 +64,9 @@ export default function MyPage() {
         .eq('id', userData.id);
 
       getUserData();
+
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['comments'] });
     };
 
     const file = event.target.files[0];
@@ -94,6 +97,7 @@ export default function MyPage() {
     setShowModal(false); // Hide the form after submission
     getUserData(); // Refresh the user data
     queryClient.invalidateQueries({ queryKey: ['posts'] });
+    queryClient.invalidateQueries({ queryKey: ['comments'] });
   };
 
   return (
