@@ -9,6 +9,7 @@ import { commentsQueryKeys } from '@/services/comments/queries';
 import { useDeleteCommentMutation } from '@/services/comments/useComments';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface TComment {
   id: string;
@@ -24,10 +25,11 @@ interface TComment {
 
 const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_image_path, username } }: TComment) => {
   const { open, close } = useModal();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const onSuccessDeleteComment = () => {
     queryClient.invalidateQueries({ queryKey: commentsQueryKeys.comments(post_id) });
-    open(<AlertModal content="삭제가 완료되었습니다" />);
+    open(<AlertModal content="삭제가 완료되었습니다" onNextEvent={() => close()} />);
   };
 
   const { mutate: deleteCommentMutation } = useDeleteCommentMutation({
