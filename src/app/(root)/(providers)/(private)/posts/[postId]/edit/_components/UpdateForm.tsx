@@ -215,7 +215,7 @@ const UpdateForm = ({ postId }: UpdateFormType) => {
               {categoryList.map((categoryItem: string) => (
                 <button
                   key={categoryItem}
-                  className={`w-11/12 h-12 bg-[#E7C891] rounded-lg hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-[#CACACA]' : 'text-lg'}`}
+                  className={`w-11/12 h-12 rounded-lg hover:brightness-90 ${category.includes(categoryItem) ? 'text-lg bg-[#CACACA]' : 'text-lg bg-[#E7C891]'}`}
                   type="button"
                   onClick={() => handleClickCategoryButton(categoryItem)}
                 >
