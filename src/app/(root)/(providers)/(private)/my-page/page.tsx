@@ -94,6 +94,7 @@ export default function MyPage() {
     setShowModal(false); // Hide the form after submission
     getUserData(); // Refresh the user data
     queryClient.invalidateQueries({ queryKey: ['posts'] });
+    queryClient.invalidateQueries({ queryKey: ['comments'] });
   };
 
   return (
