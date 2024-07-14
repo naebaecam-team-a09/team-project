@@ -10,7 +10,16 @@ const Card = ({ id, likes, title, image_url, users: { username, profile_image_pa
           <p className="text-lg font-semibold">♥︎ {likes}</p>
           <p className="text-3xl font-black">{title}</p>
           <div className="flex gap-2 items-center">
-            <Image className="rounded-full" src={profile_image_path} alt={'프로필 이미지'} width={48} height={48} />
+            <div className="relative w-12 h-12 overflow-hidden rounded-full">
+              <Image
+                className="rounded-full"
+                src={profile_image_path}
+                alt={'프로필 이미지'}
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+            </div>
+
             <p className="text-xl font-bold">{username}</p>
           </div>
         </div>

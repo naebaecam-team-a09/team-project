@@ -7,6 +7,7 @@ import { createClient } from '@/supabase/client';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import UserPost from '../_components/UserPostCard';
 
 const supabase = createClient();
@@ -39,19 +40,20 @@ export default function MyPage() {
   };
 
   const handleFileChange = async (event: any) => {
+    const newImageUrl = uuidv4();
     const updateProfile = async (file: File, userData: UserDataType) => {
       let uploadError = null;
       let uploadResult = null;
 
-      if (userData?.profile_image_path === `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
-        const { data, error } = await supabase.storage.from('avatars').upload(`${userData?.id}/profileImg`, file);
-        uploadError = error;
-        uploadResult = data;
-      } else {
-        const { data, error } = await supabase.storage.from('avatars').update(`${userData?.id}/profileImg`, file);
-        uploadError = error;
-        uploadResult = data;
+      if (userData?.profile_image_path !== `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
+        const filePath = `${userData?.id}/${userData?.profile_image_path.split('/').pop()}`;
+        const { data, error } = await supabase.storage.from('avatars').remove([filePath]);
+        if (error) return;
       }
+
+      const { data, error } = await supabase.storage.from('avatars').upload(`${userData?.id}/${newImageUrl}`, file);
+      uploadError = error;
+      uploadResult = data;
 
       if (uploadError) {
         console.error('파일 업로드 에러:', uploadError);
@@ -60,7 +62,7 @@ export default function MyPage() {
 
       await supabase
         .from('users')
-        .update({ profile_image_path: `${baseUrl}/public/avatars/${userData?.id}/profileImg` })
+        .update({ profile_image_path: `${baseUrl}/public/avatars/${userData?.id}/${newImageUrl}` })
         .eq('id', userData.id);
 
       getUserData();
@@ -109,12 +111,16 @@ export default function MyPage() {
           <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
             <div className="flex justify-center">
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
-                {imageUrl && <Image src={imageUrl} alt="" width={200} height={200} />}
+                {imageUrl && (
+                  <div className="relative w-[200px] aspect-square overflow-hidden">
+                    <Image src={imageUrl} alt="" fill />
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex justify-center">
               <button
-                className=" w-24 h-7 p-1 bg-slate-400 rounded-[7px] mt-5 text-xs text-white"
+                className="px-4 py-2 bg-slate-400 rounded-[7px] mt-5 text-xs text-white"
                 onClick={handleButtonClick}
               >
                 프로필 사진 변경
@@ -192,7 +198,7 @@ export default function MyPage() {
           </div>
         )}
         <div className="userStyle w-full flex flex-col justify-center content-center">
-          <div>{<UserPost></UserPost>}</div>
+          <UserPost />
         </div>
       </div>
     </div>

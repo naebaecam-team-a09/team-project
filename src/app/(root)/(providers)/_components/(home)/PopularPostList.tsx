@@ -20,13 +20,9 @@ const PopularPostList = () => {
                 <p className="text-3xl font-black">{title}</p>
 
                 <div className="flex gap-2 items-center">
-                  <Image
-                    className="rounded-full"
-                    src={users.profile_image_path}
-                    alt={'프로필 이미지'}
-                    width={48}
-                    height={48}
-                  />
+                  <div className="relative rounded-full w-12 h-12 overflow-hidden">
+                    <Image src={users.profile_image_path} alt={'프로필 이미지'} fill style={{ objectFit: 'cover' }} />
+                  </div>
                   <p className="text-xl font-bold">{users.username}</p>
                 </div>
               </div>
