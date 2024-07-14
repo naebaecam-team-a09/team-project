@@ -48,12 +48,10 @@ const WeatherCard = () => {
 
   return (
     <div className="relative w-full h-[650px]">
-      <img
-        src={weatherImgUrl || 'https://via.placeholder.com/800x550'}
-        alt="Weather"
-        className="w-full h-full object-cover filter blur-sm"
-      />
-      <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center bg-black bg-opacity-50 p-4">
+      {weatherImgUrl && <img src={weatherImgUrl} alt="Weather" className="w-full h-full object-cover filter blur-sm" />}
+      <div
+        className={`absolute top-0 left-0 w-full h-full flex flex-col items-center justify-center ${weatherImgUrl ? 'bg-black bg-opacity-50' : 'bg-black'}`}
+      >
         <motion.h1
           className="text-[75px] font-bold mb-2 text-white"
           initial="hidden"
