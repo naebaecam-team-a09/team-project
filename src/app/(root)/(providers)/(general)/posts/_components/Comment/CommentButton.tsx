@@ -12,7 +12,7 @@ export const CommentButton = ({ postId }: { postId: string }) => {
   useEffect(() => {
     setPostId(postId);
   }, [postId]);
-  const { open } = useModal();
+  const { open, close } = useModal();
 
   const { me }: any = useAuth();
 

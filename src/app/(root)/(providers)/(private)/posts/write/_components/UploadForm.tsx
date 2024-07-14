@@ -14,7 +14,7 @@ import { useRef, useState } from 'react';
 
 const UploadForm = () => {
   const router = useRouter();
-  const { open } = useModal();
+  const { open, close } = useModal();
 
   const [title, setTitle] = useState('');
   const [contents, setContents] = useState('');
