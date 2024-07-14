@@ -4,6 +4,7 @@ import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { UserDataType, getUserInfo } from '@/services/users/users.service';
 import { createClient } from '@/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import UserPost from '../_components/UserPostCard';
@@ -18,6 +19,7 @@ export default function MyPage() {
   const [newGender, setNewGender] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
+  const queryClient = useQueryClient();
 
   const { open } = useModal();
 
@@ -91,6 +93,7 @@ export default function MyPage() {
 
     setShowModal(false); // Hide the form after submission
     getUserData(); // Refresh the user data
+    queryClient.invalidateQueries({ queryKey: ['posts'] });
   };
 
   return (
