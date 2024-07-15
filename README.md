@@ -55,7 +55,6 @@
 ![screencapture-weather-wear-online-posts-discover-2024-07-15-09_55_16](https://github.com/user-attachments/assets/48c783a5-18c7-4cff-af69-31d69515a658)
 ![screencapture-weather-wear-online-posts-2c40d7cf-6255-4e0c-84d2-49c4463a89ff-2024-07-15-09_57_21](https://github.com/user-attachments/assets/eee69920-bfa6-446f-b673-4efad9dd537c)
 ![screencapture-weather-wear-online-posts-2c40d7cf-6255-4e0c-84d2-49c4463a89ff-2024-07-15-09_57_39](https://github.com/user-attachments/assets/b4fe90e0-e002-40fd-b58a-f2895c4a4225)
-![screencapture-weather-wear-online-posts-2c40d7cf-6255-4e0c-84d2-49c4463a89ff-2024-07-15-09_57_39](https://github.com/user-attachments/assets/3927a5cd-da01-417a-ad2b-50a04e253844)
 ![screencapture-weather-wear-online-posts-2c40d7cf-6255-4e0c-84d2-49c4463a89ff-2024-07-15-09_57_59](https://github.com/user-attachments/assets/411ecb04-446a-4b1f-821a-0eee0798010e)
 ![screencapture-weather-wear-online-my-page-2024-07-15-09_58_27](https://github.com/user-attachments/assets/9ca7a68c-3ef3-491e-8bc9-12fee18ec6ea)
 
