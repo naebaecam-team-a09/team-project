@@ -47,11 +47,24 @@
 - [x] 사용자가 작성한 게시글 확인 / 사용자 정보 확인 및 수정 가능 (프로필 사진 , 닉네임)
 - [x] 댓글 작성 및 수정, 삭제 / 좋아요 기능
 
-## 프로젝트 미리보기
+
+---
+
+## 와이어프레임
 
 <img width="100%" alt="스크린샷 2024-07-15 오전 10 33 39" src="https://github.com/user-attachments/assets/73a81660-f504-4589-a754-29e37d3d2a45">
+
+---
+
+## 디자인
+
 <img width="100%" alt="스크린샷 2024-07-15 오전 10 33 48" src="https://github.com/user-attachments/assets/401abf00-cf50-4577-83df-621d040bd520">
 <img width="100%" alt="스크린샷 2024-07-15 오전 10 35 10" src="https://github.com/user-attachments/assets/09b33554-38c3-43d1-b531-35d5b5b1379c">
+
+---
+
+## 프로젝트 미리보기
+
 ![screencapture-weather-wear-online-log-in-2024-07-15-09_53_57](https://github.com/user-attachments/assets/876a083c-f1da-49f9-a2ff-fbfeb099c4d2)
 ![screencapture-weather-wear-online-sign-up-2024-07-15-09_54_24](https://github.com/user-attachments/assets/6d2a6048-182e-4822-b3cb-e4fa786053cf)
 ![screencapture-weather-wear-online-2024-07-15-09_54_43](https://github.com/user-attachments/assets/e9d8f951-cc6d-4e82-9c98-93547c0e6b7d)
