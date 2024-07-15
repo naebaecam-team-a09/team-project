@@ -47,7 +47,6 @@
 - [x] 사용자가 작성한 게시글 확인 / 사용자 정보 확인 및 수정 가능 (프로필 사진 , 닉네임)
 - [x] 댓글 작성 및 수정, 삭제 / 좋아요 기능
 
-
 ---
 
 ## 와이어프레임
@@ -73,6 +72,7 @@
 ![screencapture-weather-wear-online-posts-2c40d7cf-6255-4e0c-84d2-49c4463a89ff-2024-07-15-09_57_39](https://github.com/user-attachments/assets/b4fe90e0-e002-40fd-b58a-f2895c4a4225)
 ![screencapture-weather-wear-online-posts-2c40d7cf-6255-4e0c-84d2-49c4463a89ff-2024-07-15-09_57_59](https://github.com/user-attachments/assets/411ecb04-446a-4b1f-821a-0eee0798010e)
 ![screencapture-weather-wear-online-my-page-2024-07-15-09_58_27](https://github.com/user-attachments/assets/9ca7a68c-3ef3-491e-8bc9-12fee18ec6ea)
+
 
 Readme 작성에 참고한 링크
 
