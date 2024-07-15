@@ -51,7 +51,7 @@ const RecommendsCards = () => {
         {item.clothingItems.map((clothingItem, index) => (
           <motion.div
             key={index}
-            className="flex w-[300px] h-[340px] flex-col items-center bg-[#132A43] border-4 border-[#E7C891] p-2 m-2"
+            className="flex w-[300px] h-[340px] flex-col justify-center items-center bg-[#132A43] border-4 border-[#E7C891] p-2 m-2"
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1 + index * 0.5, duration: 0.5 }}
@@ -59,7 +59,7 @@ const RecommendsCards = () => {
             <div className="w-full h-3/4">
               <img src={item.img_url[index]} alt={'내용을 불러오는중'} className="w-full h-full object-cover p-2" />
             </div>
-            <p className="text-lg font-bold text-white font-medium mt-2">{clothingItem}</p>
+            <p className="text-lg font-bold text-white mt-2">{clothingItem}</p>
           </motion.div>
         ))}
       </div>
