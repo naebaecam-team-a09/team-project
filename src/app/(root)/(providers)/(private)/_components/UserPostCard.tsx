@@ -1,6 +1,7 @@
 import { getPosts } from '@/services/posts/posts.service';
 import { getUserInfo } from '@/services/users/users.service';
 import { PostType } from '@/types/posts';
+import _ from 'lodash';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
@@ -49,13 +50,13 @@ const UserPost: React.FC<{}> = () => {
           &lt;
         </button>
         <div className="overflow-hidden w-full">
-          <div
-            className="flex transition-transform duration-300"
-            style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
-          >
-            {userPost &&
-              userPost.map((image, index) => (
-                <div key={index} className="flex-none w-1/3 px-2 hover:">
+          {!_.isEmpty(userPost) ? (
+            <div
+              className="flex transition-transform duration-300"
+              style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+            >
+              {userPost.map((image, index) => (
+                <div key={index} className="flex-none w-1/3 px-2">
                   <div className="aspect-[4/5] hover:brightness-50 relative overflow-hidden">
                     <Link href={`/posts/${image.id}`}>
                       <div className="opacity-0 hover:opacity-100 transition-all absolute inset-0 z-10 flex justify-center items-center text-md text-white font-semibold">
@@ -70,7 +71,10 @@ const UserPost: React.FC<{}> = () => {
                   </div>
                 </div>
               ))}
-          </div>
+            </div>
+          ) : (
+            <div className="w-full aspect-[12/5] px-2 text-white"></div>
+          )}
         </div>
         <button
           className="absolute right-2 w-10 h-10 bg-white rounded-lg shadow-md z-10 hover:brightness-75"
