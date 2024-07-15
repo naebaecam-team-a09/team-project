@@ -16,7 +16,6 @@ const Heart = ({ postId }: { postId: string }) => {
   const { data: isHeart, isPending, error } = useIsLike({ postId, userId });
 
   const { data: likeCount } = useLikesCount({ postId, userId });
-  console.log(likeCount);
 
   const { mutate: toggleLikeMutation } = useToggleLike({ postId, userId, queryClient });
 
@@ -28,7 +27,6 @@ const Heart = ({ postId }: { postId: string }) => {
       return;
     }
     toggleLikeMutation({ userId: me?.id, postId, isHeart });
-    console.log('성공맨~');
   };
 
   if (isPending) return <div>loading...</div>;

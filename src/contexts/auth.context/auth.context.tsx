@@ -1,11 +1,10 @@
 'use client';
 
-import { createClient } from '@/supabase/client';
+import AlertModal from '@/components/Modal/AlertModal';
 import { Provider, User } from '@supabase/supabase-js';
 import { useRouter } from 'next/navigation';
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
 import { useModal } from '../modal.context/modal.context';
-import AlertModal from '@/components/Modal/AlertModal';
 
 type Inputs = {
   email: string;
@@ -37,8 +36,6 @@ const AuthContext = createContext<AuthContextValue>(initialValue);
 export const useAuth = () => useContext<AuthContextValue>(AuthContext);
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
-  const supabase = createClient();
-  const [isPending, setIsPending] = useState(false);
   const router = useRouter();
   const [isInitialized, setIsInitialized] = useState<AuthContextValue['isInitialized']>(false);
   const [me, setMe] = useState<AuthContextValue['me']>(null);
@@ -94,11 +91,9 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logInWithProvider: AuthContextValue['logInWithProvider'] = async (provider) => {
     try {
-      setIsPending(true);
       const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/provider?provider=${provider}`);
       const data = await response.json();
 
-      setIsPending(false);
       open(
         <AlertModal
           content={'환영합니다.'}

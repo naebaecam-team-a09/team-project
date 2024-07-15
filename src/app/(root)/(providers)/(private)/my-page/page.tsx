@@ -33,7 +33,6 @@ export default function MyPage() {
   useEffect(() => {
     getUserData();
   }, []);
-  console.log(imageUrl);
 
   const handleButtonClick = () => {
     fileInputRef.current?.click();

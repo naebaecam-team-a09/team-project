@@ -14,8 +14,7 @@ export async function GET() {
   if (!userId) return;
   try {
     const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
-    console.log(data);
-    console.log(error);
+
     if (error) {
       NextResponse.json(null);
     }
