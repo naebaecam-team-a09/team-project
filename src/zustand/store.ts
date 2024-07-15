@@ -1,10 +1,30 @@
-import { create } from "zustand";
+import { OrderType } from '@/types/order';
+import { create } from 'zustand';
 
-interface yorestore {
-  yourState: any;
-  yourAction: (val: any) => void;
+interface TpostIdStore {
+  postId: string;
+  setPostId: (postId: string) => void;
 }
-export const useyorestore = create<yorestore>((set) => ({
-  yourState: "VALUE",
-  yourAction: (val) => set((state) => ({ yourState: state.yourState })),
+export const usePostIdStore = create<TpostIdStore>((set) => ({
+  postId: '',
+  setPostId: (postId: string) => set(() => ({ postId }))
+}));
+
+interface TcommentIdStore {
+  commentId: string;
+  setCommentId: (commentId: string) => void;
+}
+export const useCommentIdStore = create<TcommentIdStore>((set) => ({
+  commentId: '',
+  setCommentId: (commentId) => set(() => ({ commentId }))
+}));
+
+interface TOrderStore {
+  order: OrderType;
+  setOrder: (order: OrderType) => void;
+}
+
+export const useOrderStore = create<TOrderStore>((set) => ({
+  order: 'created_at',
+  setOrder: (order) => set(() => ({ order }))
 }));
