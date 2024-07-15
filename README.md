@@ -47,6 +47,21 @@
 - [x] 사용자가 작성한 게시글 확인 / 사용자 정보 확인 및 수정 가능 (프로필 사진 , 닉네임)
 - [x] 댓글 작성 및 수정, 삭제 / 좋아요 기능
 
+## 📌 더 나아가기
+- [x] **클라이언트 컴포넌트에서 API 요청 시 Tanstack Query 활용하기**
+- [x] **React Query의 useInfiniteQuery 적용하기**
+- [x] **React Query의 enabled와 select 옵션 사용하기**
+- [x] **useQuery의 queryKey 다양하게 사용하기**
+- [x] **Next.js의 middleware 기능을 이용하여 인증 상태를 관리하기**
+
+## 📌 부가 특징
+- [x] 훅으로 useQuery, useInfiniteQuery, useMutation을 분리하여 관리하기.
+- [x] React Query의 Optimistic Update를 활용하여 좋아요 기능 사용자 경험 개선하기.
+- [x] useContext API를 활용한 전역적인 인증 상태 관리하기.
+- [x] useContext API를 활용한 Modal 관리. Alert와 Confirm 기능을 가진 재사용 가능한 conponent로 만들기.
+- [x] 라이브러리 Framer Motion를 활용하여 사용자 친화적으로 사용자 경험 개선하기.
+- [x] Zustand를 이용해서 PostId, CommentId, Order 등등 가벼운 state 요소들을 관리하기.
+
 ---
 
 ## 와이어프레임
