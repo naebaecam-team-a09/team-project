@@ -42,7 +42,10 @@ const UserPost: React.FC<{}> = () => {
         <div className="border-t border-[#E7C891] my-5"></div>
       </div>
       <div className="relative w-full flex items-center justify-center">
-        <button className="absolute left-2 w-10 h-10 bg-white rounded-lg shadow-md z-10" onClick={prevSlide}>
+        <button
+          className="hover:brightness-75 absolute left-2 w-10 h-10 bg-white rounded-lg shadow-md z-10"
+          onClick={prevSlide}
+        >
           &lt;
         </button>
         <div className="overflow-hidden w-full">
@@ -69,7 +72,10 @@ const UserPost: React.FC<{}> = () => {
               ))}
           </div>
         </div>
-        <button className="absolute right-0 p-2 rounded-full shadow-md z-10" onClick={nextSlide}>
+        <button
+          className="absolute right-2 w-10 h-10 bg-white rounded-lg shadow-md z-10 hover:brightness-75"
+          onClick={nextSlide}
+        >
           &gt;
         </button>
       </div>

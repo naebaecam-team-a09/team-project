@@ -30,7 +30,7 @@ export const CommentButton = ({ postId }: { postId: string }) => {
         <button
           onClick={handleClickButton}
           type="submit"
-          className="relative z-10 w-28 h-12 rounded-lg text-white font-bold bg-[#E7C891] -translate-y-3 hover:-translate-y-2 transition-all"
+          className="relative z-10 w-28 h-12 rounded-lg text-[#132A43] font-bold bg-[#E7C891] -translate-y-3 hover:-translate-y-2 transition-all"
         >
           댓글 작성
         </button>
