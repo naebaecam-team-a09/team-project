@@ -65,13 +65,13 @@ const Comment = ({ id: commentId, post_id, user_id, contents, users: { profile_i
         <div className="absolute h-16 flex -top-10 left-0 right-0 w-[320px]">
           <button
             onClick={handleClickEditButton}
-            className=" hover:translate-y-1.5 transition-all flex items-start justify-center text-white bg-gray-400 flex-1 px-4 pt-2 rounded-tl-xl"
+            className=" font-bold hover:translate-y-1.5 hover:brightness-75 transition-all flex items-start justify-center text-[#132A43] bg-[#E7C891] flex-1 px-4 pt-2 rounded-tl-xl"
           >
             수정
           </button>
           <button
             onClick={handleClickDeleteButton}
-            className=" hover:translate-y-1.5 transition-all flex items-start justify-center text-white bg-gray-800 flex-1 px-4 pt-2 rounded-tr-xl"
+            className="font-medium hover:translate-y-1.5 hover:brightness-75 transition-all flex items-start justify-center text-white bg-[#132A43] flex-1 px-4 pt-2 rounded-tr-xl border border-[#E7C891]"
           >
             삭제
           </button>
