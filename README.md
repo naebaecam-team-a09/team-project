@@ -1,4 +1,4 @@
-# naebaecam
+# naebaecam-team-a09
 
 ## 🗂️ 프로젝트 소개
 
