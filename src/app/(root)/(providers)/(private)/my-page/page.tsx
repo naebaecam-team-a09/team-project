@@ -113,7 +113,7 @@ export default function MyPage() {
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
                 {imageUrl && (
                   <div className="relative w-[200px] aspect-square overflow-hidden">
-                    <Image src={imageUrl} alt="" fill />
+                    <Image src={imageUrl} alt="" fill style={{ objectFit: 'cover' }} />
                   </div>
                 )}
               </div>
