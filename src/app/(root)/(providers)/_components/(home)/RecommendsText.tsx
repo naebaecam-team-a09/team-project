@@ -1,6 +1,6 @@
 import { getRecommendations } from '@/services/recommendations/recommendations.service';
 import { useEffect, useState } from 'react';
-import Loading from './Loading';
+import Loading from '../Loading';
 
 interface Recommendation {
   id: number;
@@ -11,7 +11,7 @@ interface Recommendation {
   temperature_max: number;
 }
 
-const RecommendsCard = () => {
+const RecommendsText = () => {
   const [items, setItems] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [temperature, setTemperature] = useState<number | null>(null);
@@ -19,7 +19,7 @@ const RecommendsCard = () => {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const weatherResponse = await fetch('/api/weather');
+        const weatherResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/weather`);
         const weatherData = await weatherResponse.json();
         setTemperature(weatherData.temperature);
 
@@ -52,23 +52,10 @@ const RecommendsCard = () => {
   const item = items[0];
 
   return (
-    <div className="flex flex-col items-center my-20">
-      <h1 className="text-2xl font-bold mb-4">오늘의 날씨에는 이런 옷을 추천 드려요</h1>
-      <h4 className="text-lg mb-8">{item.contents}</h4>
-      <div className="grid grid-cols-3 gap-4">
-        {item.clothingItems.map((clothingItem, index) => (
-          <div key={index} className="flex flex-col items-center ml-10">
-            <img
-              src={item.img_url[index]}
-              alt={'내용을 불러오는중'}
-              className="w-40 h-40 object-cover rounded-full mb-2"
-            />
-            <p className="text-md font-medium mb-10">{clothingItem}</p>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col items-center ">
+      <h4 className="text-lg text-white mb-8">{item.contents}</h4>
     </div>
   );
 };
 
-export default RecommendsCard;
+export default RecommendsText;

@@ -11,9 +11,6 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))'
-      },
-      margin: {
-        '-317px': '-317px'
       }
     }
   },
@@ -27,6 +24,9 @@ module.exports = {
     extend: {
       colors: {
         'my-color': '#6D758F'
+      },
+      screens: {
+        xs: '480px'
       }
     }
   },

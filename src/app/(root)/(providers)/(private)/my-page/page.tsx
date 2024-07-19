@@ -4,8 +4,10 @@ import ConfirmationModal from '@/components/Modal/ConfirmationModal';
 import { useModal } from '@/contexts/modal.context/modal.context';
 import { UserDataType, getUserInfo } from '@/services/users/users.service';
 import { createClient } from '@/supabase/client';
+import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import UserPost from '../_components/UserPostCard';
 
 const supabase = createClient();
@@ -18,6 +20,7 @@ export default function MyPage() {
   const [newGender, setNewGender] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_STORAGE!;
+  const queryClient = useQueryClient();
 
   const { open } = useModal();
 
@@ -37,19 +40,20 @@ export default function MyPage() {
   };
 
   const handleFileChange = async (event: any) => {
+    const newImageUrl = uuidv4();
     const updateProfile = async (file: File, userData: UserDataType) => {
       let uploadError = null;
       let uploadResult = null;
 
-      if (userData?.profile_image_path === `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
-        const { data, error } = await supabase.storage.from('avatars').upload(`${userData?.id}/profileImg`, file);
-        uploadError = error;
-        uploadResult = data;
-      } else {
-        const { data, error } = await supabase.storage.from('avatars').update(`${userData?.id}/profileImg`, file);
-        uploadError = error;
-        uploadResult = data;
+      if (userData?.profile_image_path !== `${baseUrl}/public/avatars/userDefaultImg/defaultImage`) {
+        const filePath = `${userData?.id}/${userData?.profile_image_path.split('/').pop()}`;
+        const { data, error } = await supabase.storage.from('avatars').remove([filePath]);
+        if (error) return;
       }
+
+      const { data, error } = await supabase.storage.from('avatars').upload(`${userData?.id}/${newImageUrl}`, file);
+      uploadError = error;
+      uploadResult = data;
 
       if (uploadError) {
         console.error('파일 업로드 에러:', uploadError);
@@ -58,10 +62,13 @@ export default function MyPage() {
 
       await supabase
         .from('users')
-        .update({ profile_image_path: `${baseUrl}/public/avatars/${userData?.id}/profileImg` })
+        .update({ profile_image_path: `${baseUrl}/public/avatars/${userData?.id}/${newImageUrl}` })
         .eq('id', userData.id);
 
       getUserData();
+
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      queryClient.invalidateQueries({ queryKey: ['comments'] });
     };
 
     const file = event.target.files[0];
@@ -91,23 +98,29 @@ export default function MyPage() {
 
     setShowModal(false); // Hide the form after submission
     getUserData(); // Refresh the user data
+    queryClient.invalidateQueries({ queryKey: ['posts'] });
+    queryClient.invalidateQueries({ queryKey: ['comments'] });
   };
 
   return (
-    <div className="wrap max-w-[1440px] mx-auto px-4 flex flex-col justify-center">
-      <h1 className="text-3xl mt-28  text-gray-500 font-bold ">마이페이지</h1>
-      <div className=" divide-solid divide-gray-200 border-t mt-3" />
-      <div className="w-full h-[500px] flex flex-col items-center ">
-        <div className=" profileBox w-[1000px] h-[96] m-12 flex items-center rounded-md justify-around shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
+    <div className="wrap max-w-[1440px] h-full mx-auto px-[132px] flex flex-col justify-center">
+      <h1 className="text-3xl mt-28  text-[#E7C891] font-bold ">마이페이지</h1>
+      <div className="border-[#E7C891] border-t mt-3" />
+      <div className="w-full flex flex-col items-center ">
+        <div className=" profileBox bg-[#132A43] w-full m-12 flex items-center rounded-md justify-evenly shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">
           <div className="profileImg w-60 h-60-flex flex-col m-5 ml-20 items-center justify-center">
             <div className="flex justify-center">
               <div className="flex items-center justify-center w-52 h-52  shadow-2xl rounded-md bg-gray-100">
-                {imageUrl && <Image src={imageUrl} alt="" width={200} height={200} />}
+                {imageUrl && (
+                  <div className="relative w-[200px] aspect-square overflow-hidden">
+                    <Image src={imageUrl} alt="" fill style={{ objectFit: 'cover' }} />
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex justify-center">
               <button
-                className=" w-24 h-7 p-1 bg-slate-400 rounded-[7px] mt-5 text-xs text-white"
+                className="px-4 py-2 bg-[#9F8264] rounded-[7px] mt-5 text-xs text-white"
                 onClick={handleButtonClick}
               >
                 프로필 사진 변경
@@ -121,13 +134,13 @@ export default function MyPage() {
               />
             </div>
           </div>
-          <div className="w-80 h-60 p-5 flex flex-col justify-center">
-            <p className="text-2xl m-2 font-bold text-gray-600 underline underline-offset-8">
+          <div className="w-80 h-60 p-5 flex flex-col gap-4 items-start justify-center">
+            <p className="text-2xl font-black text-[#CDB283] underline underline-offset-8">
               닉네임 : {userData?.username}{' '}
             </p>
-            <p className="m-3 text-gray-500">성별 : {userData?.gender}</p>
+            <p className="font-bold text-[#CDB283]">성별 : {userData?.gender}</p>
             <button
-              className="w-24 h-7 p-1 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] mt-5 text-xs text-black"
+              className="w-[120px] h-10 bg-slate-50 border-gray-300 border-[2px] rounded-[7px] text-xs text-[#6D758F] font-bold"
               onClick={handleChangeInfoClick}
             >
               개인 설정 변경
@@ -184,8 +197,8 @@ export default function MyPage() {
             </div>
           </div>
         )}
-        <div className="userStyle w-full flex flex-col justify-center content-center">
-          <div>{<UserPost></UserPost>}</div>
+        <div className="h-full userStyle w-full flex flex-col justify-center content-center">
+          <UserPost />
         </div>
       </div>
     </div>

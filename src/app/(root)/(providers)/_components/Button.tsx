@@ -13,12 +13,17 @@ const AuthButton = () => {
   return (
     <>
       {me ? (
-        <button onClick={handleClickLogOut} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <button
+          onClick={handleClickLogOut}
+          className="bg-[#9F8264] text-white px-4 py-2 rounded-[3px] shadow-md hover:bg-[#9F8264]/90 font-bold"
+        >
           로그아웃
         </button>
       ) : (
         <Link href="/log-in">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">로그인</button>
+          <button className="bg-[#9F8264] text-white px-4 py-2 rounded-[3px] shadow-md hover:bg-[#9F8264]/90 font-bold">
+            로그인
+          </button>
         </Link>
       )}
     </>

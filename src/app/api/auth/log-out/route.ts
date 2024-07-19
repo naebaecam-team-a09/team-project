@@ -5,5 +5,5 @@ export async function DELETE() {
   const supabase = createClient();
   const response = await supabase.auth.signOut();
 
-  return NextResponse.json({});
+  return NextResponse.json(response);
 }
